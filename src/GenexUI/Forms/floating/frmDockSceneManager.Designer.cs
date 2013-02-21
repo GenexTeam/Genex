@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.tvwSceneList = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
-            // treeView1
+            // tvwSceneList
             // 
-            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tvwSceneList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeView1.Location = new System.Drawing.Point(5, 29);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(205, 294);
-            this.treeView1.TabIndex = 0;
+            this.tvwSceneList.Location = new System.Drawing.Point(5, 29);
+            this.tvwSceneList.Name = "tvwSceneList";
+            this.tvwSceneList.Size = new System.Drawing.Size(205, 294);
+            this.tvwSceneList.TabIndex = 0;
             // 
             // frmDockSceneManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(216, 330);
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.tvwSceneList);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -60,6 +60,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView tvwSceneList;
     }
 }
