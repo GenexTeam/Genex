@@ -1,0 +1,3 @@
+[submodule "dep/dockpanelsuite"]
+	path = dep/dockpanelsuite
+	url = https://github.com/dockpanelsuite/dockpanelsuite
