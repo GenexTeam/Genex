@@ -38,5 +38,10 @@ namespace GenexUI
             //gxProject.load("G:/revisioncontrol/git/genex/src/GenexUI/bin/SampleProject.gxprj");
             _frmDockSceneManager.loadProject("G:/revisioncontrol/git/genex/src/GenexUI/bin/SampleProject.gxprj");
         }
+
+        private void dockPanel1_ActiveContentChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

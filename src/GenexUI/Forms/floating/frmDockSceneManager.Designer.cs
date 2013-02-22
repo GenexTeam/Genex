@@ -43,14 +43,14 @@
             this.tvwSceneList.Name = "tvwSceneList";
             this.tvwSceneList.PathSeparator = "/";
             this.tvwSceneList.ShowNodeToolTips = true;
-            this.tvwSceneList.Size = new System.Drawing.Size(205, 294);
+            this.tvwSceneList.Size = new System.Drawing.Size(233, 356);
             this.tvwSceneList.TabIndex = 0;
             // 
             // frmDockSceneManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(216, 330);
+            this.ClientSize = new System.Drawing.Size(244, 392);
             this.Controls.Add(this.tvwSceneList);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));

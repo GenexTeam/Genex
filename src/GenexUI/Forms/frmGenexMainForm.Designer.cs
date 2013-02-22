@@ -46,6 +46,14 @@
             this.dockPanel1 = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.编辑EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.视图VToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.项目ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.游戏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.窗口ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,7 +64,7 @@
             this.dockPanel1.Location = new System.Drawing.Point(0, 25);
             this.dockPanel1.Name = "dockPanel1";
             this.dockPanel1.RightToLeftLayout = true;
-            this.dockPanel1.Size = new System.Drawing.Size(543, 279);
+            this.dockPanel1.Size = new System.Drawing.Size(729, 420);
             dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
             dockPanelGradient1.StartColor = System.Drawing.SystemColors.ControlLight;
             autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
@@ -104,14 +112,22 @@
             dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
             this.dockPanel1.Skin = dockPanelSkin1;
             this.dockPanel1.TabIndex = 13;
+            this.dockPanel1.ActiveContentChanged += new System.EventHandler(this.dockPanel1_ActiveContentChanged);
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.文件FToolStripMenuItem});
+            this.文件FToolStripMenuItem,
+            this.编辑EToolStripMenuItem,
+            this.视图VToolStripMenuItem,
+            this.项目ToolStripMenuItem,
+            this.游戏ToolStripMenuItem,
+            this.工具ToolStripMenuItem,
+            this.窗口ToolStripMenuItem,
+            this.帮助ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(543, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(729, 25);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -121,11 +137,62 @@
             this.文件FToolStripMenuItem.Size = new System.Drawing.Size(58, 21);
             this.文件FToolStripMenuItem.Text = "文件(&F)";
             // 
+            // 编辑EToolStripMenuItem
+            // 
+            this.编辑EToolStripMenuItem.Name = "编辑EToolStripMenuItem";
+            this.编辑EToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
+            this.编辑EToolStripMenuItem.Text = "编辑(&E)";
+            // 
+            // 视图VToolStripMenuItem
+            // 
+            this.视图VToolStripMenuItem.Name = "视图VToolStripMenuItem";
+            this.视图VToolStripMenuItem.Size = new System.Drawing.Size(60, 21);
+            this.视图VToolStripMenuItem.Text = "视图(&V)";
+            // 
+            // 项目ToolStripMenuItem
+            // 
+            this.项目ToolStripMenuItem.Name = "项目ToolStripMenuItem";
+            this.项目ToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
+            this.项目ToolStripMenuItem.Text = "项目(&P)";
+            // 
+            // 游戏ToolStripMenuItem
+            // 
+            this.游戏ToolStripMenuItem.Name = "游戏ToolStripMenuItem";
+            this.游戏ToolStripMenuItem.Size = new System.Drawing.Size(61, 21);
+            this.游戏ToolStripMenuItem.Text = "游戏(&G)";
+            // 
+            // 工具ToolStripMenuItem
+            // 
+            this.工具ToolStripMenuItem.Name = "工具ToolStripMenuItem";
+            this.工具ToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
+            this.工具ToolStripMenuItem.Text = "工具(&T)";
+            // 
+            // 窗口ToolStripMenuItem
+            // 
+            this.窗口ToolStripMenuItem.Name = "窗口ToolStripMenuItem";
+            this.窗口ToolStripMenuItem.Size = new System.Drawing.Size(64, 21);
+            this.窗口ToolStripMenuItem.Text = "窗口(&W)";
+            // 
+            // 帮助ToolStripMenuItem
+            // 
+            this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
+            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(61, 21);
+            this.帮助ToolStripMenuItem.Text = "帮助(&H)";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Location = new System.Drawing.Point(0, 25);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(729, 25);
+            this.toolStrip1.TabIndex = 18;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
             // frmGenexMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 304);
+            this.ClientSize = new System.Drawing.Size(729, 445);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.dockPanel1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
@@ -147,6 +214,14 @@
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 文件FToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 编辑EToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 视图VToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 项目ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 游戏ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 工具ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 窗口ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
 
     }
 }
