@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -54,7 +55,13 @@ namespace GenexUI.Global
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_FILE_NAME_WITHOUT_EXT, getProjectFileNameWithoutExt());
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_DIR, getProjectDir());
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_VERSION, getProjectVersion());
+
+            _sceneDirPath = GlobalObj.getEnvManager().resolveEnv(_sceneDirPath);
+            _sceneDirPath = _sceneDirPath.Replace("//", "/");
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_SCENE_DIR, getProjectSceneDir());
+
+            //加载场景
+            loadSceneList();
 
             _isLoaded = true;
             return true;
@@ -82,9 +89,7 @@ namespace GenexUI.Global
 
         public string getProjectSceneDir()
         {
-            string str = GlobalObj.getEnvManager().resolveEnv(_sceneDirPath);
-            str = str.Replace("//", "/");
-            return str;
+            return _sceneDirPath;
         }
 
         public string getProjectVersion()
@@ -95,6 +100,27 @@ namespace GenexUI.Global
         public bool isLoaded()
         {
             return _isLoaded;
+        }
+
+        //获取游戏场景文件列表
+        //返回场景文件路径列表
+        public bool loadSceneList()
+        {
+            if (Directory.Exists(_sceneDirPath) == false)
+            {
+                return false;
+            }
+
+            string [] fileList = Directory.EnumerateDirectories(_sceneDirPath, "*.*", SearchOption.AllDirectories).ToArray<string>();
+            if (fileList.Length != 0)
+            {
+                foreach (string file in fileList)
+                {
+                    Debug.Print("Searched File [" + file +"]");
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -82,6 +82,7 @@
     <Compile Include="Global\GlobalObj.cs" />
     <Compile Include="Global\GxEnvVariablesManager.cs" />
     <Compile Include="Global\GxProject.cs" />
+    <Compile Include="Global\GxScene.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\floating\frmDockSceneManager.resx">

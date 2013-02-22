@@ -36,8 +36,13 @@
             this.tvwSceneList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tvwSceneList.FullRowSelect = true;
+            this.tvwSceneList.HideSelection = false;
+            this.tvwSceneList.LabelEdit = true;
             this.tvwSceneList.Location = new System.Drawing.Point(5, 29);
             this.tvwSceneList.Name = "tvwSceneList";
+            this.tvwSceneList.PathSeparator = "/";
+            this.tvwSceneList.ShowNodeToolTips = true;
             this.tvwSceneList.Size = new System.Drawing.Size(205, 294);
             this.tvwSceneList.TabIndex = 0;
             // 
@@ -61,5 +66,7 @@
         #endregion
 
         private System.Windows.Forms.TreeView tvwSceneList;
+
+
     }
 }

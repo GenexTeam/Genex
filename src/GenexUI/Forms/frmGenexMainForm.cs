@@ -34,8 +34,9 @@ namespace GenexUI
             //初始化界面布局
             _frmDockSceneManager.Show(this.dockPanel1, DockState.DockLeft);
 
-            GxProject gxProject = new GxProject();
-            gxProject.load("G:/revisioncontrol/git/genex/src/GenexUI/bin/SampleProject.gxprj");
+            //GxProject gxProject = new GxProject();
+            //gxProject.load("G:/revisioncontrol/git/genex/src/GenexUI/bin/SampleProject.gxprj");
+            _frmDockSceneManager.loadProject("G:/revisioncontrol/git/genex/src/GenexUI/bin/SampleProject.gxprj");
         }
     }
 }

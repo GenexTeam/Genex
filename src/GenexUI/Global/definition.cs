@@ -14,22 +14,29 @@ namespace GenexUI.Global
         GX_NODE_TYPE_SCENE      = 0x03      //场景节点
     };
 
-    public class GxTreeNode
+    public class GxTreeNode : TreeNode
     {
-        public int nodeType;
-        public string nodeName;
+        private GXNodeType _gxNodeType;
+        public GXNodeType GxNodeType
+        {
+            get
+            {
+                return _gxNodeType;
+            }
+            set
+            {
+                _gxNodeType = value;
+            }
+        }
 
-        public List<GxTreeNode> childrenNodes;
-    };
+        public GxProject toGxProjectInstance()
+        {
+            return (GxProject)base.Tag;
+        }
 
-    public class ProjectTreeNode : GxTreeNode
-    {
-        public string path;
-        public string projectName;
-    };
-
-    public class SceneTreeNode : GxTreeNode
-    {
-        
+        public GxScene toGxSceneInstance()
+        {
+            return (GxScene)base.Tag;
+        }
     };
 }

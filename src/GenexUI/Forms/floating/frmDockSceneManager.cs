@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -26,9 +27,26 @@ namespace GenexUI.forms.floating
         //================================================================
         //  ● 外部调用方法
         //================================================================
-        public void loadProject(GxProject project)
-        { 
-        
+        public bool loadProject(string filename)
+        {
+            if (File.Exists(filename) == false)
+            {
+                MessageBox.Show("工程文件不存在或文件路径错误。", "文件不存在", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            GxProject project = GlobalObj.getOpenningProject();
+            if (project.load(filename) == true)
+            {
+                GxTreeNode projectNode = new GxTreeNode();
+                projectNode.GxNodeType = GXNodeType.GX_NODE_TYPE_PROJECT;
+                projectNode.Text = string.Format("{0} [已加载]", project.getProjectName());
+                projectNode.Tag = project;
+
+                tvwSceneList.Nodes.Add(projectNode);
+            }
+            
+            return true;    
         }
 
         public void addNode(GxTreeNode sceneTreeNode)
