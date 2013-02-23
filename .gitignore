@@ -1,5 +1,8 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 obj
+*.exe
+*.manifest
+*.pdb
 
 # mstest test results
 TestResults

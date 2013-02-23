@@ -31,7 +31,7 @@ namespace GenexUI.forms.floating
         {
             if (File.Exists(filename) == false)
             {
-                MessageBox.Show("工程文件不存在或文件路径错误。", "文件不存在", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format("工程文件不存在或文件路径错误。\n\n{0}", filename), "文件不存在", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
