@@ -14,6 +14,7 @@ namespace GenexUI.Global
         GX_NODE_TYPE_SCENE      = 0x03      //场景节点
     };
 
+    //Gx节点数据
     public class GxTreeNode : TreeNode
     {
         private GXNodeType _gxNodeType;

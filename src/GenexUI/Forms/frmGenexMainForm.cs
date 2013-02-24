@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using GenexUI.forms.floating;
 using GenexUI.Global;
 using WeifenLuo.WinFormsUI.Docking;
+using GenexUI.Global.LogServer;
 
 namespace GenexUI
 {
@@ -30,18 +31,29 @@ namespace GenexUI
         {
             //初始化全局对象
             GlobalObj.init();
+            LoggerProxy.WRITE_DEBUG("Init global obj OK.");
+
+            //加载日志服务器
+            GlobalObj.getLogServer().Show();
 
             //初始化界面布局
             _frmDockSceneManager.Show(this.dockPanel1, DockState.DockLeft);
+            LoggerProxy.WRITE_DEBUG("Init ui layout OK");
 
             //GxProject gxProject = new GxProject();
             //gxProject.load("G:/revisioncontrol/git/genex/src/GenexUI/bin/SampleProject.gxprj");
-            _frmDockSceneManager.loadProject("G:/revisioncontrol/git/genex/src/GenexUI/bin/SampleProject.gxprj");
+            _frmDockSceneManager.loadProject("SampleProject.gxprj");
         }
 
         private void dockPanel1_ActiveContentChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void frmGenexMainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            GlobalObj.getLogServer().Close();
+            GlobalObj.getLogServer().destroy();
         }
     }
 }

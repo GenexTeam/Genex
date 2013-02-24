@@ -1,4 +1,5 @@
-﻿//===================================================================
+﻿using GenexUI.Global.LogServer;
+//===================================================================
 // File    : GlobalObj.cs
 // Purpose : 
 // Author  : AngryPowman
@@ -17,6 +18,8 @@ namespace GenexUI.Global
         {
             _gxEnvManager = new GxEnvManager();
             _openningProject = new GxProject();
+            _logServer = new LogServer();
+            _logServer.init();
 
             return true;
         }
@@ -33,6 +36,13 @@ namespace GenexUI.Global
         public static GxProject getOpenningProject()
         {
             return _openningProject;
+        }
+
+        //日志服务器
+        private static LogServer _logServer;
+        public static LogServer getLogServer()
+        {
+            return _logServer;
         }
     }
 }
