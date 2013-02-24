@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
-namespace GenexUI.Global.LogServer
+namespace GenexUI.Global.LogServerSuit
 {
     public partial class LogServer : Form
     {

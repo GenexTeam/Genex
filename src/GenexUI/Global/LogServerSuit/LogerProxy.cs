@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GenexUI.Global.LogServer
+namespace GenexUI.Global.LogServerSuit
 {
     //日志等级
     public enum LOG_LEVEL

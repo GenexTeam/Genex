@@ -1,4 +1,4 @@
-﻿namespace GenexUI.Global.LogServer
+﻿namespace GenexUI.Global.LogServerSuit
 {
     partial class LogServer
     {

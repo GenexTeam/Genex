@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using GenexUI.forms.floating;
 using GenexUI.Global;
 using WeifenLuo.WinFormsUI.Docking;
-using GenexUI.Global.LogServer;
+using GenexUI.Global.LogServerSuit;
 
 namespace GenexUI
 {

@@ -1,5 +1,4 @@
-﻿using GenexUI.Global.LogServer;
-//===================================================================
+﻿//===================================================================
 // File    : GlobalObj.cs
 // Purpose : 
 // Author  : AngryPowman
@@ -9,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GenexUI.Global.LogServerSuit;
 
 namespace GenexUI.Global
 {

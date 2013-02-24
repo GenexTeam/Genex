@@ -83,11 +83,11 @@
     <Compile Include="Global\GxEnvVariablesManager.cs" />
     <Compile Include="Global\GxProject.cs" />
     <Compile Include="Global\GxScene.cs" />
-    <Compile Include="Global\LogServer\LogerProxy.cs" />
-    <Compile Include="Global\LogServer\LogServer.cs">
+    <Compile Include="Global\LogServerSuit\LogerProxy.cs" />
+    <Compile Include="Global\LogServerSuit\LogServer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Global\LogServer\LogServer.Designer.cs">
+    <Compile Include="Global\LogServerSuit\LogServer.Designer.cs">
       <DependentUpon>LogServer.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -99,7 +99,7 @@
     <EmbeddedResource Include="Forms\frmGenexMainForm.resx">
       <DependentUpon>frmGenexMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Global\LogServer\LogServer.resx">
+    <EmbeddedResource Include="Global\LogServerSuit\LogServer.resx">
       <DependentUpon>LogServer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
