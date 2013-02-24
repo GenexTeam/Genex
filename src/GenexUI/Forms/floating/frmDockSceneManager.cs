@@ -251,5 +251,10 @@ namespace GenexUI.forms.floating
 
             return true;
         }
+
+        private void 打开OToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
