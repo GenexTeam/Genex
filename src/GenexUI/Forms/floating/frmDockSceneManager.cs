@@ -51,14 +51,15 @@ namespace GenexUI.forms.floating
                 //文件改变事件
                 _fileSystemWatcher.Changed += (sender, e) =>
                 {
-                    //文件内容发生变更
-                    if (!System.IO.Directory.Exists(e.FullPath))
-                    {
-                        LoggerProxy.WRITE_WARNING(
-                            "A file event has watched, type = " + e.ChangeType.ToString() +
-                            ", path = " + e.FullPath +
-                            ", filename = " + e.Name);
+                    LoggerProxy.WRITE_WARNING(
+                        "A file event has watched, type = " + e.ChangeType.ToString() +
+                        ", path = " + e.FullPath +
+                        ", filename = " + e.Name);
 
+
+                    //文件内容发生变更
+                    if (Directory.Exists(e.FullPath) == false)
+                    {
                         
                     }
                 };
@@ -70,6 +71,17 @@ namespace GenexUI.forms.floating
                         "A file event has watched, type = " + e.ChangeType.ToString() +
                         ", path = " + e.FullPath +
                         ", filename = " + e.Name);
+
+                    if (Directory.Exists(e.FullPath) == true)
+                    {
+                        //文件夹被删除
+                        LoggerProxy.WRITE_DEBUG("A directory deleted, path = " + e.FullPath);
+                    }
+                    else
+                    { 
+                        //文件被删除
+                        LoggerProxy.WRITE_DEBUG("A file deleted, path = " + e.FullPath);
+                    }
                 };
 
                 //文件名变更事件
@@ -79,6 +91,17 @@ namespace GenexUI.forms.floating
                         "A file event has watched, type = " + e.ChangeType.ToString() +
                         ", path = " + e.FullPath +
                         ", filename = " + e.Name);
+
+                    if (Directory.Exists(e.FullPath) == true)
+                    {
+                        //文件夹名变更
+                        LoggerProxy.WRITE_DEBUG("A directory renamed, path = " + e.FullPath + ", oldname = " + e.OldName);
+                    }
+                    else
+                    {
+                        //文件名变更
+                        LoggerProxy.WRITE_DEBUG("A file renamed, path = " + e.FullPath + ", oldname = " + e.OldName);
+                    }
                 };
 
                 //文件创建事件
@@ -88,6 +111,17 @@ namespace GenexUI.forms.floating
                         "A file event has watched, type = " + e.ChangeType.ToString() +
                         ", path = " + e.FullPath +
                         ", filename = " + e.Name);
+
+                    if (Directory.Exists(e.FullPath) == true)
+                    {
+                        //文件夹被创建
+                        LoggerProxy.WRITE_DEBUG("A directory created, path = " + e.FullPath);
+                    }
+                    else
+                    { 
+                        //文件被创建
+                        LoggerProxy.WRITE_DEBUG("A file created, path = " + e.FullPath);
+                    }
                 };
             }
             catch (DirectoryNotFoundException iox)
