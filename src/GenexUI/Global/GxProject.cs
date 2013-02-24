@@ -67,6 +67,26 @@ namespace GenexUI.Global
             return true;
         }
 
+        public void unload()
+        {
+            _isLoaded = false;
+            _projectName = "";
+            _projectFullPath = "";
+            _sceneDirPath = "";
+            _projectVersion = "";
+
+            //更新环境变量
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_NAME, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_FULL_PATH, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_FILE_NAME, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_FILE_NAME_WITHOUT_EXT, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_DIR, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_VERSION, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_SCENE_DIR, "");
+
+            _isLoaded = false;
+        }
+
         public string getProjectName()
         {
             return _projectName;

@@ -10,7 +10,7 @@ namespace GenexUI.Global
     { 
         GX_NODE_TYPE_NONE       = 0x00,     //无效节点
         GX_NODE_TYPE_PROJECT    = 0x01,     //工程节点
-        GX_NODE_TYPE_FILTER     = 0x02,     //过滤器节点
+        GX_NODE_TYPE_DIRECTORY  = 0x02,     //过滤器节点
         GX_NODE_TYPE_SCENE      = 0x03      //场景节点
     };
 
@@ -33,6 +33,11 @@ namespace GenexUI.Global
         public GxProject toGxProjectInstance()
         {
             return (GxProject)base.Tag;
+        }
+
+        public GxSceneDirectory toGxSceneDirectoryInstance()
+        {
+            return (GxSceneDirectory)base.Tag;
         }
 
         public GxScene toGxSceneInstance()

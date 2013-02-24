@@ -21,6 +21,11 @@ namespace GenexUI.Global
             return true;
         }
 
+        public void setSceneFileFullPath(string filename)
+        {
+            _sceneFileFullPath = filename;
+        }
+
         public string getSceneFileFullPath()
         {
             return _sceneFileFullPath;

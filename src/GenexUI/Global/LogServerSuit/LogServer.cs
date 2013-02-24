@@ -12,6 +12,8 @@ namespace GenexUI.Global.LogServerSuit
 {
     public partial class LogServer : Form
     {
+        private delegate void DlAppendLog(LogInfo logInfo);
+
         private List<LogInfo> _logs = new List<LogInfo>();
         public LogServer()
         {
@@ -33,8 +35,20 @@ namespace GenexUI.Global.LogServerSuit
         {
             _logs.Add(logInfo);
 
+            if (txtLogs.InvokeRequired == true)
+            {
+                txtLogs.Invoke(new DlAppendLog(appendLog), new object[] {logInfo});
+            }
+            else
+            {
+                appendLog(logInfo);
+            }
+        }
+
+        private void appendLog(LogInfo logInfo)
+        {
             switch (logInfo.logLevel)
-            { 
+            {
                 case LOG_LEVEL.DEBUG:
                     if (chkDebug.Checked == false)
                         return;

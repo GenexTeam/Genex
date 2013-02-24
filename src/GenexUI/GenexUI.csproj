@@ -83,6 +83,7 @@
     <Compile Include="Global\GxEnvVariablesManager.cs" />
     <Compile Include="Global\GxProject.cs" />
     <Compile Include="Global\GxScene.cs" />
+    <Compile Include="Global\GxSceneDirectory.cs" />
     <Compile Include="Global\LogServerSuit\LogerProxy.cs" />
     <Compile Include="Global\LogServerSuit\LogServer.cs">
       <SubType>Form</SubType>

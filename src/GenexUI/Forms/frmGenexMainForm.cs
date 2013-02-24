@@ -24,25 +24,29 @@ namespace GenexUI
         {
             InitializeComponent();
 
+            //初始化全局对象
+            GlobalObj.init();
+            LoggerProxy.WRITE_DEBUG("Init global obj OK.");
+
+            //初始化场景管理器
             _frmDockSceneManager = new frmDockSceneManager();
         }
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            //初始化全局对象
-            GlobalObj.init();
-            LoggerProxy.WRITE_DEBUG("Init global obj OK.");
-
             //加载日志服务器
             GlobalObj.getLogServer().Show();
 
             //初始化界面布局
+            initLayout();
+            _frmDockSceneManager.loadProject("SampleProject.gxprj");
+        }
+
+        private void initLayout()
+        {
+            //初始化场景管理器布局
             _frmDockSceneManager.Show(this.dockPanel1, DockState.DockLeft);
             LoggerProxy.WRITE_DEBUG("Init ui layout OK");
-
-            //GxProject gxProject = new GxProject();
-            //gxProject.load("G:/revisioncontrol/git/genex/src/GenexUI/bin/SampleProject.gxprj");
-            _frmDockSceneManager.loadProject("SampleProject.gxprj");
         }
 
         private void dockPanel1_ActiveContentChanged(object sender, EventArgs e)
