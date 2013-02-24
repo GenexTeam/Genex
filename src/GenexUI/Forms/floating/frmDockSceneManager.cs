@@ -13,11 +13,6 @@ using GenexUI.Global.LogServerSuit;
 
 namespace GenexUI.forms.floating
 {
-    public class FileChangedEvent
-    { 
-    
-    };
-
     public partial class frmDockSceneManager : DockContent
     {
         private GxTreeNode _projectNode;
