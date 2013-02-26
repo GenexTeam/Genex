@@ -15,12 +15,30 @@ namespace GenexUI.forms.floating
 {
     public partial class frmDockSceneManager : DockContent
     {
+        //剪切板事件
+        class ClipboardEvent
+        {
+            public bool isDirectory;
+            public string fullpath;
+
+            ClipboardEvent()
+            {
+                isDirectory = false;
+                fullpath = "";
+            }
+        };
+
         private GxTreeNode _projectNode;
         private FileSystemWatcher _fileSystemWatcher;
+        //SceneFileClipboardEvent _clipboardEvent;
 
         public frmDockSceneManager()
         {
             InitializeComponent();
+
+            //初始化剪切板
+            //_clipboardEvent = new SceneFileClipboardEvent();
+            LoggerProxy.WRITE_DEBUG("Init scene file clioboard OK.");
 
             //初始化场景目录文件监控器
             _fileSystemWatcher = new FileSystemWatcher();
@@ -252,9 +270,37 @@ namespace GenexUI.forms.floating
             return true;
         }
 
-        private void 打开OToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ctmSceneList_Cut_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void CutFile(string filepath)
+        { 
+        
+        }
+
+        private void CutFiles(List<string> fileList)
+        { 
+        
+        }
+
+        private void CutDirectory(string dirpath)
+        { 
+        
+        }
+
+        private void tvwSceneList_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                TreeNode node = tvwSceneList.GetNodeAt(e.X, e.Y);
+                if (node != null)
+                {
+                    tvwSceneList.SelectedNode = node;
+                }
+
+            }
         }
     }
 }

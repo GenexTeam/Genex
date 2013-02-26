@@ -31,23 +31,23 @@
             this.components = new System.ComponentModel.Container();
             this.tvwSceneList = new System.Windows.Forms.TreeView();
             this.ctmSceneList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.打开OToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_Layer = new System.Windows.Forms.ToolStripMenuItem();
             this.可视层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.障碍层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.遮挡层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.查看属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.代码视图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_DesignMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_CodeMode = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.剪切ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.复制ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.重命名ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_Cut = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_Copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_Delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_Rename = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_OpenDir = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_Property = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmSceneList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,138 +66,139 @@
             this.tvwSceneList.ShowNodeToolTips = true;
             this.tvwSceneList.Size = new System.Drawing.Size(233, 356);
             this.tvwSceneList.TabIndex = 0;
+            this.tvwSceneList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvwSceneList_MouseDown);
             // 
             // ctmSceneList
             // 
             this.ctmSceneList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.打开OToolStripMenuItem,
+            this.ctmSceneList_Open,
             this.toolStripMenuItem1,
-            this.toolStripMenuItem6,
-            this.查看属性ToolStripMenuItem,
-            this.代码视图ToolStripMenuItem,
+            this.ctmSceneList_Layer,
+            this.ctmSceneList_DesignMode,
+            this.ctmSceneList_CodeMode,
             this.toolStripMenuItem2,
-            this.剪切ToolStripMenuItem,
-            this.复制ToolStripMenuItem,
-            this.删除ToolStripMenuItem,
-            this.重命名ToolStripMenuItem,
+            this.ctmSceneList_Cut,
+            this.ctmSceneList_Copy,
+            this.ctmSceneList_Delete,
+            this.ctmSceneList_Rename,
             this.toolStripMenuItem4,
-            this.toolStripMenuItem5,
+            this.ctmSceneList_OpenDir,
             this.toolStripMenuItem3,
-            this.属性ToolStripMenuItem});
+            this.ctmSceneList_Property});
             this.ctmSceneList.Name = "ctmSceneList";
-            this.ctmSceneList.Size = new System.Drawing.Size(221, 270);
+            this.ctmSceneList.Size = new System.Drawing.Size(221, 248);
             // 
-            // 打开OToolStripMenuItem
+            // ctmSceneList_Open
             // 
-            this.打开OToolStripMenuItem.Name = "打开OToolStripMenuItem";
-            this.打开OToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.打开OToolStripMenuItem.Text = "打开(&O)";
-            this.打开OToolStripMenuItem.Click += new System.EventHandler(this.打开OToolStripMenuItem_Click);
+            this.ctmSceneList_Open.Name = "ctmSceneList_Open";
+            this.ctmSceneList_Open.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Open.Text = "打开(&O)";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(173, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(217, 6);
             // 
-            // toolStripMenuItem6
+            // ctmSceneList_Layer
             // 
-            this.toolStripMenuItem6.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctmSceneList_Layer.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.可视层ToolStripMenuItem,
             this.障碍层ToolStripMenuItem,
             this.遮挡层ToolStripMenuItem});
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(176, 22);
-            this.toolStripMenuItem6.Text = "图层(&L)";
+            this.ctmSceneList_Layer.Name = "ctmSceneList_Layer";
+            this.ctmSceneList_Layer.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Layer.Text = "图层(&L)";
             // 
             // 可视层ToolStripMenuItem
             // 
             this.可视层ToolStripMenuItem.Name = "可视层ToolStripMenuItem";
-            this.可视层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.可视层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.可视层ToolStripMenuItem.Text = "可视层(&V)";
             // 
             // 障碍层ToolStripMenuItem
             // 
             this.障碍层ToolStripMenuItem.Name = "障碍层ToolStripMenuItem";
-            this.障碍层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.障碍层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.障碍层ToolStripMenuItem.Text = "障碍层(&B)";
             // 
             // 遮挡层ToolStripMenuItem
             // 
             this.遮挡层ToolStripMenuItem.Name = "遮挡层ToolStripMenuItem";
-            this.遮挡层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.遮挡层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.遮挡层ToolStripMenuItem.Text = "遮挡层(&D)";
             // 
-            // 查看属性ToolStripMenuItem
+            // ctmSceneList_DesignMode
             // 
-            this.查看属性ToolStripMenuItem.Name = "查看属性ToolStripMenuItem";
-            this.查看属性ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.ctmSceneList_DesignMode.Name = "ctmSceneList_DesignMode";
+            this.ctmSceneList_DesignMode.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
-            this.查看属性ToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.查看属性ToolStripMenuItem.Text = "设计视图(&Y)";
+            this.ctmSceneList_DesignMode.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_DesignMode.Text = "设计视图(&Y)";
             // 
-            // 代码视图ToolStripMenuItem
+            // ctmSceneList_CodeMode
             // 
-            this.代码视图ToolStripMenuItem.Name = "代码视图ToolStripMenuItem";
-            this.代码视图ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.ctmSceneList_CodeMode.Name = "ctmSceneList_CodeMode";
+            this.ctmSceneList_CodeMode.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
-            this.代码视图ToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.代码视图ToolStripMenuItem.Text = "代码视图(&G)";
+            this.ctmSceneList_CodeMode.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_CodeMode.Text = "代码视图(&G)";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(173, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(217, 6);
             // 
-            // 剪切ToolStripMenuItem
+            // ctmSceneList_Cut
             // 
-            this.剪切ToolStripMenuItem.Name = "剪切ToolStripMenuItem";
-            this.剪切ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.剪切ToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.剪切ToolStripMenuItem.Text = "剪切(&T)";
+            this.ctmSceneList_Cut.Name = "ctmSceneList_Cut";
+            this.ctmSceneList_Cut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.ctmSceneList_Cut.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Cut.Text = "剪切(&T)";
+            this.ctmSceneList_Cut.Click += new System.EventHandler(this.ctmSceneList_Cut_Click);
             // 
-            // 复制ToolStripMenuItem
+            // ctmSceneList_Copy
             // 
-            this.复制ToolStripMenuItem.Name = "复制ToolStripMenuItem";
-            this.复制ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.复制ToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.复制ToolStripMenuItem.Text = "复制(&C)";
+            this.ctmSceneList_Copy.Name = "ctmSceneList_Copy";
+            this.ctmSceneList_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.ctmSceneList_Copy.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Copy.Text = "复制(&C)";
             // 
-            // 删除ToolStripMenuItem
+            // ctmSceneList_Delete
             // 
-            this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-            this.删除ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.删除ToolStripMenuItem.Text = "删除(&D)";
+            this.ctmSceneList_Delete.Name = "ctmSceneList_Delete";
+            this.ctmSceneList_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.ctmSceneList_Delete.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Delete.Text = "删除(&D)";
             // 
-            // 重命名ToolStripMenuItem
+            // ctmSceneList_Rename
             // 
-            this.重命名ToolStripMenuItem.Name = "重命名ToolStripMenuItem";
-            this.重命名ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.重命名ToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.重命名ToolStripMenuItem.Text = "重命名(&M)";
+            this.ctmSceneList_Rename.Name = "ctmSceneList_Rename";
+            this.ctmSceneList_Rename.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.ctmSceneList_Rename.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Rename.Text = "重命名(&M)";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(173, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(217, 6);
             // 
-            // toolStripMenuItem5
+            // ctmSceneList_OpenDir
             // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(176, 22);
-            this.toolStripMenuItem5.Text = "打开目标文件夹(&X)";
+            this.ctmSceneList_OpenDir.Name = "ctmSceneList_OpenDir";
+            this.ctmSceneList_OpenDir.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_OpenDir.Text = "打开目标文件夹(&X)";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(173, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(217, 6);
             // 
-            // 属性ToolStripMenuItem
+            // ctmSceneList_Property
             // 
-            this.属性ToolStripMenuItem.Name = "属性ToolStripMenuItem";
-            this.属性ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
-            this.属性ToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.属性ToolStripMenuItem.Text = "属性(&R)";
+            this.ctmSceneList_Property.Name = "ctmSceneList_Property";
+            this.ctmSceneList_Property.ShortcutKeys = System.Windows.Forms.Keys.F12;
+            this.ctmSceneList_Property.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Property.Text = "属性(&R)";
             // 
             // frmDockSceneManager
             // 
@@ -221,20 +222,20 @@
 
         private System.Windows.Forms.TreeView tvwSceneList;
         private System.Windows.Forms.ContextMenuStrip ctmSceneList;
-        private System.Windows.Forms.ToolStripMenuItem 打开OToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Open;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem 查看属性ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 代码视图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_DesignMode;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_CodeMode;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem 剪切ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 复制ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 重命名ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Cut;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Copy;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Delete;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Rename;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem 属性ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Property;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_OpenDir;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Layer;
         private System.Windows.Forms.ToolStripMenuItem 可视层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 障碍层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 遮挡层ToolStripMenuItem;
