@@ -16,29 +16,17 @@ namespace GenexUI.forms.floating
     public partial class frmDockSceneManager : DockContent
     {
         //剪切板事件
-        class ClipboardEvent
-        {
-            public bool isDirectory;
-            public string fullpath;
-
-            ClipboardEvent()
-            {
-                isDirectory = false;
-                fullpath = "";
-            }
-        };
-
         private GxTreeNode _projectNode;
         private FileSystemWatcher _fileSystemWatcher;
-        //SceneFileClipboardEvent _clipboardEvent;
+        GxTreeNode _clipboardTreeNode;
 
         public frmDockSceneManager()
         {
             InitializeComponent();
 
             //初始化剪切板
-            //_clipboardEvent = new SceneFileClipboardEvent();
-            LoggerProxy.WRITE_DEBUG("Init scene file clioboard OK.");
+            //_clipboardTreeNode = new GxTreeNode();
+            //LoggerProxy.WRITE_DEBUG("Init scene file clipboard OK.");
 
             //初始化场景目录文件监控器
             _fileSystemWatcher = new FileSystemWatcher();
@@ -201,7 +189,7 @@ namespace GenexUI.forms.floating
 
             //加载场景树
             GxTreeNode projectNode = new GxTreeNode();
-            projectNode.GxNodeType = GXNodeType.GX_NODE_TYPE_PROJECT;
+            projectNode.setGxNodeType(GXNodeType.GX_NODE_TYPE_PROJECT);
             projectNode.Text = string.Format("{0} [已加载]", project.getProjectName());
             projectNode.Tag = project;
             _projectNode = projectNode;
@@ -230,7 +218,7 @@ namespace GenexUI.forms.floating
                     GxSceneDirectory gxSceneDir = new GxSceneDirectory();
 
                     GxTreeNode node = new GxTreeNode();
-                    node.GxNodeType = GXNodeType.GX_NODE_TYPE_DIRECTORY;
+                    node.setGxNodeType(GXNodeType.GX_NODE_TYPE_DIRECTORY);
                     node.Tag = gxSceneDir;
                     node.Text = dir.Name;
                     parentNode.Nodes.Add(node);
@@ -243,7 +231,7 @@ namespace GenexUI.forms.floating
                     GxScene gxScene = new GxScene();
 
                     GxTreeNode node = new GxTreeNode();
-                    node.GxNodeType = GXNodeType.GX_NODE_TYPE_SCENE;
+                    node.setGxNodeType(GXNodeType.GX_NODE_TYPE_SCENE);
                     node.Tag = gxScene;
                     node.Text = file.Name;
                     parentNode.Nodes.Add(node);
@@ -255,39 +243,19 @@ namespace GenexUI.forms.floating
             }
         }
 
-        public void addNode(GxTreeNode sceneTreeNode)
-        { 
-            
-        }
-
-        public bool addNode(GXNodeType nodeType, string nodeName, GxTreeNode parentNode = null)
-        {
-            if (nodeType == GXNodeType.GX_NODE_TYPE_NONE)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         private void ctmSceneList_Cut_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void CutFile(string filepath)
-        { 
-        
-        }
-
-        private void CutFiles(List<string> fileList)
-        { 
-        
-        }
-
-        private void CutDirectory(string dirpath)
-        { 
-        
+            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
+            if (selectedNode != null)
+            {
+                GXNodeType nodeType = _clipboardTreeNode.getGxNodeType();
+                if (nodeType == GXNodeType.GX_NODE_TYPE_NONE || nodeType == GXNodeType.GX_NODE_TYPE_PROJECT)
+                {
+                    LoggerProxy.WRITE_ERROR("could not cut an invalid node.");
+                    return;
+                }
+                _clipboardTreeNode = selectedNode;
+            }
         }
 
         private void tvwSceneList_MouseDown(object sender, MouseEventArgs e)
@@ -300,6 +268,56 @@ namespace GenexUI.forms.floating
                     tvwSceneList.SelectedNode = node;
                 }
 
+            }
+        }
+
+        private void ctmSceneList_Paste_Click(object sender, EventArgs e)
+        {
+            if (_clipboardTreeNode != null)
+            {
+                GXNodeType nodeType = _clipboardTreeNode.getGxNodeType();
+                if (nodeType == GXNodeType.GX_NODE_TYPE_NONE || nodeType == GXNodeType.GX_NODE_TYPE_PROJECT)
+                {
+                    LoggerProxy.WRITE_ERROR("could not paste an invalid node.");
+                    return;
+                }
+
+                //获取要粘贴的地方
+                string dstDir;
+                GxProject curProject = GlobalObj.getOpenningProject();
+                if (curProject != null)
+                {
+                    dstDir = curProject.getProjectSceneDir();
+                }
+                else
+                {
+                    LoggerProxy.WRITE_ERROR("no project is openning");
+                    return;
+                }
+
+                //取得选中节点
+                GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
+                if (selectedNode != null)
+                {
+                    if (selectedNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
+                    {
+                        GxSceneDirectory gxSceneDir = (GxSceneDirectory)selectedNode.Tag;
+                        
+                    }
+                }
+                
+
+                switch (nodeType)
+                {
+                    case GXNodeType.GX_NODE_TYPE_SCENE:
+                    {
+                        break;
+                    }
+                    case GXNodeType.GX_NODE_TYPE_DIRECTORY:
+                    {
+                        break;
+                    }
+                }
             }
         }
     }
