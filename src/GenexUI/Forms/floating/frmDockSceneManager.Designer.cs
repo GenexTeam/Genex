@@ -48,6 +48,7 @@
             this.ctmSceneList_OpenDir = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.ctmSceneList_Property = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_Paste = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmSceneList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,7 +59,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvwSceneList.ContextMenuStrip = this.ctmSceneList;
             this.tvwSceneList.FullRowSelect = true;
-            this.tvwSceneList.HideSelection = false;
             this.tvwSceneList.LabelEdit = true;
             this.tvwSceneList.Location = new System.Drawing.Point(5, 29);
             this.tvwSceneList.Name = "tvwSceneList";
@@ -79,6 +79,7 @@
             this.toolStripMenuItem2,
             this.ctmSceneList_Cut,
             this.ctmSceneList_Copy,
+            this.ctmSceneList_Paste,
             this.ctmSceneList_Delete,
             this.ctmSceneList_Rename,
             this.toolStripMenuItem4,
@@ -86,7 +87,7 @@
             this.toolStripMenuItem3,
             this.ctmSceneList_Property});
             this.ctmSceneList.Name = "ctmSceneList";
-            this.ctmSceneList.Size = new System.Drawing.Size(221, 248);
+            this.ctmSceneList.Size = new System.Drawing.Size(221, 270);
             // 
             // ctmSceneList_Open
             // 
@@ -112,19 +113,19 @@
             // 可视层ToolStripMenuItem
             // 
             this.可视层ToolStripMenuItem.Name = "可视层ToolStripMenuItem";
-            this.可视层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.可视层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.可视层ToolStripMenuItem.Text = "可视层(&V)";
             // 
             // 障碍层ToolStripMenuItem
             // 
             this.障碍层ToolStripMenuItem.Name = "障碍层ToolStripMenuItem";
-            this.障碍层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.障碍层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.障碍层ToolStripMenuItem.Text = "障碍层(&B)";
             // 
             // 遮挡层ToolStripMenuItem
             // 
             this.遮挡层ToolStripMenuItem.Name = "遮挡层ToolStripMenuItem";
-            this.遮挡层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.遮挡层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.遮挡层ToolStripMenuItem.Text = "遮挡层(&D)";
             // 
             // ctmSceneList_DesignMode
@@ -200,6 +201,14 @@
             this.ctmSceneList_Property.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Property.Text = "属性(&R)";
             // 
+            // ctmSceneList_Paste
+            // 
+            this.ctmSceneList_Paste.Name = "ctmSceneList_Paste";
+            this.ctmSceneList_Paste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.ctmSceneList_Paste.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Paste.Text = "粘贴(&V)";
+            this.ctmSceneList_Paste.Click += new System.EventHandler(this.ctmSceneList_Paste_Click);
+            // 
             // frmDockSceneManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -239,6 +248,7 @@
         private System.Windows.Forms.ToolStripMenuItem 可视层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 障碍层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 遮挡层ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Paste;
 
 
     }

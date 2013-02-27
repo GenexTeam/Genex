@@ -18,16 +18,15 @@ namespace GenexUI.Global
     public class GxTreeNode : TreeNode
     {
         private GXNodeType _gxNodeType;
-        public GXNodeType GxNodeType
+
+        public void setGxNodeType(GXNodeType nodeType)
         {
-            get
-            {
-                return _gxNodeType;
-            }
-            set
-            {
-                _gxNodeType = value;
-            }
+            _gxNodeType = nodeType;
+        }
+
+        public GXNodeType getGxNodeType()
+        {
+            return _gxNodeType;
         }
 
         public GxProject toGxProjectInstance()
