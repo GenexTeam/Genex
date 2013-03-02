@@ -8,7 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GenexUI.Global.LogServerSuit;
+using log4net;
+using System.Reflection;
 
 namespace GenexUI.Global
 {
@@ -18,9 +19,6 @@ namespace GenexUI.Global
         {
             _gxEnvManager = new GxEnvManager();
             _openningProject = new GxProject();
-            _logServer = new LogServer();
-            _logServer.init();
-
             return true;
         }
 
@@ -36,13 +34,6 @@ namespace GenexUI.Global
         public static GxProject getOpenningProject()
         {
             return _openningProject;
-        }
-
-        //日志服务器
-        private static LogServer _logServer;
-        public static LogServer getLogServer()
-        {
-            return _logServer;
         }
     }
 }

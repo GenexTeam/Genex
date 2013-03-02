@@ -9,7 +9,6 @@ using System.Text;
 using System.Windows.Forms;
 using GenexUI.Global;
 using WeifenLuo.WinFormsUI.Docking;
-using GenexUI.Global.LogServerSuit;
 
 namespace GenexUI.forms.floating
 {
@@ -26,7 +25,7 @@ namespace GenexUI.forms.floating
 
             //初始化剪切板
             //_clipboardTreeNode = new GxTreeNode();
-            //LoggerProxy.WRITE_DEBUG("Init scene file clipboard OK.");
+            //Logger.Debug("Init scene file clipboard OK.");
 
             //初始化场景目录文件监控器
             _fileSystemWatcher = new FileSystemWatcher();
@@ -35,7 +34,7 @@ namespace GenexUI.forms.floating
             _fileSystemWatcher.Filter = "";
             _fileSystemWatcher.EnableRaisingEvents = false;
             initFileSystemWatcherEvents();
-            LoggerProxy.WRITE_DEBUG("Init FileSystemWatcher object OK.");
+            Logger.Debug("Init FileSystemWatcher object OK.");
         }
 
         private void frmDockSceneExplorer_Load(object sender, EventArgs e)
@@ -52,7 +51,7 @@ namespace GenexUI.forms.floating
                 //文件改变事件
                 _fileSystemWatcher.Changed += (sender, e) =>
                 {
-                    LoggerProxy.WRITE_WARNING(
+                    Logger.Debug(
                         "A file event has watched, type = " + e.ChangeType.ToString() +
                         ", path = " + e.FullPath +
                         ", filename = " + e.Name);
@@ -68,7 +67,7 @@ namespace GenexUI.forms.floating
                 //文件删除事件
                 _fileSystemWatcher.Deleted += (sender, e) =>
                 {
-                    LoggerProxy.WRITE_WARNING(
+                    Logger.Warn(
                         "A file event has watched, type = " + e.ChangeType.ToString() +
                         ", path = " + e.FullPath +
                         ", filename = " + e.Name);
@@ -76,19 +75,19 @@ namespace GenexUI.forms.floating
                     if (Directory.Exists(e.FullPath) == true)
                     {
                         //文件夹被删除
-                        LoggerProxy.WRITE_DEBUG("A directory deleted, path = " + e.FullPath);
+                        Logger.Debug("A directory deleted, path = " + e.FullPath);
                     }
                     else
                     { 
                         //文件被删除
-                        LoggerProxy.WRITE_DEBUG("A file deleted, path = " + e.FullPath);
+                        Logger.Debug("A file deleted, path = " + e.FullPath);
                     }
                 };
 
                 //文件名变更事件
                 _fileSystemWatcher.Renamed += (sender, e) =>
                 {
-                    LoggerProxy.WRITE_WARNING(
+                    Logger.Warn(
                         "A file event has watched, type = " + e.ChangeType.ToString() +
                         ", path = " + e.FullPath +
                         ", filename = " + e.Name);
@@ -96,19 +95,19 @@ namespace GenexUI.forms.floating
                     if (Directory.Exists(e.FullPath) == true)
                     {
                         //文件夹名变更
-                        LoggerProxy.WRITE_DEBUG("A directory renamed, path = " + e.FullPath + ", oldname = " + e.OldName);
+                        Logger.Debug("A directory renamed, path = " + e.FullPath + ", oldname = " + e.OldName);
                     }
                     else
                     {
                         //文件名变更
-                        LoggerProxy.WRITE_DEBUG("A file renamed, path = " + e.FullPath + ", oldname = " + e.OldName);
+                        Logger.Debug("A file renamed, path = " + e.FullPath + ", oldname = " + e.OldName);
                     }
                 };
 
                 //文件创建事件
                 _fileSystemWatcher.Created += (sender, e) =>
                 {
-                    LoggerProxy.WRITE_WARNING(
+                    Logger.Warn(
                         "A file event has watched, type = " + e.ChangeType.ToString() +
                         ", path = " + e.FullPath +
                         ", filename = " + e.Name);
@@ -116,30 +115,30 @@ namespace GenexUI.forms.floating
                     if (Directory.Exists(e.FullPath) == true)
                     {
                         //文件夹被创建
-                        LoggerProxy.WRITE_DEBUG("A directory created, path = " + e.FullPath);
+                        Logger.Debug("A directory created, path = " + e.FullPath);
                     }
                     else
                     { 
                         //文件被创建
-                        LoggerProxy.WRITE_DEBUG("A file created, path = " + e.FullPath);
+                        Logger.Debug("A file created, path = " + e.FullPath);
                     }
                 };
             }
             catch (DirectoryNotFoundException iox)
             {
-                LoggerProxy.WRITE_ERROR("\r\nEXCEPTION (onChanged): Directory No Found , " + iox.Message);
+                Logger.Error("\r\nEXCEPTION (onChanged): Directory No Found , " + iox.Message);
             }
             catch (FileNotFoundException iox)
             {
-                LoggerProxy.WRITE_ERROR("\r\nEXCEPTION (onChanged): File Not Found, " + iox.Message);
+                Logger.Error("\r\nEXCEPTION (onChanged): File Not Found, " + iox.Message);
             }
             catch (IOException iox)
             {
-                LoggerProxy.WRITE_ERROR("\r\nEXCEPTION (onChanged): IO Error, " + iox.Message);
+                Logger.Error("\r\nEXCEPTION (onChanged): IO Error, " + iox.Message);
             }
             catch (Exception ex)
             {
-                LoggerProxy.WRITE_ERROR("\r\nEXCEPTION (onChanged): " + ex.Message);
+                Logger.Error("\r\nEXCEPTION (onChanged): " + ex.Message);
             }
         }
 
@@ -151,12 +150,12 @@ namespace GenexUI.forms.floating
             //卸载工程
             GxProject project = GlobalObj.getOpenningProject();
             project.unload();
-            LoggerProxy.WRITE_DEBUG("Unloaded openning project.");
+            Logger.Debug("Unloaded openning project.");
 
             //清除节点数据
             _projectNode = null;
             tvwSceneList.Nodes.Clear();
-            LoggerProxy.WRITE_DEBUG("Cleared all project nodes.");
+            Logger.Debug("Cleared all project nodes.");
 
             _fileSystemWatcher.EnableRaisingEvents = false;
         }
@@ -165,7 +164,7 @@ namespace GenexUI.forms.floating
         {
             if (File.Exists(filename) == false)
             {
-                LoggerProxy.WRITE_ERROR("Failed to load project : file not found.");
+                Logger.Error("Failed to load project : file not found.");
                 MessageBox.Show(string.Format("{0}\n\n工程文件不存在或文件路径错误。", filename), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -183,7 +182,7 @@ namespace GenexUI.forms.floating
             //加载工程文件
             if (project.load(filename) == false)
             {
-                LoggerProxy.WRITE_ERROR("load project [" + filename + "] failed.");
+                Logger.Error("load project [" + filename + "] failed.");
                 return false;
             }
 
@@ -239,7 +238,7 @@ namespace GenexUI.forms.floating
             }
             catch(Exception e)
             {
-                LoggerProxy.WRITE_ERROR(e.Message);
+                Logger.Error(e.Message);
             }
         }
 
@@ -251,7 +250,7 @@ namespace GenexUI.forms.floating
                 GXNodeType nodeType = _clipboardTreeNode.getGxNodeType();
                 if (nodeType == GXNodeType.GX_NODE_TYPE_NONE || nodeType == GXNodeType.GX_NODE_TYPE_PROJECT)
                 {
-                    LoggerProxy.WRITE_ERROR("could not cut an invalid node.");
+                    Logger.Error("could not cut an invalid node.");
                     return;
                 }
                 _clipboardTreeNode = selectedNode;
@@ -278,7 +277,7 @@ namespace GenexUI.forms.floating
                 GXNodeType nodeType = _clipboardTreeNode.getGxNodeType();
                 if (nodeType == GXNodeType.GX_NODE_TYPE_NONE || nodeType == GXNodeType.GX_NODE_TYPE_PROJECT)
                 {
-                    LoggerProxy.WRITE_ERROR("could not paste an invalid node.");
+                    Logger.Error("could not paste an invalid node.");
                     return;
                 }
 
@@ -291,7 +290,7 @@ namespace GenexUI.forms.floating
                 }
                 else
                 {
-                    LoggerProxy.WRITE_ERROR("no project is openning");
+                    Logger.Error("no project is openning");
                     return;
                 }
 
