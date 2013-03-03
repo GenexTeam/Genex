@@ -3,3 +3,4 @@ obj
 *.manifest
 *.pdb
 *.exe
+/src/GenexUI/bin/logs/*.log

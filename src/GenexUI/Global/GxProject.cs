@@ -22,6 +22,7 @@ namespace GenexUI.Global
         {
             try
             {
+                Logger.Debug("Loading project XML file, filename = " + filename);
                 XmlDocument document = new XmlDocument();
                 document.Load(filename);
 
@@ -44,7 +45,7 @@ namespace GenexUI.Global
             }
             catch (XmlException exception)
             {
-                Debug.Print(exception.Message);
+                Logger.Error(exception.Message);
                 return false;
             }
 
@@ -59,6 +60,8 @@ namespace GenexUI.Global
             _sceneDirPath = GlobalObj.getEnvManager().resolveEnv(_sceneDirPath);
             _sceneDirPath = _sceneDirPath.Replace("//", "/");
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_SCENE_DIR, getProjectSceneDir());
+            Logger.Debug("Updated project env variables");
+
 
             //加载场景
             loadSceneList();
@@ -126,6 +129,7 @@ namespace GenexUI.Global
         //返回场景文件路径列表
         public bool loadSceneList()
         {
+            Logger.Debug("loading scene list, sceneDirPath = " + _sceneDirPath);
             if (Directory.Exists(_sceneDirPath) == false)
             {
                 return false;

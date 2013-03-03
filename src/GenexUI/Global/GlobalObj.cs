@@ -18,6 +18,8 @@ namespace GenexUI.Global
         public static bool init()
         {
             _gxEnvManager = new GxEnvManager();
+            Logger.Debug("EnvManager is loaded.");
+
             _openningProject = new GxProject();
             return true;
         }

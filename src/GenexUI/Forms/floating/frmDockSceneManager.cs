@@ -162,6 +162,8 @@ namespace GenexUI.forms.floating
 
         public bool loadProject(string filename)
         {
+            Logger.Debug("Loading Project, Path = " + filename);
+
             if (File.Exists(filename) == false)
             {
                 Logger.Error("Failed to load project : file not found.");
@@ -185,12 +187,15 @@ namespace GenexUI.forms.floating
                 Logger.Error("load project [" + filename + "] failed.");
                 return false;
             }
+            Logger.Debug("Project is loaded.");
 
             //加载场景树
             GxTreeNode projectNode = new GxTreeNode();
             projectNode.setGxNodeType(GXNodeType.GX_NODE_TYPE_PROJECT);
             projectNode.Text = string.Format("{0} [已加载]", project.getProjectName());
             projectNode.Tag = project;
+            projectNode.ImageIndex = 0;
+            projectNode.SelectedImageIndex = 0;
             _projectNode = projectNode;
 
             string sceneDirPath = project.getProjectSceneDir();
@@ -220,6 +225,8 @@ namespace GenexUI.forms.floating
                     node.setGxNodeType(GXNodeType.GX_NODE_TYPE_DIRECTORY);
                     node.Tag = gxSceneDir;
                     node.Text = dir.Name;
+                    node.ImageIndex = 1;
+                    node.SelectedImageIndex = 1;
                     parentNode.Nodes.Add(node);
 
                     traversalSceneList(sceneDirInfo + "/" + dir.ToString() + "/", node);
@@ -233,6 +240,8 @@ namespace GenexUI.forms.floating
                     node.setGxNodeType(GXNodeType.GX_NODE_TYPE_SCENE);
                     node.Tag = gxScene;
                     node.Text = file.Name;
+                    node.ImageIndex = 2;
+                    node.SelectedImageIndex = 2;
                     parentNode.Nodes.Add(node);
                 }
             }

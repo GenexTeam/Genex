@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenexUI.Global;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +16,18 @@ namespace GenexUI
         [STAThread]
         static void Main()
         {
+            //DEBUG模式下启动控制台
+#if DEBUG
+            LogConsole.AllocConsole();
+#endif
+            //启动主窗口
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmGenexMainForm());
+
+#if DEBUG
+            LogConsole.FreeConsole();
+#endif
         }
     }
 }

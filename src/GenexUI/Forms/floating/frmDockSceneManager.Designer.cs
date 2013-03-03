@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDockSceneManager));
             this.tvwSceneList = new System.Windows.Forms.TreeView();
             this.ctmSceneList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctmSceneList_Open = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,13 +43,14 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ctmSceneList_Cut = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmSceneList_Copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneList_Paste = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmSceneList_Delete = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmSceneList_Rename = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.ctmSceneList_OpenDir = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.ctmSceneList_Property = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctmSceneList_Paste = new System.Windows.Forms.ToolStripMenuItem();
+            this.imgTreeIcons = new System.Windows.Forms.ImageList(this.components);
             this.ctmSceneList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,10 +61,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvwSceneList.ContextMenuStrip = this.ctmSceneList;
             this.tvwSceneList.FullRowSelect = true;
+            this.tvwSceneList.ImageIndex = 0;
+            this.tvwSceneList.ImageList = this.imgTreeIcons;
             this.tvwSceneList.LabelEdit = true;
             this.tvwSceneList.Location = new System.Drawing.Point(5, 29);
             this.tvwSceneList.Name = "tvwSceneList";
             this.tvwSceneList.PathSeparator = "/";
+            this.tvwSceneList.SelectedImageIndex = 0;
             this.tvwSceneList.ShowNodeToolTips = true;
             this.tvwSceneList.Size = new System.Drawing.Size(233, 356);
             this.tvwSceneList.TabIndex = 0;
@@ -164,6 +169,14 @@
             this.ctmSceneList_Copy.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Copy.Text = "复制(&C)";
             // 
+            // ctmSceneList_Paste
+            // 
+            this.ctmSceneList_Paste.Name = "ctmSceneList_Paste";
+            this.ctmSceneList_Paste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.ctmSceneList_Paste.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Paste.Text = "粘贴(&V)";
+            this.ctmSceneList_Paste.Click += new System.EventHandler(this.ctmSceneList_Paste_Click);
+            // 
             // ctmSceneList_Delete
             // 
             this.ctmSceneList_Delete.Name = "ctmSceneList_Delete";
@@ -201,13 +214,13 @@
             this.ctmSceneList_Property.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Property.Text = "属性(&R)";
             // 
-            // ctmSceneList_Paste
+            // imgTreeIcons
             // 
-            this.ctmSceneList_Paste.Name = "ctmSceneList_Paste";
-            this.ctmSceneList_Paste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.ctmSceneList_Paste.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Paste.Text = "粘贴(&V)";
-            this.ctmSceneList_Paste.Click += new System.EventHandler(this.ctmSceneList_Paste_Click);
+            this.imgTreeIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgTreeIcons.ImageStream")));
+            this.imgTreeIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgTreeIcons.Images.SetKeyName(0, "project.png");
+            this.imgTreeIcons.Images.SetKeyName(1, "dir.png");
+            this.imgTreeIcons.Images.SetKeyName(2, "scene.png");
             // 
             // frmDockSceneManager
             // 
@@ -249,6 +262,7 @@
         private System.Windows.Forms.ToolStripMenuItem 障碍层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 遮挡层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Paste;
+        private System.Windows.Forms.ImageList imgTreeIcons;
 
 
     }

@@ -15,11 +15,11 @@
     </appender>
 
     <!--定义输出到控制台命令行中-->
-    <!--<appender name="ConsoleAppender" type="log4net.Appender.ConsoleAppender">
+    <appender name="ConsoleAppender" type="log4net.Appender.ConsoleAppender">
       <layout type="log4net.Layout.PatternLayout">
-        <conversionPattern value="%date [%thread] %-5level %logger [%property{NDC}] - %message%newline" />
+        <conversionPattern value="[%date][%thread][%-5level][%file:%line, %property{NDC}] %message%newline" />
       </layout>
-    </appender>-->
+    </appender>
 
     <!--定义日志的输出媒介，下面定义日志以四种方式输出。也可以下面的按照一种类型或其他类型输出。-->
     <root>
@@ -27,7 +27,7 @@
       <!--<appender-ref ref="LogFileAppender" />-->
       <appender-ref ref="dataAccessLogFile" />
       <!--控制台控制显示日志-->
-      <!--<appender-ref ref="ConsoleAppender" />-->
+      <appender-ref ref="ConsoleAppender" />
       <!--Windows事件日志-->
       <!--<appender-ref ref="EventLogAppender" />-->
     </root>

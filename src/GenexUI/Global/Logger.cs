@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace GenexUI.Global
@@ -39,5 +40,15 @@ namespace GenexUI.Global
         {
             _log.Warn(message);
         }
+    }
+
+    public static class LogConsole
+    {
+        [DllImport("kernel32.dll")]
+        public static extern bool AllocConsole();
+
+        [DllImport("kernel32.dll")]
+        public static extern bool FreeConsole();
+
     }
 }
