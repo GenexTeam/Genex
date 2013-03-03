@@ -71,6 +71,7 @@
             this.tvwSceneList.ShowNodeToolTips = true;
             this.tvwSceneList.Size = new System.Drawing.Size(233, 356);
             this.tvwSceneList.TabIndex = 0;
+            this.tvwSceneList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvwSceneList_AfterSelect);
             this.tvwSceneList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvwSceneList_MouseDown);
             // 
             // ctmSceneList
@@ -168,6 +169,7 @@
             this.ctmSceneList_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.ctmSceneList_Copy.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Copy.Text = "复制(&C)";
+            this.ctmSceneList_Copy.Click += new System.EventHandler(this.ctmSceneList_Copy_Click);
             // 
             // ctmSceneList_Paste
             // 

@@ -14,10 +14,34 @@ namespace GenexUI.forms.floating
 {
     public partial class frmDockSceneManager : DockContent
     {
-        //剪切板事件
+        //操作类型（复制， 剪切）
+        enum OPERATION_TYPE
+        {
+            OP_NONE,    //无
+            OP_COPY,    //复制
+            OP_CUT      //剪切
+        }
+
+        //图标类型索引
+        enum ICON_TYPE
+        {
+            ICON_PROJECT,       //工程节点
+            ICON_SCENE_DIR,     //场景目录节点
+            ICON_SCENE          //场景节点
+        }
+
+        //工程节点
         private GxTreeNode _projectNode;
-        private FileSystemWatcher _fileSystemWatcher;
+
+        //剪切板的节点
         GxTreeNode _clipboardTreeNode;
+
+        //剪切板的操作类型
+        OPERATION_TYPE _lastOpType;
+
+        //文件系统监视器
+        private FileSystemWatcher _fileSystemWatcher;
+
 
         public frmDockSceneManager()
         {
@@ -60,7 +84,7 @@ namespace GenexUI.forms.floating
                     //文件内容发生变更
                     if (Directory.Exists(e.FullPath) == false)
                     {
-                        
+
                     }
                 };
 
@@ -78,7 +102,7 @@ namespace GenexUI.forms.floating
                         Logger.Debug("A directory deleted, path = " + e.FullPath);
                     }
                     else
-                    { 
+                    {
                         //文件被删除
                         Logger.Debug("A file deleted, path = " + e.FullPath);
                     }
@@ -118,7 +142,7 @@ namespace GenexUI.forms.floating
                         Logger.Debug("A directory created, path = " + e.FullPath);
                     }
                     else
-                    { 
+                    {
                         //文件被创建
                         Logger.Debug("A file created, path = " + e.FullPath);
                     }
@@ -207,19 +231,20 @@ namespace GenexUI.forms.floating
             _fileSystemWatcher.Path = sceneDirPath;
             _fileSystemWatcher.EnableRaisingEvents = true;
             _fileSystemWatcher.WaitForChanged(WatcherChangeTypes.All, 1000);
-            
+
             return true;
         }
 
         private void traversalSceneList(string sceneDirPath, GxTreeNode parentNode)
-        { 
+        {
             DirectoryInfo sceneDirInfo = new DirectoryInfo(sceneDirPath);
 
             try
             {
-                foreach(DirectoryInfo dir in sceneDirInfo.GetDirectories())
+                foreach (DirectoryInfo dir in sceneDirInfo.GetDirectories())
                 {
                     GxSceneDirectory gxSceneDir = new GxSceneDirectory();
+                    gxSceneDir.setDirectoryPath(dir.FullName);
 
                     GxTreeNode node = new GxTreeNode();
                     node.setGxNodeType(GXNodeType.GX_NODE_TYPE_DIRECTORY);
@@ -232,9 +257,10 @@ namespace GenexUI.forms.floating
                     traversalSceneList(sceneDirInfo + "/" + dir.ToString() + "/", node);
                 }
 
-                foreach(FileInfo file in sceneDirInfo.GetFiles("*.gxs")) //查找文件
+                foreach (FileInfo file in sceneDirInfo.GetFiles("*.gxs")) //查找文件
                 {
                     GxScene gxScene = new GxScene();
+                    gxScene.setSceneFileFullPath(file.FullName);
 
                     GxTreeNode node = new GxTreeNode();
                     node.setGxNodeType(GXNodeType.GX_NODE_TYPE_SCENE);
@@ -245,7 +271,7 @@ namespace GenexUI.forms.floating
                     parentNode.Nodes.Add(node);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.Error(e.Message);
             }
@@ -256,13 +282,127 @@ namespace GenexUI.forms.floating
             GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
             if (selectedNode != null)
             {
-                GXNodeType nodeType = _clipboardTreeNode.getGxNodeType();
+                GXNodeType nodeType = selectedNode.getGxNodeType();
                 if (nodeType == GXNodeType.GX_NODE_TYPE_NONE || nodeType == GXNodeType.GX_NODE_TYPE_PROJECT)
                 {
                     Logger.Error("could not cut an invalid node.");
                     return;
                 }
-                _clipboardTreeNode = selectedNode;
+
+                //设置剪切板内容
+                setClipboard(selectedNode, OPERATION_TYPE.OP_CUT);
+
+                //取得图标索引
+                int rawImageIndex = Convert.ToInt32(getRawImageIndex(selectedNode.getGxNodeType()));
+
+                //查找是否含有透明的图标
+                string tranImageKey = "TransIndex_" + Convert.ToString(rawImageIndex);
+                int tranImageIndex = imgTreeIcons.Images.IndexOfKey(tranImageKey);
+
+                //找不到rawImageIndex索引的透明版本图标则生成一个
+                if (tranImageIndex == -1)
+                {
+                    //生成一个透明的图标
+                    Bitmap bitmap = new Bitmap(imgTreeIcons.Images[rawImageIndex]);
+                    bitmap = transparentAdjust(bitmap, 180);
+                    imgTreeIcons.Images.Add(tranImageKey, bitmap);
+                    tranImageIndex = imgTreeIcons.Images.IndexOfKey(tranImageKey);
+                }
+
+                //更新图标
+                selectedNode.ImageIndex = tranImageIndex;
+                selectedNode.SelectedImageIndex = tranImageIndex;
+            }
+        }
+
+        /// <summary>
+        /// 根据节点类型获取原始图标
+        /// </summary>
+        /// <param name="nodeType"></param>
+        /// <returns></returns>
+        private ICON_TYPE getRawImageIndex(GXNodeType nodeType)
+        {
+            switch (nodeType)
+            { 
+                case GXNodeType.GX_NODE_TYPE_PROJECT:
+                    return ICON_TYPE.ICON_PROJECT;
+                case GXNodeType.GX_NODE_TYPE_DIRECTORY:
+                    return ICON_TYPE.ICON_SCENE_DIR;
+                case GXNodeType.GX_NODE_TYPE_SCENE:
+                    return ICON_TYPE.ICON_SCENE;
+            }
+
+            return ICON_TYPE.ICON_SCENE;
+        }
+
+        /// <summary>
+        /// 处理图像透明度
+        /// </summary>
+        /// <param name="srcBitmap"></param>
+        /// <param name="transparent"></param>
+        /// <returns></returns>
+        public Bitmap transparentAdjust(Bitmap srcBitmap, int transparent)
+        {
+            try
+            {
+                int w = srcBitmap.Width;
+                int h = srcBitmap.Height;
+                Bitmap dstBitmap = new Bitmap(srcBitmap.Width, srcBitmap.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                System.Drawing.Imaging.BitmapData srcData = srcBitmap.LockBits(new Rectangle(0, 0, w, h), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                System.Drawing.Imaging.BitmapData dstData = dstBitmap.LockBits(new Rectangle(0, 0, w, h), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                
+                unsafe
+                {
+                    byte* pIn = (byte*)srcData.Scan0.ToPointer();
+                    byte* pOut = (byte*)dstData.Scan0.ToPointer();
+                    byte* p;
+                    int stride = srcData.Stride;
+                    int r, g, b;
+                    for (int y = 0; y < h; y++)
+                    {
+                        for (int x = 0; x < w; x++)
+                        {
+                            p = pIn;
+                            b = pIn[0];
+                            g = pIn[1];
+                            r = pIn[2];
+                            pOut[1] = (byte)g;
+                            pOut[2] = (byte)r;
+                            pOut[3] = (byte)transparent;
+                            pOut[0] = (byte)b;
+                            pIn += 4;
+                            pOut += 4;
+                        }
+                        pIn += srcData.Stride - w * 4;
+                        pOut += srcData.Stride - w * 4;
+                    }
+                    srcBitmap.UnlockBits(srcData);
+                    dstBitmap.UnlockBits(dstData);
+                    return dstBitmap;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message);
+                return null;
+            }
+
+        }
+
+        private void ctmSceneList_Copy_Click(object sender, EventArgs e)
+        {
+            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
+            if (selectedNode != null)
+            {
+                GXNodeType nodeType = selectedNode.getGxNodeType();
+                if (nodeType == GXNodeType.GX_NODE_TYPE_NONE || nodeType == GXNodeType.GX_NODE_TYPE_PROJECT)
+                {
+                    Logger.Error("could not copy an invalid node.");
+                    return;
+                }
+
+                //设置剪切板内容
+                setClipboard(selectedNode, OPERATION_TYPE.OP_COPY);
             }
         }
 
@@ -279,54 +419,112 @@ namespace GenexUI.forms.floating
             }
         }
 
+
+
         private void ctmSceneList_Paste_Click(object sender, EventArgs e)
         {
-            if (_clipboardTreeNode != null)
+
+        }
+
+        //设置剪切板内容
+        private void setClipboard(GxTreeNode clipNode, OPERATION_TYPE opType)
+        {
+            _clipboardTreeNode = clipNode;
+            _lastOpType = opType;
+        }
+
+        //粘贴
+        private void paste(OPERATION_TYPE opType)
+        {
+            if (_clipboardTreeNode == null)
             {
-                GXNodeType nodeType = _clipboardTreeNode.getGxNodeType();
-                if (nodeType == GXNodeType.GX_NODE_TYPE_NONE || nodeType == GXNodeType.GX_NODE_TYPE_PROJECT)
-                {
-                    Logger.Error("could not paste an invalid node.");
-                    return;
-                }
+                Logger.Debug("clipboard is null.");
+                return;
+            }
 
-                //获取要粘贴的地方
-                string dstDir;
-                GxProject curProject = GlobalObj.getOpenningProject();
-                if (curProject != null)
-                {
-                    dstDir = curProject.getProjectSceneDir();
-                }
-                else
-                {
-                    Logger.Error("no project is openning");
-                    return;
-                }
+            //取得剪切板的节点类型
+            GXNodeType nodeType = _clipboardTreeNode.getGxNodeType();
+            if (nodeType == GXNodeType.GX_NODE_TYPE_NONE || nodeType == GXNodeType.GX_NODE_TYPE_PROJECT)
+            {
+                Logger.Error("could not paste an invalid node. nodeType = " + nodeType.ToString());
+                return;
+            }
 
-                //取得选中节点
-                GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
-                if (selectedNode != null)
-                {
-                    if (selectedNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
-                    {
-                        GxSceneDirectory gxSceneDir = (GxSceneDirectory)selectedNode.Tag;
-                        
-                    }
-                }
-                
+            //获取要粘贴的地方，默认粘贴地方为场景根目录
+            string dstDirPath;
+            GxProject curProject = GlobalObj.getOpenningProject();
+            if (curProject != null)
+            {
+                dstDirPath = curProject.getProjectSceneDir();
+            }
+            else
+            {
+                Logger.Error("no project is openning");
+                return;
+            }
 
-                switch (nodeType)
+            //取得选中节点
+            GxTreeNode dstTreeNode = (GxTreeNode)tvwSceneList.SelectedNode;
+            if (dstTreeNode == null)
+            {
+                Logger.Debug("selected node is null.");
+                return;
+            }
+
+            //要粘贴在directory节点下
+            if (dstTreeNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
+            {
+                //取得目标目录
+                GxSceneDirectory gxSceneDir = (GxSceneDirectory)dstTreeNode.Tag;
+                dstDirPath = gxSceneDir.getDirectoryPath();
+
+                //如果源节点是目录
+                if (nodeType == GXNodeType.GX_NODE_TYPE_DIRECTORY)
                 {
-                    case GXNodeType.GX_NODE_TYPE_SCENE:
+                    GxSceneDirectory srcSceneDir = (GxSceneDirectory)_clipboardTreeNode.Tag;
+                    string srcDirPath = srcSceneDir.getDirectoryPath();
+                    if (srcSceneDir != null)
                     {
-                        break;
-                    }
-                    case GXNodeType.GX_NODE_TYPE_DIRECTORY:
-                    {
-                        break;
+                        try
+                        {
+                            if (Directory.Exists(srcDirPath) == true && Directory.Exists(dstDirPath) == true)
+                            {
+                                DirectoryInfo srcDirInfo = new DirectoryInfo(srcDirPath);
+
+                                //移动目录
+                                string dstDirFullPath = dstDirPath + "\\" + srcDirInfo.Name;
+
+                                //源路径和目标路径不一致
+                                Directory.Move(srcDirPath, dstDirFullPath);
+                                Logger.Debug("Direcotry [srcDirPath] moved to [dstDirFullPath] finished!");
+
+                                //更新节点状态
+                                srcSceneDir.setDirectoryPath(dstDirFullPath);
+                                _clipboardTreeNode.Remove();
+                                dstTreeNode.Nodes.Add(_clipboardTreeNode);
+                                clearClipboard();
+                            }
+                        }
+                        catch (IOException exception)
+                        {
+                            MessageBox.Show(exception.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Logger.Error(exception.Message);
+                            clearClipboard();
+                        }
                     }
                 }
             }
+        }
+
+        private void clearClipboard()
+        {
+            _clipboardTreeNode = null;
+
+        }
+
+        private void tvwSceneList_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            Logger.Info(((GxTreeNode)e.Node).getGxNodeType().ToString());
         }
     }
 }
