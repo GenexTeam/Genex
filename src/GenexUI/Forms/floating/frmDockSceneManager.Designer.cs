@@ -51,6 +51,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.ctmSceneList_Property = new System.Windows.Forms.ToolStripMenuItem();
             this.imgTreeIcons = new System.Windows.Forms.ImageList(this.components);
+            this.ctmSceneList_Reload = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmSceneList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,9 +92,10 @@
             this.toolStripMenuItem4,
             this.ctmSceneList_OpenDir,
             this.toolStripMenuItem3,
+            this.ctmSceneList_Reload,
             this.ctmSceneList_Property});
             this.ctmSceneList.Name = "ctmSceneList";
-            this.ctmSceneList.Size = new System.Drawing.Size(221, 270);
+            this.ctmSceneList.Size = new System.Drawing.Size(221, 314);
             // 
             // ctmSceneList_Open
             // 
@@ -224,6 +226,13 @@
             this.imgTreeIcons.Images.SetKeyName(1, "dir.png");
             this.imgTreeIcons.Images.SetKeyName(2, "scene.png");
             // 
+            // ctmSceneList_Reload
+            // 
+            this.ctmSceneList_Reload.Name = "ctmSceneList_Reload";
+            this.ctmSceneList_Reload.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Reload.Text = "重新加载列表(&U)";
+            this.ctmSceneList_Reload.Click += new System.EventHandler(this.ctmSceneList_Reload_Click);
+            // 
             // frmDockSceneManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -265,6 +274,7 @@
         private System.Windows.Forms.ToolStripMenuItem 遮挡层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Paste;
         private System.Windows.Forms.ImageList imgTreeIcons;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Reload;
 
 
     }

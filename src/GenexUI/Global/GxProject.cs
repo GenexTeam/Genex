@@ -95,6 +95,11 @@ namespace GenexUI.Global
             return _projectName;
         }
 
+        public string getFullPath()
+        {
+            return _projectFullPath;
+        }
+
         public string getProjectFileName()
         {
             return Path.GetFileName(_projectFullPath);

@@ -551,5 +551,22 @@ namespace GenexUI.forms.floating
         {
             Logger.Info(((GxTreeNode)e.Node).getGxNodeType().ToString());
         }
+
+        private void ctmSceneList_Reload_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("重新载入将关闭当前处于打开状态的所有文件，是否确定？", "询问", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (result == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return;
+            }
+
+            GxProject project = GlobalObj.getOpenningProject();
+            if (project.isLoaded() == true)
+            {
+                string filename = project.getFullPath();
+                closeCurrentProject();
+                loadProject(filename);
+            }
+        }
     }
 }
