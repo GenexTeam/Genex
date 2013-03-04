@@ -282,7 +282,7 @@ namespace GenexUI.forms.floating
                     GxTreeNode node = new GxTreeNode();
                     node.setGxNodeType(GXNodeType.GX_NODE_TYPE_SCENE);
                     node.Tag = gxScene;
-                    node.Text = file.Name;
+                    node.Text = Path.GetFileNameWithoutExtension(file.Name);
                     node.ImageIndex = 2;
                     node.SelectedImageIndex = 2;
                     parentNode.Nodes.Add(node);
@@ -399,6 +399,7 @@ namespace GenexUI.forms.floating
                     int r, g, b;
                     for (int y = 0; y < h; y++)
                     {
+                        //更改所有点的透明通道
                         for (int x = 0; x < w; x++)
                         {
                             p = pIn;
@@ -460,7 +461,9 @@ namespace GenexUI.forms.floating
 
         private void ctmSceneList_Paste_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
             paste();
+            this.Cursor = Cursors.Default;
         }
 
         /// <summary>
@@ -557,6 +560,7 @@ namespace GenexUI.forms.floating
                                 srcSceneDir.setDirectoryPath(dstDirFullPath);
                                 _clipboardTreeNode.Remove();
                                 dstTreeNode.Nodes.Add(_clipboardTreeNode);
+                                tvwSceneList.SelectedNode = _clipboardTreeNode;
                                 clearClipboard();
                             }
                         }
