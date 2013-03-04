@@ -306,10 +306,10 @@ namespace GenexUI.forms.floating
                     return;
                 }
 
-                //设置剪切板内容
-                setClipboard(selectedNode, OPERATION_TYPE.OP_CUT);
+                //把当前处于剪切状态的透明图标还原为正常
+                //restoreNodeOriginalIcon();
 
-                //取得图标索引
+                //取得要剪切的节点的图标索引
                 int rawImageIndex = Convert.ToInt32(getRawImageIndex(selectedNode.getGxNodeType()));
 
                 //查找是否含有透明的图标
@@ -329,8 +329,30 @@ namespace GenexUI.forms.floating
                 //更新图标
                 selectedNode.ImageIndex = tranImageIndex;
                 selectedNode.SelectedImageIndex = tranImageIndex;
+                selectedNode.setTransImageIndex(tranImageIndex);
+
+                //设置剪切板内容
+                setClipboard(selectedNode, OPERATION_TYPE.OP_CUT);
             }
         }
+
+        /// <summary>
+        /// 把当前处于剪切状态的透明图标还原为正常
+        /// </summary>
+        private void restoreNodeOriginalIcon()
+        {
+            //如果当前有一个剪切操作的节点，则先把其透明图标还原
+            if (_clipboardTreeNode != null && _lastOpType == OPERATION_TYPE.OP_CUT)
+            {
+                if (_clipboardTreeNode.getTransImageIndex() != -1)
+                {
+                    int index = Convert.ToInt32(getRawImageIndex(_clipboardTreeNode.getGxNodeType()));
+                    _clipboardTreeNode.ImageIndex = index;
+                    _clipboardTreeNode.SelectedImageIndex = index;
+                }
+            }
+        }
+
 
         /// <summary>
         /// 根据节点类型获取原始图标
@@ -438,7 +460,7 @@ namespace GenexUI.forms.floating
 
         private void ctmSceneList_Paste_Click(object sender, EventArgs e)
         {
-
+            paste();
         }
 
         /// <summary>
@@ -448,6 +470,8 @@ namespace GenexUI.forms.floating
         /// <param name="opType"></param>
         private void setClipboard(GxTreeNode clipNode, OPERATION_TYPE opType)
         {
+            clearClipboard();
+
             _clipboardTreeNode = clipNode;
             _lastOpType = opType;
         }
@@ -456,7 +480,7 @@ namespace GenexUI.forms.floating
         /// 粘贴
         /// </summary>
         /// <param name="opType"></param>
-        private void paste(OPERATION_TYPE opType)
+        private void paste()
         {
             if (_clipboardTreeNode == null)
             {
@@ -511,14 +535,23 @@ namespace GenexUI.forms.floating
                         {
                             if (Directory.Exists(srcDirPath) == true && Directory.Exists(dstDirPath) == true)
                             {
+                                //源目录信息
                                 DirectoryInfo srcDirInfo = new DirectoryInfo(srcDirPath);
-
+        
                                 //移动目录
                                 string dstDirFullPath = dstDirPath + "\\" + srcDirInfo.Name;
 
-                                //源路径和目标路径不一致
-                                Directory.Move(srcDirPath, dstDirFullPath);
-                                Logger.Debug("Direcotry [srcDirPath] moved to [dstDirFullPath] finished!");
+                                //如果是剪切操作
+                                if (_lastOpType == OPERATION_TYPE.OP_CUT)
+                                {
+                                    //源路径和目标路径不一致
+                                    Directory.Move(srcDirPath, dstDirFullPath);
+                                    Logger.Debug("Direcotry [srcDirPath] moved to [dstDirFullPath] finished!");
+                                }
+                                else if (_lastOpType == OPERATION_TYPE.OP_COPY)
+                                { 
+                                
+                                }
 
                                 //更新节点状态
                                 srcSceneDir.setDirectoryPath(dstDirFullPath);
@@ -543,8 +576,9 @@ namespace GenexUI.forms.floating
         /// </summary>
         private void clearClipboard()
         {
+            restoreNodeOriginalIcon();
             _clipboardTreeNode = null;
-
+            _lastOpType = OPERATION_TYPE.OP_NONE;
         }
 
         private void tvwSceneList_AfterSelect(object sender, TreeViewEventArgs e)
