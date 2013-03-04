@@ -66,6 +66,9 @@ namespace GenexUI.forms.floating
 
         }
 
+        /// <summary>
+        /// 初始化文件系统监视器
+        /// </summary>
         private void initFileSystemWatcherEvents()
         {
             // *注：因为使用了过滤器，因此无法捕捉到文件夹，需要用其它方式判断是不是文件夹
@@ -169,6 +172,10 @@ namespace GenexUI.forms.floating
         //================================================================
         //  ● 外部调用方法
         //================================================================
+
+        /// <summary>
+        /// 关闭当前工程
+        /// </summary>
         public void closeCurrentProject()
         {
             //卸载工程
@@ -184,6 +191,11 @@ namespace GenexUI.forms.floating
             _fileSystemWatcher.EnableRaisingEvents = false;
         }
 
+        /// <summary>
+        /// 加载工程
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public bool loadProject(string filename)
         {
             Logger.Debug("Loading Project, Path = " + filename);
@@ -235,6 +247,11 @@ namespace GenexUI.forms.floating
             return true;
         }
 
+        /// <summary>
+        /// 处理场景列表
+        /// </summary>
+        /// <param name="sceneDirPath"></param>
+        /// <param name="parentNode"></param>
         private void traversalSceneList(string sceneDirPath, GxTreeNode parentNode)
         {
             DirectoryInfo sceneDirInfo = new DirectoryInfo(sceneDirPath);
@@ -419,21 +436,26 @@ namespace GenexUI.forms.floating
             }
         }
 
-
-
         private void ctmSceneList_Paste_Click(object sender, EventArgs e)
         {
 
         }
 
-        //设置剪切板内容
+        /// <summary>
+        /// 设置剪切板内容
+        /// </summary>
+        /// <param name="clipNode"></param>
+        /// <param name="opType"></param>
         private void setClipboard(GxTreeNode clipNode, OPERATION_TYPE opType)
         {
             _clipboardTreeNode = clipNode;
             _lastOpType = opType;
         }
 
-        //粘贴
+        /// <summary>
+        /// 粘贴
+        /// </summary>
+        /// <param name="opType"></param>
         private void paste(OPERATION_TYPE opType)
         {
             if (_clipboardTreeNode == null)
@@ -516,6 +538,9 @@ namespace GenexUI.forms.floating
             }
         }
 
+        /// <summary>
+        /// 清空剪切板
+        /// </summary>
         private void clearClipboard()
         {
             _clipboardTreeNode = null;
