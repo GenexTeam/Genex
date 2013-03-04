@@ -1,6 +1,6 @@
 ﻿namespace GenexUI.Forms
 {
-    partial class frmGenexCreateFile
+    partial class frmNewFileGuider
     {
         /// <summary>
         /// Required designer variable.
@@ -214,6 +214,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "frmGenexCreateFile";
             this.Text = "新建文件";
+            this.Load += new System.EventHandler(this.frmNewFileGuider_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

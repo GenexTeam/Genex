@@ -9,11 +9,16 @@ using System.Windows.Forms;
 
 namespace GenexUI.Forms
 {
-    public partial class frmGenexCreateFile : Form
+    public partial class frmNewFileGuider : Form
     {
-        public frmGenexCreateFile()
+        public frmNewFileGuider()
         {
             InitializeComponent();
+        }
+
+        private void frmNewFileGuider_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

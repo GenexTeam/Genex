@@ -17,7 +17,8 @@ namespace GenexUI.Global
     //Gx节点数据
     public class GxTreeNode : TreeNode
     {
-        private GXNodeType _gxNodeType;
+        private GXNodeType _gxNodeType = GXNodeType.GX_NODE_TYPE_NONE;
+        private int _transImageIndex = -1;
 
         public void setGxNodeType(GXNodeType nodeType)
         {
@@ -27,6 +28,16 @@ namespace GenexUI.Global
         public GXNodeType getGxNodeType()
         {
             return _gxNodeType;
+        }
+
+        public void setTransImageIndex(int index)
+        {
+            _transImageIndex = index;
+        }
+
+        public int getTransImageIndex()
+        {
+            return _transImageIndex;
         }
 
         public GxProject toGxProjectInstance()
