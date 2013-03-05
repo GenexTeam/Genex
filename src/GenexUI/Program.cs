@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+#if DEBUG
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.xml")]
+#endif
 namespace GenexUI
 {
     static class Program

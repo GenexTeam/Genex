@@ -271,7 +271,7 @@ namespace GenexUI.forms.floating
                     node.SelectedImageIndex = 1;
                     parentNode.Nodes.Add(node);
 
-                    traversalSceneList(sceneDirInfo + "/" + dir.ToString() + "/", node);
+                    traversalSceneList(sceneDirInfo + "\\" + dir.ToString() + "\\", node);
                 }
 
                 foreach (FileInfo file in sceneDirInfo.GetFiles("*.gxs")) //查找文件
@@ -520,58 +520,73 @@ namespace GenexUI.forms.floating
                 return;
             }
 
-            //要粘贴在directory节点下
-            if (dstTreeNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
+            try
             {
-                //取得目标目录
-                GxSceneDirectory gxSceneDir = (GxSceneDirectory)dstTreeNode.Tag;
-                dstDirPath = gxSceneDir.getDirectoryPath();
-
-                //如果源节点是目录
-                if (nodeType == GXNodeType.GX_NODE_TYPE_DIRECTORY)
+                //要粘贴在directory节点下
+                if (dstTreeNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
                 {
-                    GxSceneDirectory srcSceneDir = (GxSceneDirectory)_clipboardTreeNode.Tag;
-                    string srcDirPath = srcSceneDir.getDirectoryPath();
-                    if (srcSceneDir != null)
+                    //取得目标目录
+                    GxSceneDirectory gxSceneDir = (GxSceneDirectory)dstTreeNode.Tag;
+                    dstDirPath = gxSceneDir.getDirectoryPath();
+
+                    //如果源节点是目录
+                    if (nodeType == GXNodeType.GX_NODE_TYPE_DIRECTORY)
                     {
-                        try
+                        GxSceneDirectory srcSceneDir = (GxSceneDirectory)_clipboardTreeNode.Tag;
+                        string srcDirPath = srcSceneDir.getDirectoryPath();
+                        if (srcSceneDir != null)
                         {
-                            if (Directory.Exists(srcDirPath) == true && Directory.Exists(dstDirPath) == true)
+
+                            //检查源目录是否存在
+                            if (Directory.Exists(srcDirPath) == false)
                             {
-                                //源目录信息
-                                DirectoryInfo srcDirInfo = new DirectoryInfo(srcDirPath);
-        
-                                //移动目录
-                                string dstDirFullPath = dstDirPath + "\\" + srcDirInfo.Name;
-
-                                //如果是剪切操作
-                                if (_lastOpType == OPERATION_TYPE.OP_CUT)
-                                {
-                                    //源路径和目标路径不一致
-                                    Directory.Move(srcDirPath, dstDirFullPath);
-                                    Logger.Debug("Direcotry [srcDirPath] moved to [dstDirFullPath] finished!");
-                                }
-                                else if (_lastOpType == OPERATION_TYPE.OP_COPY)
-                                { 
-                                
-                                }
-
-                                //更新节点状态
-                                srcSceneDir.setDirectoryPath(dstDirFullPath);
-                                _clipboardTreeNode.Remove();
-                                dstTreeNode.Nodes.Add(_clipboardTreeNode);
-                                tvwSceneList.SelectedNode = _clipboardTreeNode;
+                                MessageBox.Show("源目录路径不存在。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 clearClipboard();
+                                return;
                             }
-                        }
-                        catch (IOException exception)
-                        {
-                            MessageBox.Show(exception.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            Logger.Error(exception.Message);
-                            clearClipboard();
+
+                            //源目录信息
+                            DirectoryInfo srcDirInfo = new DirectoryInfo(srcDirPath);
+        
+                            //移动目录
+                            string dstDirFullPath = dstDirPath + "\\" + srcDirInfo.Name;
+
+                            //检查目标目录
+                            if (Directory.Exists(dstDirFullPath) == true)
+                            {
+                                MessageBox.Show("目标路径已经存在。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                clearClipboard();
+                                return;
+                            }
+
+                            //如果是剪切操作
+                            if (_lastOpType == OPERATION_TYPE.OP_CUT)
+                            {
+                                //移动目录
+                                Directory.Move(srcDirPath, dstDirFullPath);
+                                Logger.Debug(string.Format("Direcotry [{0}] moved to [{1}] finished!", srcDirPath, dstDirFullPath));
+                            }
+                            //如果是复制操作
+                            else if (_lastOpType == OPERATION_TYPE.OP_COPY)
+                            { 
+                                
+                            }
+
+                            //更新节点状态
+                            srcSceneDir.setDirectoryPath(dstDirFullPath);
+                            _clipboardTreeNode.Remove();
+                            dstTreeNode.Nodes.Add(_clipboardTreeNode);
+                            tvwSceneList.SelectedNode = _clipboardTreeNode;
+
                         }
                     }
                 }
+            }
+            catch (IOException exception)
+            {
+                MessageBox.Show(exception.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logger.Error(exception.Message);
+                clearClipboard();
             }
         }
 

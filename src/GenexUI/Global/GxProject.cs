@@ -58,7 +58,7 @@ namespace GenexUI.Global
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_VERSION, getProjectVersion());
 
             _sceneDirPath = GlobalObj.getEnvManager().resolveEnv(_sceneDirPath);
-            _sceneDirPath = _sceneDirPath.Replace("//", "/");
+            //_sceneDirPath = _sceneDirPath.Replace("//", "/");
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_SCENE_DIR, getProjectSceneDir());
             Logger.Debug("Updated project env variables");
 

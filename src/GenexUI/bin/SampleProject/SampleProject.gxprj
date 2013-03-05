@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <GameProject>
   <Project Name="战爆雷神队" GxVersion="101" />
-  <SceneDirectory Path="$(ProjectDir)/Scene" />
+  <SceneDirectory Path="$(ProjectDir)\Scene" />
 </GameProject>
