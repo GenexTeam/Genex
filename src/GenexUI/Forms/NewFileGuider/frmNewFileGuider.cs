@@ -20,5 +20,11 @@ namespace GenexUI.Forms
         {
 
         }
+
+        private void openFilePath_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.ShowDialog();
+            filePath.Text = folderBrowserDialog1.SelectedPath;
+        }
     }
 }

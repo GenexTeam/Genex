@@ -47,7 +47,6 @@
             this.templateDescription = new System.Windows.Forms.RichTextBox();
             this.templateList = new System.Windows.Forms.ListView();
             this.templateFileList = new System.Windows.Forms.TreeView();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.fileName = new System.Windows.Forms.TextBox();
@@ -57,6 +56,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.canel = new System.Windows.Forms.Button();
             this.confirm = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,10 +111,6 @@
             this.templateFileList.Size = new System.Drawing.Size(145, 299);
             this.templateFileList.TabIndex = 34;
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -167,6 +163,7 @@
             this.openFilePath.TabIndex = 40;
             this.openFilePath.Text = "...";
             this.openFilePath.UseVisualStyleBackColor = true;
+            this.openFilePath.Click += new System.EventHandler(this.openFilePath_Click);
             // 
             // filePath
             // 
@@ -203,7 +200,7 @@
             this.confirm.Text = "确定";
             this.confirm.UseVisualStyleBackColor = true;
             // 
-            // frmGenexCreateFile
+            // frmNewFileGuider
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -212,7 +209,7 @@
             this.Controls.Add(this.templateList);
             this.Controls.Add(this.templateFileList);
             this.Controls.Add(this.panel1);
-            this.Name = "frmGenexCreateFile";
+            this.Name = "frmNewFileGuider";
             this.Text = "新建文件";
             this.Load += new System.EventHandler(this.frmNewFileGuider_Load);
             this.panel1.ResumeLayout(false);
@@ -226,7 +223,6 @@
         private System.Windows.Forms.RichTextBox templateDescription;
         private System.Windows.Forms.ListView templateList;
         private System.Windows.Forms.TreeView templateFileList;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox fileName;
@@ -236,6 +232,7 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button canel;
         private System.Windows.Forms.Button confirm;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
 
 
 

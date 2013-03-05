@@ -55,6 +55,7 @@
             this.窗口ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.新建文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -134,6 +135,8 @@
             // 
             // 文件FToolStripMenuItem
             // 
+            this.文件FToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.新建文件ToolStripMenuItem});
             this.文件FToolStripMenuItem.Name = "文件FToolStripMenuItem";
             this.文件FToolStripMenuItem.Size = new System.Drawing.Size(58, 21);
             this.文件FToolStripMenuItem.Text = "文件(&F)";
@@ -188,6 +191,13 @@
             this.toolStrip1.TabIndex = 18;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // 新建文件ToolStripMenuItem
+            // 
+            this.新建文件ToolStripMenuItem.Name = "新建文件ToolStripMenuItem";
+            this.新建文件ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.新建文件ToolStripMenuItem.Text = "新建文件";
+            this.新建文件ToolStripMenuItem.Click += new System.EventHandler(this.新建文件ToolStripMenuItem_Click);
+            // 
             // frmGenexMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -225,6 +235,7 @@
         private System.Windows.Forms.ToolStripMenuItem 窗口ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 新建文件ToolStripMenuItem;
 
     }
 }

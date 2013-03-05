@@ -13,6 +13,7 @@ using GenexUI.Global;
 using WeifenLuo.WinFormsUI.Docking;
 using log4net;
 using System.Reflection;
+using GenexUI.Forms;
 
 namespace GenexUI
 {
@@ -55,6 +56,14 @@ namespace GenexUI
         private void frmGenexMainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
 
+        }
+
+        private void 新建文件ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmNewFileGuider newFile = new frmNewFileGuider();
+            newFile.Owner = this;
+            newFile.Activate();
+            newFile.Show();
         }
     }
 }
