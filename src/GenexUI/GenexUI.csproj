@@ -100,12 +100,14 @@
       <DependentUpon>frmNewFileGuider.cs</DependentUpon>
     </Compile>
     <Compile Include="Global\Definition.cs" />
+    <Compile Include="Global\FileSystemWatcher.cs" />
     <Compile Include="Global\GlobalObj.cs" />
     <Compile Include="Global\GxEnvVariablesManager.cs" />
     <Compile Include="Global\GxProject.cs" />
     <Compile Include="Global\GxScene.cs" />
     <Compile Include="Global\GxSceneDirectory.cs" />
     <Compile Include="Global\Logger.cs" />
+    <Compile Include="Global\SceneFileSystemWatcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\KernelUtil.cs" />

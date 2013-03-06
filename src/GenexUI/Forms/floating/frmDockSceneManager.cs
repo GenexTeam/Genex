@@ -39,10 +39,6 @@ namespace GenexUI.forms.floating
         //剪切板的操作类型
         OPERATION_TYPE _lastOpType;
 
-        //文件系统监视器
-        private FileSystemWatcher _fileSystemWatcher;
-
-
         public frmDockSceneManager()
         {
             InitializeComponent();
@@ -51,122 +47,11 @@ namespace GenexUI.forms.floating
             //_clipboardTreeNode = new GxTreeNode();
             //Logger.Debug("Init scene file clipboard OK.");
 
-            //初始化场景目录文件监控器
-            _fileSystemWatcher = new FileSystemWatcher();
-            _fileSystemWatcher.IncludeSubdirectories = true;
-            _fileSystemWatcher.NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.Size;
-            _fileSystemWatcher.Filter = "";
-            _fileSystemWatcher.EnableRaisingEvents = false;
-            initFileSystemWatcherEvents();
-            Logger.Debug("Init FileSystemWatcher object OK.");
         }
 
         private void frmDockSceneExplorer_Load(object sender, EventArgs e)
         {
 
-        }
-
-        /// <summary>
-        /// 初始化文件系统监视器
-        /// </summary>
-        private void initFileSystemWatcherEvents()
-        {
-            // *注：因为使用了过滤器，因此无法捕捉到文件夹，需要用其它方式判断是不是文件夹
-
-            try
-            {
-                //文件改变事件
-                _fileSystemWatcher.Changed += (sender, e) =>
-                {
-                    Logger.Debug(
-                        "A file event has watched, type = " + e.ChangeType.ToString() +
-                        ", path = " + e.FullPath +
-                        ", filename = " + e.Name);
-
-
-                    //文件内容发生变更
-                    if (Directory.Exists(e.FullPath) == false)
-                    {
-
-                    }
-                };
-
-                //文件删除事件
-                _fileSystemWatcher.Deleted += (sender, e) =>
-                {
-                    Logger.Warn(
-                        "A file event has watched, type = " + e.ChangeType.ToString() +
-                        ", path = " + e.FullPath +
-                        ", filename = " + e.Name);
-
-                    if (Directory.Exists(e.FullPath) == true)
-                    {
-                        //文件夹被删除
-                        Logger.Debug("A directory deleted, path = " + e.FullPath);
-                    }
-                    else
-                    {
-                        //文件被删除
-                        Logger.Debug("A file deleted, path = " + e.FullPath);
-                    }
-                };
-
-                //文件名变更事件
-                _fileSystemWatcher.Renamed += (sender, e) =>
-                {
-                    Logger.Warn(
-                        "A file event has watched, type = " + e.ChangeType.ToString() +
-                        ", path = " + e.FullPath +
-                        ", filename = " + e.Name);
-
-                    if (Directory.Exists(e.FullPath) == true)
-                    {
-                        //文件夹名变更
-                        Logger.Debug("A directory renamed, path = " + e.FullPath + ", oldname = " + e.OldName);
-                    }
-                    else
-                    {
-                        //文件名变更
-                        Logger.Debug("A file renamed, path = " + e.FullPath + ", oldname = " + e.OldName);
-                    }
-                };
-
-                //文件创建事件
-                _fileSystemWatcher.Created += (sender, e) =>
-                {
-                    Logger.Warn(
-                        "A file event has watched, type = " + e.ChangeType.ToString() +
-                        ", path = " + e.FullPath +
-                        ", filename = " + e.Name);
-
-                    if (Directory.Exists(e.FullPath) == true)
-                    {
-                        //文件夹被创建
-                        Logger.Debug("A directory created, path = " + e.FullPath);
-                    }
-                    else
-                    {
-                        //文件被创建
-                        Logger.Debug("A file created, path = " + e.FullPath);
-                    }
-                };
-            }
-            catch (DirectoryNotFoundException iox)
-            {
-                Logger.Error("\r\nEXCEPTION (onChanged): Directory No Found , " + iox.Message);
-            }
-            catch (FileNotFoundException iox)
-            {
-                Logger.Error("\r\nEXCEPTION (onChanged): File Not Found, " + iox.Message);
-            }
-            catch (IOException iox)
-            {
-                Logger.Error("\r\nEXCEPTION (onChanged): IO Error, " + iox.Message);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("\r\nEXCEPTION (onChanged): " + ex.Message);
-            }
         }
 
         //================================================================
@@ -188,7 +73,7 @@ namespace GenexUI.forms.floating
             tvwSceneList.Nodes.Clear();
             Logger.Debug("Cleared all project nodes.");
 
-            _fileSystemWatcher.EnableRaisingEvents = false;
+
         }
 
         /// <summary>
@@ -235,14 +120,10 @@ namespace GenexUI.forms.floating
             _projectNode = projectNode;
 
             string sceneDirPath = project.getProjectSceneDir();
-            traversalSceneList(sceneDirPath, projectNode);
+            //traversalSceneList(sceneDirPath, projectNode);
 
-            tvwSceneList.Nodes.Add(projectNode);
-
-            //开启文件监控
-            _fileSystemWatcher.Path = sceneDirPath;
-            _fileSystemWatcher.EnableRaisingEvents = true;
-            _fileSystemWatcher.WaitForChanged(WatcherChangeTypes.All, 1000);
+            GxTreeNode projectTreeNode = project.getProjectNode();
+            tvwSceneList.Nodes.Add(projectTreeNode);
 
             return true;
         }
@@ -294,6 +175,10 @@ namespace GenexUI.forms.floating
 
         private void ctmSceneList_Cut_Click(object sender, EventArgs e)
         {
+            //设置剪切板内容
+            //GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
+            //setClipboard(selectedNode, OPERATION_TYPE.OP_CUT);
+
             GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
             if (selectedNode != null)
             {
@@ -351,26 +236,6 @@ namespace GenexUI.forms.floating
             }
         }
 
-
-        /// <summary>
-        /// 根据节点类型获取原始图标
-        /// </summary>
-        /// <param name="nodeType"></param>
-        /// <returns></returns>
-        private ICON_TYPE getRawImageIndex(GXNodeType nodeType)
-        {
-            switch (nodeType)
-            { 
-                case GXNodeType.GX_NODE_TYPE_PROJECT:
-                    return ICON_TYPE.ICON_PROJECT;
-                case GXNodeType.GX_NODE_TYPE_DIRECTORY:
-                    return ICON_TYPE.ICON_SCENE_DIR;
-                case GXNodeType.GX_NODE_TYPE_SCENE:
-                    return ICON_TYPE.ICON_SCENE;
-            }
-
-            return ICON_TYPE.ICON_SCENE;
-        }
 
         /// <summary>
         /// 处理图像透明度
@@ -444,6 +309,26 @@ namespace GenexUI.forms.floating
             }
         }
 
+        /// <summary>
+        /// 根据节点类型获取原始图标
+        /// </summary>
+        /// <param name="nodeType"></param>
+        /// <returns></returns>
+        private ICON_TYPE getRawImageIndex(GXNodeType nodeType)
+        {
+            switch (nodeType)
+            {
+                case GXNodeType.GX_NODE_TYPE_PROJECT:
+                    return ICON_TYPE.ICON_PROJECT;
+                case GXNodeType.GX_NODE_TYPE_DIRECTORY:
+                    return ICON_TYPE.ICON_SCENE_DIR;
+                case GXNodeType.GX_NODE_TYPE_SCENE:
+                    return ICON_TYPE.ICON_SCENE;
+            }
+
+            return ICON_TYPE.ICON_SCENE;
+        }
+
         private void tvwSceneList_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
@@ -460,7 +345,16 @@ namespace GenexUI.forms.floating
         private void ctmSceneList_Paste_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            paste();
+            //paste();
+            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
+            GxProject project = GlobalObj.getOpenningProject();
+            
+            GxTreeNode movedNode = project.moveNode(_clipboardTreeNode, selectedNode);
+            if (movedNode != null)
+            {
+                tvwSceneList.SelectedNode = movedNode;
+            }
+
             this.Cursor = Cursors.Default;
         }
 

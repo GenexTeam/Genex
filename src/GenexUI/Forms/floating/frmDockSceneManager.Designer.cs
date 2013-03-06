@@ -49,9 +49,9 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.ctmSceneList_OpenDir = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctmSceneList_Reload = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmSceneList_Property = new System.Windows.Forms.ToolStripMenuItem();
             this.imgTreeIcons = new System.Windows.Forms.ImageList(this.components);
-            this.ctmSceneList_Reload = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmSceneList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,7 +95,7 @@
             this.ctmSceneList_Reload,
             this.ctmSceneList_Property});
             this.ctmSceneList.Name = "ctmSceneList";
-            this.ctmSceneList.Size = new System.Drawing.Size(221, 314);
+            this.ctmSceneList.Size = new System.Drawing.Size(221, 292);
             // 
             // ctmSceneList_Open
             // 
@@ -211,6 +211,13 @@
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(217, 6);
             // 
+            // ctmSceneList_Reload
+            // 
+            this.ctmSceneList_Reload.Name = "ctmSceneList_Reload";
+            this.ctmSceneList_Reload.Size = new System.Drawing.Size(220, 22);
+            this.ctmSceneList_Reload.Text = "重新加载列表(&U)";
+            this.ctmSceneList_Reload.Click += new System.EventHandler(this.ctmSceneList_Reload_Click);
+            // 
             // ctmSceneList_Property
             // 
             this.ctmSceneList_Property.Name = "ctmSceneList_Property";
@@ -225,13 +232,6 @@
             this.imgTreeIcons.Images.SetKeyName(0, "project.png");
             this.imgTreeIcons.Images.SetKeyName(1, "dir.png");
             this.imgTreeIcons.Images.SetKeyName(2, "scene.png");
-            // 
-            // ctmSceneList_Reload
-            // 
-            this.ctmSceneList_Reload.Name = "ctmSceneList_Reload";
-            this.ctmSceneList_Reload.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Reload.Text = "重新加载列表(&U)";
-            this.ctmSceneList_Reload.Click += new System.EventHandler(this.ctmSceneList_Reload_Click);
             // 
             // frmDockSceneManager
             // 

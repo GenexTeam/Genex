@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace GenexUI.Global
@@ -18,14 +19,17 @@ namespace GenexUI.Global
         private string _soundDirPath;
         private string _projectVersion;
 
-        List<GxTreeNode> _sceneList;
+        GxTreeNode _projectNode;
 
         public GxProject()
         {
-            _sceneList = new List<GxTreeNode>();
         }
 
-        //加载工程文件
+        /// <summary>
+        /// 加载工程文件
+        /// </summary>
+        /// <param name="filename">工程文件路径</param>
+        /// <returns></returns>
         public bool load(string filename)
         {
             try
@@ -46,7 +50,7 @@ namespace GenexUI.Global
 
                 //读取SceneDir
                 xmlNode = document.SelectSingleNode("/GameProject/ResourceDir/SceneDir");
-                if (xmlNode != null)
+                if (xmlNode == null)
                 {
                     Logger.Error("Xml node [/GameProject/ResourceDir/SceneDir] not exists.");
                     return false;
@@ -72,6 +76,10 @@ namespace GenexUI.Global
 
                 if (xmlNode.ChildNodes.Count > 0)
                 {
+                    //初始化工程节点
+                    _projectNode = new GxTreeNode(_projectName + "[已加载]", this);
+
+                    //遍历场景节点
                     foreach (XmlNode node in xmlNode.ChildNodes)
                     {
                         if (node.Name == "IncludeNode")
@@ -85,7 +93,7 @@ namespace GenexUI.Global
                             {
                                 GxSceneDirectory gxDirectory = new GxSceneDirectory(fullPath);
                                 GxTreeNode gxTreeNode = new GxTreeNode(name, gxDirectory);
-                                _sceneList.Add(gxTreeNode);
+                                _projectNode.Nodes.Add(gxTreeNode);
 
                                 if (node.ChildNodes.Count > 0)
                                 {
@@ -96,7 +104,7 @@ namespace GenexUI.Global
                             {
                                 GxScene gxScene = new GxScene(fullPath);
                                 GxTreeNode gxTreeNode = new GxTreeNode(name, gxScene);
-                                _sceneList.Add(gxTreeNode);
+                                _projectNode.Nodes.Add(gxTreeNode);
                             }
                             else
                             {
@@ -135,6 +143,11 @@ namespace GenexUI.Global
             return true;
         }
 
+        /// <summary>
+        /// 加载子节点（递归子方法）
+        /// </summary>
+        /// <param name="childNode"></param>
+        /// <param name="treeNode"></param>
         private void loadNodes(XmlNode childNode, GxTreeNode treeNode)
         {
             foreach (XmlNode node in childNode.ChildNodes)
@@ -167,6 +180,9 @@ namespace GenexUI.Global
             }
         }
 
+        /// <summary>
+        /// 卸载工程
+        /// </summary>
         public void unload()
         {
             _isLoaded = false;
@@ -174,7 +190,7 @@ namespace GenexUI.Global
             _projectFullPath = "";
             _sceneDirPath = "";
             _projectVersion = "";
-            _sceneList.Clear();
+            _projectNode = null;
 
             //更新环境变量
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_NAME, "");
@@ -189,12 +205,99 @@ namespace GenexUI.Global
         }
 
         /// <summary>
-        /// 获取场景列表
+        /// 移动一个节点
+        /// </summary>
+        /// <param name="srcNode">要移动的节点</param>
+        /// <param name="detNode">父节点</param>
+        /// <returns>返回移动成功的节点</returns>
+        public GxTreeNode moveNode(GxTreeNode srcNode, GxTreeNode dstNode)
+        {
+            if (srcNode == null || dstNode == null)
+            {
+                Logger.Error("srcNode == null || dstNode == null.");
+                return null;
+            }
+
+            if (findNode(srcNode) == false || findNode(dstNode) == false)
+            {
+                Logger.Error("srcNode or dstNode not in NodeCollection");
+                return null;
+            }
+
+            //判断目标节点是否文件夹节点或工程节点
+            GXNodeType type = dstNode.getGxNodeType();
+            if (type != GXNodeType.GX_NODE_TYPE_DIRECTORY || type != GXNodeType.GX_NODE_TYPE_PROJECT)
+            {
+                Logger.Error("destination node is not directory type or project type.");
+                return null;
+            }
+
+            //取得场景目录完整路径
+            GxProject project = GlobalObj.getOpenningProject();
+            string sceneDirFullPath = Path.GetFullPath(project.getProjectSceneDir());
+
+            //如果原节点是目录
+            if (srcNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
+            { 
+                GxSceneDirectory gxSceneDir = (GxSceneDirectory)srcNode.Tag;
+                string srcDirPath = gxSceneDir.getPath();
+                if (Directory.Exists(srcDirPath) == false)
+                {
+                    Logger.Error("srcNode dir path not exists.");
+                    return null;
+                }
+            }
+
+
+
+            //移除原节点
+            srcNode.Remove();
+
+            //加到目标节点
+            dstNode.Nodes.Add(srcNode);
+
+            return srcNode;
+        }
+
+        /// <summary>
+        /// 递归查找一个节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public bool findNode(GxTreeNode node, GxTreeNode parentNode = null)
+        {
+            //如果父节点为空，则从工程节点开始查找
+            if (parentNode == null)
+            {
+                parentNode = _projectNode;
+            }
+
+            foreach (GxTreeNode n in parentNode.Nodes)
+            {
+                if (n == node)
+                {
+                    return true;
+                }
+
+                if (n.Nodes.Count > 0)
+                {
+                    if (findNode(node, n) == true)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 获取工程节点
         /// </summary>
         /// <returns></returns>
-        public List<GxTreeNode> getSceneList()
+        public GxTreeNode getProjectNode()
         {
-            return _sceneList;
+            return _projectNode;
         }
 
         public string getProjectName()
@@ -232,31 +335,13 @@ namespace GenexUI.Global
             return _projectVersion;
         }
 
+        /// <summary>
+        /// 工程是否成功加载
+        /// </summary>
+        /// <returns></returns>
         public bool isLoaded()
         {
             return _isLoaded;
-        }
-
-        //获取游戏场景文件列表
-        //返回场景文件路径列表
-        public bool loadSceneList()
-        {
-            Logger.Debug("loading scene list, sceneDirPath = " + _sceneDirPath);
-            if (Directory.Exists(_sceneDirPath) == false)
-            {
-                return false;
-            }
-
-            string [] fileList = Directory.EnumerateDirectories(_sceneDirPath, "*.*", SearchOption.AllDirectories).ToArray<string>();
-            if (fileList.Length != 0)
-            {
-                foreach (string file in fileList)
-                {
-                    Debug.Print("Searched File [" + file +"]");
-                }
-            }
-
-            return true;
         }
     }
 }

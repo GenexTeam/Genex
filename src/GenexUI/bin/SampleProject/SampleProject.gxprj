@@ -3,8 +3,8 @@
   <Project Name="战爆雷神队" GxVersion="101" />
   <!--<SceneDirectory Path="$(ProjectDir)\Scene" />-->
   <ResourceDir>
-	<SceneDir>$(ProjectDir)\Scene</SceneDir>
-	<SoundDir>$(ProjectDir)\Sound</SoundDir>
+  	<SceneDir>$(ProjectDir)\Scene</SceneDir>
+  	<SoundDir>$(ProjectDir)\Sound</SoundDir>
   </ResourceDir>
   <SceneList>
     <IncludeNode Name="艾尔之光" Type="SceneFileType" Path="艾尔之光.gxs" />
