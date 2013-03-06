@@ -104,6 +104,7 @@
     <Compile Include="Global\GlobalObj.cs" />
     <Compile Include="Global\GxEnvVariablesManager.cs" />
     <Compile Include="Global\GxProject.cs" />
+    <Compile Include="Global\GxRelatedXmlNode.cs" />
     <Compile Include="Global\GxScene.cs" />
     <Compile Include="Global\GxSceneDirectory.cs" />
     <Compile Include="Global\Logger.cs" />

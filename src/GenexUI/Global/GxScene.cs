@@ -8,17 +8,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace GenexUI.Global
 {
-    public class GxScene
+    public class GxScene : GxNodeDataBase
     {
-        private string _filePath;
         private string _sceneName;
 
-        public GxScene(string filePath = "")
+        public GxScene(string filePath = "", XmlNode relatedXmlNode = null)
         {
-            _filePath = filePath;
+            base.setPath(filePath);
+            base.setRelatedXmlNode(relatedXmlNode);
         }
 
         public void setSceneName(string sceneName)
@@ -29,16 +30,6 @@ namespace GenexUI.Global
         public string getSceneName()
         {
             return _sceneName;
-        }
-
-        public void setFilePath(string fullPath)
-        {
-            _filePath = fullPath;
-        }
-
-        public string getFilePath()
-        {
-            return _filePath;
         }
     }
 }

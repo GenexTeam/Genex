@@ -2,26 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace GenexUI.Global
 {
-    public class GxSceneDirectory
+    public class GxSceneDirectory : GxNodeDataBase
     {
-        private string _dirPath;
-
-        public GxSceneDirectory(string dirPath = "")
+        public GxSceneDirectory(string dirPath = "", XmlNode relatedXmlNode = null)
         {
-            _dirPath = dirPath;
-        }
-
-        public void setPath(string dirpath)
-        {
-            _dirPath = dirpath;
-        }
-
-        public string getPath()
-        {
-            return _dirPath;
+            base.setPath(dirPath);
+            base.setRelatedXmlNode(relatedXmlNode);
         }
     }
 }
