@@ -4,3 +4,4 @@ obj
 *.pdb
 *.exe
 /src/GenexUI/bin/logs/*.log
+/material/Thumbs.db
