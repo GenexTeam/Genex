@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <GameProject>
   <Project Name="战爆雷神队" GxVersion="101" />
-  <SceneDirectory Path="$(ProjectDir)\Scene" />
+  <!--<SceneDirectory Path="$(ProjectDir)\Scene" />-->
+  <ResourceDir>
+	<SceneDir>$(ProjectDir)\Scene</SceneDir>
+	<SoundDir>$(ProjectDir)\Sound</SoundDir>
+  </ResourceDir>
+  <SceneList>
+    <IncludeNode Name="艾尔之光" Type="SceneFileType" Path="艾尔之光.gxs" />
+	<IncludeNode Name="skyrim" Type="DirectoryType" Path="skyrim\">
+		<IncludeNode Name="天际省" Type="SceneFileType" Path="skyrim\天际省.gxs" />
+	</IncludeNode>
+  </SceneList>
 </GameProject>

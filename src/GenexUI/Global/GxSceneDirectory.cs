@@ -7,16 +7,21 @@ namespace GenexUI.Global
 {
     public class GxSceneDirectory
     {
-        private string _directoryPath;
+        private string _dirPath;
 
-        public void setDirectoryPath(string dirpath)
+        public GxSceneDirectory(string dirPath = "")
         {
-            _directoryPath = dirpath;
+            _dirPath = dirPath;
         }
 
-        public string getDirectoryPath()
+        public void setPath(string dirpath)
         {
-            return _directoryPath;
+            _dirPath = dirpath;
+        }
+
+        public string getPath()
+        {
+            return _dirPath;
         }
     }
 }

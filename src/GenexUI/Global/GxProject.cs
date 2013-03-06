@@ -15,7 +15,15 @@ namespace GenexUI.Global
         private string _projectName;
         private string _projectFullPath;
         private string _sceneDirPath;
+        private string _soundDirPath;
         private string _projectVersion;
+
+        List<GxTreeNode> _sceneList;
+
+        public GxProject()
+        {
+            _sceneList = new List<GxTreeNode>();
+        }
 
         //加载工程文件
         public bool load(string filename)
@@ -36,12 +44,69 @@ namespace GenexUI.Global
                     _projectVersion = xmlNode.Attributes["GxVersion"].Value;
                 }
 
-                //读取SceneDirectory
-                xmlNode = document.SelectSingleNode("/GameProject/SceneDirectory");
+                //读取SceneDir
+                xmlNode = document.SelectSingleNode("/GameProject/ResourceDir/SceneDir");
                 if (xmlNode != null)
                 {
-                    _sceneDirPath = xmlNode.Attributes["Path"].Value;
+                    Logger.Error("Xml node [/GameProject/ResourceDir/SceneDir] not exists.");
+                    return false;
                 }
+                _sceneDirPath = xmlNode.InnerText;
+
+                //读取SoundDir
+                xmlNode = document.SelectSingleNode("/GameProject/ResourceDir/SoundDir");
+                if (xmlNode == null)
+                {
+                    Logger.Error("Xml node [/GameProject/ResourceDir/SoundDir] not exists.");
+                    return false;
+                }
+                _soundDirPath = xmlNode.InnerText;
+
+                //加载场景树
+                xmlNode = document.SelectSingleNode("/GameProject/SceneList");
+                if (xmlNode == null)
+                {
+                    Logger.Error("Xml node [/GameProject/SceneList] not exists.");
+                    return false;
+                }
+
+                if (xmlNode.ChildNodes.Count > 0)
+                {
+                    foreach (XmlNode node in xmlNode.ChildNodes)
+                    {
+                        if (node.Name == "IncludeNode")
+                        {
+                            string name = node.Attributes["Name"].Value;
+                            string fullPath = Path.GetFullPath(node.Attributes["Path"].Value);
+                            string type = node.Attributes["Type"].Value;
+
+                            //如果节点是目录
+                            if (type == "DirectoryType")
+                            {
+                                GxSceneDirectory gxDirectory = new GxSceneDirectory(fullPath);
+                                GxTreeNode gxTreeNode = new GxTreeNode(name, gxDirectory);
+                                _sceneList.Add(gxTreeNode);
+
+                                if (node.ChildNodes.Count > 0)
+                                {
+                                    loadNodes(node, gxTreeNode);
+                                }
+                            }
+                            else if (type == "SceneFileType")
+                            {
+                                GxScene gxScene = new GxScene(fullPath);
+                                GxTreeNode gxTreeNode = new GxTreeNode(name, gxScene);
+                                _sceneList.Add(gxTreeNode);
+                            }
+                            else
+                            {
+                                Logger.Error("Invalid node type.");
+                                return false;
+                            }
+                        }
+                    }
+                }
+
             }
             catch (XmlException exception)
             {
@@ -70,6 +135,38 @@ namespace GenexUI.Global
             return true;
         }
 
+        private void loadNodes(XmlNode childNode, GxTreeNode treeNode)
+        {
+            foreach (XmlNode node in childNode.ChildNodes)
+            {
+                if (node.Name == "IncludeNode")
+                {
+                    string name = node.Attributes["Name"].Value;
+                    string fullPath = Path.GetFullPath(node.Attributes["Path"].Value);
+                    string type = node.Attributes["Type"].Value;
+
+                    //如果节点是目录
+                    if (type == "DirectoryType")
+                    {
+                        GxSceneDirectory gxDirectory = new GxSceneDirectory(fullPath);
+                        GxTreeNode gxTreeNode = new GxTreeNode(name, gxDirectory);
+                        treeNode.Nodes.Add(gxTreeNode);
+
+                        if (node.ChildNodes.Count > 0)
+                        {
+                            loadNodes(node, gxTreeNode);
+                        }
+                    }
+                    else if (type == "SceneFileType")
+                    {
+                        GxScene gxScene = new GxScene(fullPath);
+                        GxTreeNode gxTreeNode = new GxTreeNode(name, gxScene);
+                        treeNode.Nodes.Add(gxTreeNode);
+                    }
+                }
+            }
+        }
+
         public void unload()
         {
             _isLoaded = false;
@@ -77,6 +174,7 @@ namespace GenexUI.Global
             _projectFullPath = "";
             _sceneDirPath = "";
             _projectVersion = "";
+            _sceneList.Clear();
 
             //更新环境变量
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_NAME, "");

@@ -13,22 +13,32 @@ namespace GenexUI.Global
 {
     public class GxScene
     {
-        private string _sceneFileFullPath;
+        private string _filePath;
+        private string _sceneName;
 
-        public bool load(string filename)
+        public GxScene(string filePath = "")
         {
-
-            return true;
+            _filePath = filePath;
         }
 
-        public void setSceneFileFullPath(string filename)
+        public void setSceneName(string sceneName)
         {
-            _sceneFileFullPath = filename;
+            _sceneName = sceneName;
         }
 
-        public string getSceneFileFullPath()
+        public string getSceneName()
         {
-            return _sceneFileFullPath;
+            return _sceneName;
+        }
+
+        public void setFilePath(string fullPath)
+        {
+            _filePath = fullPath;
+        }
+
+        public string getFilePath()
+        {
+            return _filePath;
         }
     }
 }

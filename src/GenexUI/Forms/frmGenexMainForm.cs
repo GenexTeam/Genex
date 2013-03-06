@@ -21,6 +21,7 @@ namespace GenexUI
     {
         //浮动窗口
         private frmDockSceneManager _frmDockSceneManager;
+        private frmNewFileGuider _newFileGuider;
 
         public frmGenexMainForm()
         {
@@ -29,6 +30,9 @@ namespace GenexUI
             //初始化全局对象
             GlobalObj.init();
             Logger.Debug("Init global obj OK.");
+
+            //初始化新建文件管理器
+            _newFileGuider = new frmNewFileGuider();
 
             //初始化场景管理器
             _frmDockSceneManager = new frmDockSceneManager();
@@ -55,15 +59,16 @@ namespace GenexUI
 
         private void frmGenexMainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            _newFileGuider.Close();
+            _newFileGuider.Dispose();
 
+            _frmDockSceneManager.Close();
+            _frmDockSceneManager.Dispose();
         }
 
         private void 新建文件ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmNewFileGuider newFile = new frmNewFileGuider();
-            newFile.Owner = this;
-            newFile.Activate();
-            newFile.Show();
+            _newFileGuider.ShowDialog();
         }
     }
 }

@@ -261,7 +261,7 @@ namespace GenexUI.forms.floating
                 foreach (DirectoryInfo dir in sceneDirInfo.GetDirectories())
                 {
                     GxSceneDirectory gxSceneDir = new GxSceneDirectory();
-                    gxSceneDir.setDirectoryPath(dir.FullName);
+                    gxSceneDir.setPath(dir.FullName);
 
                     GxTreeNode node = new GxTreeNode();
                     node.setGxNodeType(GXNodeType.GX_NODE_TYPE_DIRECTORY);
@@ -276,9 +276,7 @@ namespace GenexUI.forms.floating
 
                 foreach (FileInfo file in sceneDirInfo.GetFiles("*.gxs")) //查找文件
                 {
-                    GxScene gxScene = new GxScene();
-                    gxScene.setSceneFileFullPath(file.FullName);
-
+                    GxScene gxScene = new GxScene(file.FullName);
                     GxTreeNode node = new GxTreeNode();
                     node.setGxNodeType(GXNodeType.GX_NODE_TYPE_SCENE);
                     node.Tag = gxScene;
@@ -527,13 +525,13 @@ namespace GenexUI.forms.floating
                 {
                     //取得目标目录
                     GxSceneDirectory gxSceneDir = (GxSceneDirectory)dstTreeNode.Tag;
-                    dstDirPath = gxSceneDir.getDirectoryPath();
+                    dstDirPath = gxSceneDir.getPath();
 
                     //如果源节点是目录
                     if (nodeType == GXNodeType.GX_NODE_TYPE_DIRECTORY)
                     {
                         GxSceneDirectory srcSceneDir = (GxSceneDirectory)_clipboardTreeNode.Tag;
-                        string srcDirPath = srcSceneDir.getDirectoryPath();
+                        string srcDirPath = srcSceneDir.getPath();
                         if (srcSceneDir != null)
                         {
 
@@ -573,7 +571,7 @@ namespace GenexUI.forms.floating
                             }
 
                             //更新节点状态
-                            srcSceneDir.setDirectoryPath(dstDirFullPath);
+                            srcSceneDir.setPath(dstDirFullPath);
                             _clipboardTreeNode.Remove();
                             dstTreeNode.Nodes.Add(_clipboardTreeNode);
                             tvwSceneList.SelectedNode = _clipboardTreeNode;

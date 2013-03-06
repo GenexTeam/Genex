@@ -20,6 +20,12 @@ namespace GenexUI.Global
         private GXNodeType _gxNodeType = GXNodeType.GX_NODE_TYPE_NONE;
         private int _transImageIndex = -1;
 
+        public GxTreeNode(string text = "", object tag = null)
+        {
+            base.Text = text;
+            base.Tag = tag;
+        }
+
         public void setGxNodeType(GXNodeType nodeType)
         {
             _gxNodeType = nodeType;
