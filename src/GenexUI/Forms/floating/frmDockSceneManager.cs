@@ -22,14 +22,6 @@ namespace GenexUI.forms.floating
             OP_CUT      //剪切
         }
 
-        //图标类型索引
-        enum ICON_TYPE
-        {
-            ICON_PROJECT,       //工程节点
-            ICON_SCENE_DIR,     //场景目录节点
-            ICON_SCENE          //场景节点
-        }
-
         //工程节点
         private GxTreeNode _projectNode;
 
@@ -176,9 +168,6 @@ namespace GenexUI.forms.floating
         private void ctmSceneList_Cut_Click(object sender, EventArgs e)
         {
             //设置剪切板内容
-            //GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
-            //setClipboard(selectedNode, OPERATION_TYPE.OP_CUT);
-
             GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
             if (selectedNode != null)
             {
@@ -189,11 +178,18 @@ namespace GenexUI.forms.floating
                     return;
                 }
 
+                //当前节点是否已经是剪切板的节点
+                if (selectedNode == _clipboardTreeNode)
+                {
+                    Logger.Error("The selected node is equals _cliboardTreeNode.");
+                    return;
+                }
+
                 //把当前处于剪切状态的透明图标还原为正常
                 //restoreNodeOriginalIcon();
 
                 //取得要剪切的节点的图标索引
-                int rawImageIndex = Convert.ToInt32(getRawImageIndex(selectedNode.getGxNodeType()));
+                int rawImageIndex = Convert.ToInt32(selectedNode.ImageIndex);
 
                 //查找是否含有透明的图标
                 string tranImageKey = "TransIndex_" + Convert.ToString(rawImageIndex);
@@ -345,16 +341,7 @@ namespace GenexUI.forms.floating
         private void ctmSceneList_Paste_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            //paste();
-            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
-            GxProject project = GlobalObj.getOpenningProject();
-            
-            GxTreeNode movedNode = project.moveNode(_clipboardTreeNode, selectedNode);
-            if (movedNode != null)
-            {
-                tvwSceneList.SelectedNode = movedNode;
-            }
-
+            paste();
             this.Cursor = Cursors.Default;
         }
 
@@ -383,103 +370,18 @@ namespace GenexUI.forms.floating
                 return;
             }
 
-            //取得剪切板的节点类型
-            GXNodeType nodeType = _clipboardTreeNode.getGxNodeType();
-            if (nodeType == GXNodeType.GX_NODE_TYPE_NONE || nodeType == GXNodeType.GX_NODE_TYPE_PROJECT)
+            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
+            GxTreeNode movedNode = GlobalObj.getOpenningProject().moveNode(_clipboardTreeNode, selectedNode);
+            if (movedNode != null)
             {
-                Logger.Error("could not paste an invalid node. nodeType = " + nodeType.ToString());
-                return;
-            }
-
-            //获取要粘贴的地方，默认粘贴地方为场景根目录
-            string dstDirPath;
-            GxProject curProject = GlobalObj.getOpenningProject();
-            if (curProject != null)
-            {
-                dstDirPath = curProject.getProjectSceneDir();
+                tvwSceneList.SelectedNode = movedNode;
             }
             else
             {
-                Logger.Error("no project is openning");
-                return;
+                MessageBox.Show("移动节点失败！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            //取得选中节点
-            GxTreeNode dstTreeNode = (GxTreeNode)tvwSceneList.SelectedNode;
-            if (dstTreeNode == null)
-            {
-                Logger.Debug("selected node is null.");
-                return;
-            }
-
-            try
-            {
-                //要粘贴在directory节点下
-                if (dstTreeNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
-                {
-                    //取得目标目录
-                    GxSceneDirectory gxSceneDir = (GxSceneDirectory)dstTreeNode.Tag;
-                    dstDirPath = gxSceneDir.getPath();
-
-                    //如果源节点是目录
-                    if (nodeType == GXNodeType.GX_NODE_TYPE_DIRECTORY)
-                    {
-                        GxSceneDirectory srcSceneDir = (GxSceneDirectory)_clipboardTreeNode.Tag;
-                        string srcDirPath = srcSceneDir.getPath();
-                        if (srcSceneDir != null)
-                        {
-
-                            //检查源目录是否存在
-                            if (Directory.Exists(srcDirPath) == false)
-                            {
-                                MessageBox.Show("源目录路径不存在。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                clearClipboard();
-                                return;
-                            }
-
-                            //源目录信息
-                            DirectoryInfo srcDirInfo = new DirectoryInfo(srcDirPath);
-        
-                            //移动目录
-                            string dstDirFullPath = dstDirPath + "\\" + srcDirInfo.Name;
-
-                            //检查目标目录
-                            if (Directory.Exists(dstDirFullPath) == true)
-                            {
-                                MessageBox.Show("目标路径已经存在。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                clearClipboard();
-                                return;
-                            }
-
-                            //如果是剪切操作
-                            if (_lastOpType == OPERATION_TYPE.OP_CUT)
-                            {
-                                //移动目录
-                                Directory.Move(srcDirPath, dstDirFullPath);
-                                Logger.Debug(string.Format("Direcotry [{0}] moved to [{1}] finished!", srcDirPath, dstDirFullPath));
-                            }
-                            //如果是复制操作
-                            else if (_lastOpType == OPERATION_TYPE.OP_COPY)
-                            { 
-                                
-                            }
-
-                            //更新节点状态
-                            srcSceneDir.setPath(dstDirFullPath);
-                            _clipboardTreeNode.Remove();
-                            dstTreeNode.Nodes.Add(_clipboardTreeNode);
-                            tvwSceneList.SelectedNode = _clipboardTreeNode;
-
-                        }
-                    }
-                }
-            }
-            catch (IOException exception)
-            {
-                MessageBox.Show(exception.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Logger.Error(exception.Message);
-                clearClipboard();
-            }
+            clearClipboard();
         }
 
         /// <summary>

@@ -20,10 +20,19 @@ namespace GenexUI.Global
         private GXNodeType _gxNodeType = GXNodeType.GX_NODE_TYPE_NONE;
         private int _transImageIndex = -1;
 
-        public GxTreeNode(string text = "", object tag = null)
+        public GxTreeNode(
+            string text = "", 
+            object tag = null, 
+            GXNodeType type = 
+            GXNodeType.GX_NODE_TYPE_NONE, 
+            ICON_TYPE imageIndex = ICON_TYPE.ICON_SCENE,
+            ICON_TYPE selectedImageIndex = ICON_TYPE.ICON_SCENE)
         {
             base.Text = text;
             base.Tag = tag;
+            setGxNodeType(type);
+            base.ImageIndex = Convert.ToInt32(imageIndex);
+            base.SelectedImageIndex = Convert.ToInt32(selectedImageIndex);
         }
 
         public void setGxNodeType(GXNodeType nodeType)

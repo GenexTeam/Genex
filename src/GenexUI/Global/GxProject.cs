@@ -10,6 +10,14 @@ using System.Xml;
 
 namespace GenexUI.Global
 {
+    //图标类型索引
+    public enum ICON_TYPE
+    {
+        ICON_PROJECT,       //工程节点
+        ICON_SCENE_DIR,     //场景目录节点
+        ICON_SCENE          //场景节点
+    }
+
     public class GxProject
     {
         private bool _isLoaded = false;
@@ -77,42 +85,15 @@ namespace GenexUI.Global
                 if (xmlNode.ChildNodes.Count > 0)
                 {
                     //初始化工程节点
-                    _projectNode = new GxTreeNode(_projectName + "[已加载]", this);
+                    _projectNode = new GxTreeNode(
+                        _projectName + "[已加载]", 
+                        this,
+                        GXNodeType.GX_NODE_TYPE_PROJECT,
+                        ICON_TYPE.ICON_PROJECT,
+                        ICON_TYPE.ICON_PROJECT);
 
                     //遍历场景节点
-                    foreach (XmlNode node in xmlNode.ChildNodes)
-                    {
-                        if (node.Name == "IncludeNode")
-                        {
-                            string name = node.Attributes["Name"].Value;
-                            string fullPath = Path.GetFullPath(node.Attributes["Path"].Value);
-                            string type = node.Attributes["Type"].Value;
-
-                            //如果节点是目录
-                            if (type == "DirectoryType")
-                            {
-                                GxSceneDirectory gxDirectory = new GxSceneDirectory(fullPath);
-                                GxTreeNode gxTreeNode = new GxTreeNode(name, gxDirectory);
-                                _projectNode.Nodes.Add(gxTreeNode);
-
-                                if (node.ChildNodes.Count > 0)
-                                {
-                                    loadNodes(node, gxTreeNode);
-                                }
-                            }
-                            else if (type == "SceneFileType")
-                            {
-                                GxScene gxScene = new GxScene(fullPath);
-                                GxTreeNode gxTreeNode = new GxTreeNode(name, gxScene);
-                                _projectNode.Nodes.Add(gxTreeNode);
-                            }
-                            else
-                            {
-                                Logger.Error("Invalid node type.");
-                                return false;
-                            }
-                        }
-                    }
+                    loadNodes(xmlNode, null);
                 }
 
             }
@@ -144,26 +125,40 @@ namespace GenexUI.Global
         }
 
         /// <summary>
-        /// 加载子节点（递归子方法）
+        /// 加载子节点（递归方法）
         /// </summary>
         /// <param name="childNode"></param>
         /// <param name="treeNode"></param>
-        private void loadNodes(XmlNode childNode, GxTreeNode treeNode)
+        private void loadNodes(XmlNode childNode, GxTreeNode parentNode)
         {
+            //如果父节点为空则默认为工程根节点
+            if (parentNode == null)
+            {
+                parentNode = _projectNode;
+            }
+
+            //老衲要开始遍历了！
             foreach (XmlNode node in childNode.ChildNodes)
             {
                 if (node.Name == "IncludeNode")
                 {
                     string name = node.Attributes["Name"].Value;
-                    string fullPath = Path.GetFullPath(node.Attributes["Path"].Value);
+                    string fullPath = node.Attributes["Path"].Value;
                     string type = node.Attributes["Type"].Value;
 
                     //如果节点是目录
                     if (type == "DirectoryType")
                     {
                         GxSceneDirectory gxDirectory = new GxSceneDirectory(fullPath);
-                        GxTreeNode gxTreeNode = new GxTreeNode(name, gxDirectory);
-                        treeNode.Nodes.Add(gxTreeNode);
+                        GxTreeNode gxTreeNode = new GxTreeNode(
+                            name,
+                            gxDirectory,
+                            GXNodeType.GX_NODE_TYPE_DIRECTORY,
+                            ICON_TYPE.ICON_SCENE_DIR,
+                            ICON_TYPE.ICON_SCENE_DIR
+                            );
+
+                        parentNode.Nodes.Add(gxTreeNode);
 
                         if (node.ChildNodes.Count > 0)
                         {
@@ -173,8 +168,19 @@ namespace GenexUI.Global
                     else if (type == "SceneFileType")
                     {
                         GxScene gxScene = new GxScene(fullPath);
-                        GxTreeNode gxTreeNode = new GxTreeNode(name, gxScene);
-                        treeNode.Nodes.Add(gxTreeNode);
+                        GxTreeNode gxTreeNode = new GxTreeNode(
+                            name,
+                            gxScene,
+                            GXNodeType.GX_NODE_TYPE_SCENE,
+                            ICON_TYPE.ICON_SCENE,
+                            ICON_TYPE.ICON_SCENE
+                            );
+
+                        parentNode.Nodes.Add(gxTreeNode);
+                    }
+                    else
+                    {
+                        Logger.Error("Invalid node type.");
                     }
                 }
             }
@@ -225,10 +231,10 @@ namespace GenexUI.Global
             }
 
             //判断目标节点是否文件夹节点或工程节点
-            GXNodeType type = dstNode.getGxNodeType();
-            if (type != GXNodeType.GX_NODE_TYPE_DIRECTORY || type != GXNodeType.GX_NODE_TYPE_PROJECT)
+            GXNodeType dstNodeType = dstNode.getGxNodeType();
+            if (dstNodeType != GXNodeType.GX_NODE_TYPE_DIRECTORY && dstNodeType != GXNodeType.GX_NODE_TYPE_PROJECT)
             {
-                Logger.Error("destination node is not directory type or project type.");
+                Logger.Error("destination node is not directory type or not project type.");
                 return null;
             }
 
@@ -239,16 +245,46 @@ namespace GenexUI.Global
             //如果原节点是目录
             if (srcNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
             { 
-                GxSceneDirectory gxSceneDir = (GxSceneDirectory)srcNode.Tag;
-                string srcDirPath = gxSceneDir.getPath();
-                if (Directory.Exists(srcDirPath) == false)
+                //取得源目录完整路径
+                GxSceneDirectory gxSrcSceneDir = (GxSceneDirectory)srcNode.Tag;
+                string srcDirFullPath = sceneDirFullPath + "\\" + gxSrcSceneDir.getPath();
+                if (Directory.Exists(srcDirFullPath) == false)
                 {
                     Logger.Error("srcNode dir path not exists.");
                     return null;
                 }
+
+                DirectoryInfo srcDirInfo = new DirectoryInfo(srcDirFullPath);
+                string srcDirName = srcDirInfo.Name;
+
+                //取得目标目录完整路径
+                string dstDirFullPath = sceneDirFullPath;
+                if (dstNodeType == GXNodeType.GX_NODE_TYPE_DIRECTORY)
+                {
+                    GxSceneDirectory gxDstSceneDir = (GxSceneDirectory)dstNode.Tag;
+                    dstDirFullPath = sceneDirFullPath + "\\" + gxDstSceneDir.getPath();
+                }
+
+                if (Directory.Exists(dstDirFullPath) == false)
+                {
+                    Logger.Error("dstNode dir path not exists.");
+                    return null;
+                }
+
+                //取得移动后的目录路径
+                string newDirFullPath = dstDirFullPath + "\\" + srcDirInfo.Name;
+
+                //检查目标路径是否存在了
+                if (Directory.Exists(newDirFullPath) == true)
+                {
+                    Logger.Error("Destination dir is exists!");
+                    return null;
+                }
+
+                //移动目录
+                Directory.Move(srcDirFullPath, newDirFullPath);
+                Logger.Debug(string.Format("Direcotry [{0}] moved to [{1}] finished!", srcDirFullPath, newDirFullPath));
             }
-
-
 
             //移除原节点
             srcNode.Remove();
@@ -269,6 +305,12 @@ namespace GenexUI.Global
             //如果父节点为空，则从工程节点开始查找
             if (parentNode == null)
             {
+                //判断要查找的是不是工程节点，是的话就从了师太吧
+                if (node == _projectNode)
+                {
+                    return true;
+                }
+
                 parentNode = _projectNode;
             }
 
