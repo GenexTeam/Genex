@@ -129,7 +129,7 @@ namespace GenexUI.Global
 
 
             //加载场景
-            loadSceneList();
+            //loadSceneList();
 
             _isLoaded = true;
             return true;
@@ -186,6 +186,15 @@ namespace GenexUI.Global
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_SCENE_DIR, "");
 
             _isLoaded = false;
+        }
+
+        /// <summary>
+        /// 获取场景列表
+        /// </summary>
+        /// <returns></returns>
+        public List<GxTreeNode> getSceneList()
+        {
+            return _sceneList;
         }
 
         public string getProjectName()
