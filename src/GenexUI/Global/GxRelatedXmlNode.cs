@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -56,11 +57,38 @@ namespace GenexUI.Global
             setPath(path);
             _xmlNode.Attributes["Path"].Value = path;
 
+            //更新子节点路径
+            if (_xmlNode.HasChildNodes == true)
+            {
+                updateChildNodePath(path);
+            }
+
             if (isSave == true)
             {
                 GxProject project = GlobalObj.getOpenningProject();
                 _xmlNode.OwnerDocument.Save(project.getFullPath());
             }
         }
+
+        /// <summary>
+        /// 更新子节点路径
+        /// </summary>
+        /// <param name="path"></param>
+        private void updateChildNodePath(string path)
+        {
+            foreach (XmlNode node in _xmlNode.ChildNodes)
+            {
+                //取得文件名
+                string filename = Path.GetFileName(node.Attributes["Path"].Value);
+                string fullPath = path + "\\" + filename;
+                node.Attributes["Path"].Value = fullPath;
+
+                if (node.HasChildNodes == true)
+                {
+                    updateChildNodePath(fullPath);
+                }
+            }
+        }
+
     }
 }

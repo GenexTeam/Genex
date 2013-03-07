@@ -7,15 +7,15 @@
   </ResourceDir>
   <SceneList>
     <IncludeNode Name="艾尔之光" Type="SceneFileType" Path="艾尔之光.gxs" />
+    <IncludeNode Name="skyrim" Type="DirectoryType" Path="skyrim">
+      <IncludeNode Name="天际省" Type="SceneFileType" Path="skyrim\天际省.gxs" />
+    </IncludeNode>
     <IncludeNode Name="city" Type="DirectoryType" Path="city">
       <IncludeNode Name="圣地" Type="SceneFileType" Path="city\圣地.gxs" />
       <IncludeNode Name="石头城" Type="SceneFileType" Path="city\石头城.gxs" />
       <IncludeNode Name="罪恶都市" Type="DirectoryType" Path="city\罪恶都市">
         <IncludeNode Name="女仆城" Type="SceneFileType" Path="city\罪恶都市\女仆城.gxs" />
       </IncludeNode>
-    </IncludeNode>
-    <IncludeNode Name="skyrim" Type="DirectoryType" Path="skyrim">
-      <IncludeNode Name="天际省" Type="SceneFileType" Path="skyrim\天际省.gxs" />
     </IncludeNode>
   </SceneList>
 </GameProject>

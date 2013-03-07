@@ -226,6 +226,12 @@ namespace GenexUI.Global
                 return null;
             }
 
+            if (srcNode == dstNode)
+            {
+                Logger.Error("srcNode is equals to dstNode.");
+                return null;
+            }
+
             if (findNode(srcNode) == false || findNode(dstNode) == false)
             {
                 Logger.Error("srcNode or dstNode not in NodeCollection");
@@ -280,6 +286,13 @@ namespace GenexUI.Global
                 if (Directory.Exists(newDirFullPath) == true)
                 {
                     Logger.Error("Destination dir is exists!");
+                    return null;
+                }
+
+                //检查目标路径是否与自己相等
+                if (srcDirFullPath == newDirFullPath)
+                {
+                    Logger.Error("Two path equals.");
                     return null;
                 }
 
