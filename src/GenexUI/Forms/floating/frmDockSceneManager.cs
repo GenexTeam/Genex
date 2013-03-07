@@ -43,7 +43,7 @@ namespace GenexUI.forms.floating
 
         private void frmDockSceneExplorer_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         //================================================================
@@ -341,7 +341,9 @@ namespace GenexUI.forms.floating
         private void ctmSceneList_Paste_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
+            tvwSceneList.BeginUpdate();
             paste();
+            tvwSceneList.EndUpdate();
             this.Cursor = Cursors.Default;
         }
 
@@ -396,7 +398,11 @@ namespace GenexUI.forms.floating
 
         private void tvwSceneList_AfterSelect(object sender, TreeViewEventArgs e)
         {
+#if DEBUG
+            tvwSceneList.BeginUpdate();
             Logger.Info(((GxTreeNode)e.Node).getGxNodeType().ToString());
+            tvwSceneList.EndUpdate();
+#endif
         }
 
         private void ctmSceneList_Reload_Click(object sender, EventArgs e)
@@ -414,6 +420,16 @@ namespace GenexUI.forms.floating
                 closeCurrentProject();
                 loadProject(filename);
             }
+        }
+
+        private void frmDockSceneManager_MouseDown(object sender, MouseEventArgs e)
+        {
+            tvwSceneList.BeginUpdate();
+        }
+
+        private void tvwSceneList_MouseUp(object sender, MouseEventArgs e)
+        {
+            tvwSceneList.EndUpdate();
         }
     }
 }
