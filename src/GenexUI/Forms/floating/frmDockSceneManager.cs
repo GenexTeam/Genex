@@ -431,5 +431,74 @@ namespace GenexUI.forms.floating
         {
             tvwSceneList.EndUpdate();
         }
+
+        private void tvwSceneList_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                DoDragDrop(e.Item, DragDropEffects.Move);
+            }
+        }
+
+        private void tvwSceneList_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(GxTreeNode)))
+            {
+                e.Effect = DragDropEffects.Move;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void tvwSceneList_DragDrop(object sender, DragEventArgs e)
+        {
+            GxTreeNode moveNode = (GxTreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+
+            //根据鼠标坐标确定要移动到的目标节点
+            Point pt;
+            TreeNode targeNode;
+            pt = ((TreeView)(sender)).PointToClient(new Point(e.X, e.Y));
+            targeNode = tvwSceneList.GetNodeAt(pt);
+
+            //如果目标节点无子节点则添加为同级节点,反之添加到下级节点的未端
+            TreeNode NewMoveNode = (TreeNode)moveNode.Clone();
+            if (targeNode.Nodes.Count == 0)
+            {
+                targeNode.Parent.Nodes.Insert(targeNode.Index, NewMoveNode);
+            }
+            else
+            {
+                targeNode.Nodes.Insert(targeNode.Nodes.Count, NewMoveNode);
+            }
+            //更新当前拖动的节点选择
+            tvwSceneList.SelectedNode = NewMoveNode;
+            //展开目标节点,便于显示拖放效果
+            targeNode.Expand();
+
+            //移除拖放的节点
+            moveNode.Remove();
+        }
+
+        private Point position = new Point(0, 0);
+        private void tvwSceneList_DragOver(object sender, DragEventArgs e)
+        {
+            position.X = e.X;
+            position.Y = e.Y;
+            position = tvwSceneList.PointToClient(position);
+            GxTreeNode dropNode = (GxTreeNode)tvwSceneList.GetNodeAt(position);
+            tvwSceneList.SelectedNode = dropNode;
+
+            if (dropNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY ||
+                dropNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_PROJECT)
+            {
+                e.Effect = DragDropEffects.Move;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.Link;
+            }
+        }
     }
 }

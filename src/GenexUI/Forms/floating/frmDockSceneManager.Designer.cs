@@ -57,6 +57,7 @@
             // 
             // tvwSceneList
             // 
+            this.tvwSceneList.AllowDrop = true;
             this.tvwSceneList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -72,7 +73,11 @@
             this.tvwSceneList.ShowNodeToolTips = true;
             this.tvwSceneList.Size = new System.Drawing.Size(233, 356);
             this.tvwSceneList.TabIndex = 0;
+            this.tvwSceneList.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tvwSceneList_ItemDrag);
             this.tvwSceneList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvwSceneList_AfterSelect);
+            this.tvwSceneList.DragDrop += new System.Windows.Forms.DragEventHandler(this.tvwSceneList_DragDrop);
+            this.tvwSceneList.DragEnter += new System.Windows.Forms.DragEventHandler(this.tvwSceneList_DragEnter);
+            this.tvwSceneList.DragOver += new System.Windows.Forms.DragEventHandler(this.tvwSceneList_DragOver);
             this.tvwSceneList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvwSceneList_MouseDown);
             this.tvwSceneList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tvwSceneList_MouseUp);
             // 
@@ -96,18 +101,18 @@
             this.ctmSceneList_Reload,
             this.ctmSceneList_Property});
             this.ctmSceneList.Name = "ctmSceneList";
-            this.ctmSceneList.Size = new System.Drawing.Size(213, 292);
+            this.ctmSceneList.Size = new System.Drawing.Size(221, 292);
             // 
             // ctmSceneList_Open
             // 
             this.ctmSceneList_Open.Name = "ctmSceneList_Open";
-            this.ctmSceneList_Open.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_Open.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Open.Text = "打开(&O)";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(209, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(217, 6);
             // 
             // ctmSceneList_Layer
             // 
@@ -116,25 +121,25 @@
             this.障碍层ToolStripMenuItem,
             this.遮挡层ToolStripMenuItem});
             this.ctmSceneList_Layer.Name = "ctmSceneList_Layer";
-            this.ctmSceneList_Layer.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_Layer.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Layer.Text = "图层(&L)";
             // 
             // 可视层ToolStripMenuItem
             // 
             this.可视层ToolStripMenuItem.Name = "可视层ToolStripMenuItem";
-            this.可视层ToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.可视层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.可视层ToolStripMenuItem.Text = "可视层(&V)";
             // 
             // 障碍层ToolStripMenuItem
             // 
             this.障碍层ToolStripMenuItem.Name = "障碍层ToolStripMenuItem";
-            this.障碍层ToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.障碍层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.障碍层ToolStripMenuItem.Text = "障碍层(&B)";
             // 
             // 遮挡层ToolStripMenuItem
             // 
             this.遮挡层ToolStripMenuItem.Name = "遮挡层ToolStripMenuItem";
-            this.遮挡层ToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.遮挡层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.遮挡层ToolStripMenuItem.Text = "遮挡层(&D)";
             // 
             // ctmSceneList_DesignMode
@@ -142,7 +147,7 @@
             this.ctmSceneList_DesignMode.Name = "ctmSceneList_DesignMode";
             this.ctmSceneList_DesignMode.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
-            this.ctmSceneList_DesignMode.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_DesignMode.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_DesignMode.Text = "设计视图(&Y)";
             // 
             // ctmSceneList_CodeMode
@@ -150,19 +155,19 @@
             this.ctmSceneList_CodeMode.Name = "ctmSceneList_CodeMode";
             this.ctmSceneList_CodeMode.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
-            this.ctmSceneList_CodeMode.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_CodeMode.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_CodeMode.Text = "代码视图(&G)";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(209, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(217, 6);
             // 
             // ctmSceneList_Cut
             // 
             this.ctmSceneList_Cut.Name = "ctmSceneList_Cut";
             this.ctmSceneList_Cut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.ctmSceneList_Cut.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_Cut.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Cut.Text = "剪切(&T)";
             this.ctmSceneList_Cut.Click += new System.EventHandler(this.ctmSceneList_Cut_Click);
             // 
@@ -170,7 +175,7 @@
             // 
             this.ctmSceneList_Copy.Name = "ctmSceneList_Copy";
             this.ctmSceneList_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.ctmSceneList_Copy.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_Copy.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Copy.Text = "复制(&C)";
             this.ctmSceneList_Copy.Click += new System.EventHandler(this.ctmSceneList_Copy_Click);
             // 
@@ -178,7 +183,7 @@
             // 
             this.ctmSceneList_Paste.Name = "ctmSceneList_Paste";
             this.ctmSceneList_Paste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.ctmSceneList_Paste.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_Paste.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Paste.Text = "粘贴(&V)";
             this.ctmSceneList_Paste.Click += new System.EventHandler(this.ctmSceneList_Paste_Click);
             // 
@@ -186,36 +191,36 @@
             // 
             this.ctmSceneList_Delete.Name = "ctmSceneList_Delete";
             this.ctmSceneList_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.ctmSceneList_Delete.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_Delete.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Delete.Text = "删除(&D)";
             // 
             // ctmSceneList_Rename
             // 
             this.ctmSceneList_Rename.Name = "ctmSceneList_Rename";
             this.ctmSceneList_Rename.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.ctmSceneList_Rename.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_Rename.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Rename.Text = "重命名(&M)";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(209, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(217, 6);
             // 
             // ctmSceneList_OpenDir
             // 
             this.ctmSceneList_OpenDir.Name = "ctmSceneList_OpenDir";
-            this.ctmSceneList_OpenDir.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_OpenDir.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_OpenDir.Text = "打开目标文件夹(&X)";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(209, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(217, 6);
             // 
             // ctmSceneList_Reload
             // 
             this.ctmSceneList_Reload.Name = "ctmSceneList_Reload";
-            this.ctmSceneList_Reload.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_Reload.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Reload.Text = "重新加载列表(&U)";
             this.ctmSceneList_Reload.Click += new System.EventHandler(this.ctmSceneList_Reload_Click);
             // 
@@ -223,7 +228,7 @@
             // 
             this.ctmSceneList_Property.Name = "ctmSceneList_Property";
             this.ctmSceneList_Property.ShortcutKeys = System.Windows.Forms.Keys.F12;
-            this.ctmSceneList_Property.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneList_Property.Size = new System.Drawing.Size(220, 22);
             this.ctmSceneList_Property.Text = "属性(&R)";
             // 
             // imgTreeIcons
