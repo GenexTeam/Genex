@@ -93,6 +93,7 @@ namespace GenexUI.Global
                         ICON_TYPE.ICON_PROJECT);
 
                     this.setRelatedXmlNode(sceneTreeXmlNode);
+                    this.setPath(Path.GetFileName(getProjectSceneDir()));
 
                     //遍历场景节点
                     loadNodes(sceneTreeXmlNode, null);
@@ -235,6 +236,13 @@ namespace GenexUI.Global
             if (findNode(srcNode) == false || findNode(dstNode) == false)
             {
                 Logger.Error("srcNode or dstNode not in NodeCollection");
+                return null;
+            }
+
+            //目标节点不能是源节点的子节点
+            if (findNode(dstNode, srcNode) == true)
+            {
+                Logger.Error("dstNode is the childNode of srcNode");
                 return null;
             }
 
