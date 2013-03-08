@@ -31,28 +31,31 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDockSceneManager));
             this.tvwSceneList = new System.Windows.Forms.TreeView();
-            this.ctmSceneList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ctmSceneList_Open = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ctmSceneList_Layer = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctmSceneNode_Open = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmTs1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctmSceneNode_Layer = new System.Windows.Forms.ToolStripMenuItem();
             this.可视层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.障碍层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.遮挡层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctmSceneList_DesignMode = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctmSceneList_CodeMode = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.ctmSceneList_Cut = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctmSceneList_Copy = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctmSceneList_Paste = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctmSceneList_Delete = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctmSceneList_Rename = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.ctmSceneList_OpenDir = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.ctmSceneList_Reload = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctmSceneList_Property = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode_DesignMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode_CodeMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmTs2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctmSceneNode_Cut = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode_Copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode_Paste = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode_Delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode_Rename = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmTs3 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctmSceneNode_OpenDir = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmTs4 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctmSceneNode_Reload = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode_Property = new System.Windows.Forms.ToolStripMenuItem();
             this.imgTreeIcons = new System.Windows.Forms.ImageList(this.components);
-            this.ctmSceneList.SuspendLayout();
+            this.ctmSceneNode_Add = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode_Add_Scene = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode_Add_NewDir = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmSceneNode.SuspendLayout();
             this.SuspendLayout();
             // 
             // tvwSceneList
@@ -61,7 +64,7 @@
             this.tvwSceneList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tvwSceneList.ContextMenuStrip = this.ctmSceneList;
+            this.tvwSceneList.ContextMenuStrip = this.ctmSceneNode;
             this.tvwSceneList.FullRowSelect = true;
             this.tvwSceneList.ImageIndex = 0;
             this.tvwSceneList.ImageList = this.imgTreeIcons;
@@ -81,155 +84,156 @@
             this.tvwSceneList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvwSceneList_MouseDown);
             this.tvwSceneList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tvwSceneList_MouseUp);
             // 
-            // ctmSceneList
+            // ctmSceneNode
             // 
-            this.ctmSceneList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ctmSceneList_Open,
-            this.toolStripMenuItem1,
-            this.ctmSceneList_Layer,
-            this.ctmSceneList_DesignMode,
-            this.ctmSceneList_CodeMode,
-            this.toolStripMenuItem2,
-            this.ctmSceneList_Cut,
-            this.ctmSceneList_Copy,
-            this.ctmSceneList_Paste,
-            this.ctmSceneList_Delete,
-            this.ctmSceneList_Rename,
-            this.toolStripMenuItem4,
-            this.ctmSceneList_OpenDir,
-            this.toolStripMenuItem3,
-            this.ctmSceneList_Reload,
-            this.ctmSceneList_Property});
-            this.ctmSceneList.Name = "ctmSceneList";
-            this.ctmSceneList.Size = new System.Drawing.Size(221, 292);
+            this.ctmSceneNode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctmSceneNode_Open,
+            this.ctmSceneNode_Add,
+            this.ctmTs1,
+            this.ctmSceneNode_Layer,
+            this.ctmSceneNode_DesignMode,
+            this.ctmSceneNode_CodeMode,
+            this.ctmTs2,
+            this.ctmSceneNode_Cut,
+            this.ctmSceneNode_Copy,
+            this.ctmSceneNode_Paste,
+            this.ctmSceneNode_Delete,
+            this.ctmSceneNode_Rename,
+            this.ctmTs3,
+            this.ctmSceneNode_OpenDir,
+            this.ctmTs4,
+            this.ctmSceneNode_Reload,
+            this.ctmSceneNode_Property});
+            this.ctmSceneNode.Name = "ctmSceneNode";
+            this.ctmSceneNode.Size = new System.Drawing.Size(213, 336);
             // 
-            // ctmSceneList_Open
+            // ctmSceneNode_Open
             // 
-            this.ctmSceneList_Open.Name = "ctmSceneList_Open";
-            this.ctmSceneList_Open.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Open.Text = "打开(&O)";
+            this.ctmSceneNode_Open.Name = "ctmSceneNode_Open";
+            this.ctmSceneNode_Open.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_Open.Text = "打开(&O)";
             // 
-            // toolStripMenuItem1
+            // ctmTs1
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(217, 6);
+            this.ctmTs1.Name = "ctmTs1";
+            this.ctmTs1.Size = new System.Drawing.Size(209, 6);
             // 
-            // ctmSceneList_Layer
+            // ctmSceneNode_Layer
             // 
-            this.ctmSceneList_Layer.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctmSceneNode_Layer.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.可视层ToolStripMenuItem,
             this.障碍层ToolStripMenuItem,
             this.遮挡层ToolStripMenuItem});
-            this.ctmSceneList_Layer.Name = "ctmSceneList_Layer";
-            this.ctmSceneList_Layer.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Layer.Text = "图层(&L)";
+            this.ctmSceneNode_Layer.Name = "ctmSceneNode_Layer";
+            this.ctmSceneNode_Layer.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_Layer.Text = "图层(&L)";
             // 
             // 可视层ToolStripMenuItem
             // 
             this.可视层ToolStripMenuItem.Name = "可视层ToolStripMenuItem";
-            this.可视层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.可视层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.可视层ToolStripMenuItem.Text = "可视层(&V)";
             // 
             // 障碍层ToolStripMenuItem
             // 
             this.障碍层ToolStripMenuItem.Name = "障碍层ToolStripMenuItem";
-            this.障碍层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.障碍层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.障碍层ToolStripMenuItem.Text = "障碍层(&B)";
             // 
             // 遮挡层ToolStripMenuItem
             // 
             this.遮挡层ToolStripMenuItem.Name = "遮挡层ToolStripMenuItem";
-            this.遮挡层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.遮挡层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.遮挡层ToolStripMenuItem.Text = "遮挡层(&D)";
             // 
-            // ctmSceneList_DesignMode
+            // ctmSceneNode_DesignMode
             // 
-            this.ctmSceneList_DesignMode.Name = "ctmSceneList_DesignMode";
-            this.ctmSceneList_DesignMode.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.ctmSceneNode_DesignMode.Name = "ctmSceneNode_DesignMode";
+            this.ctmSceneNode_DesignMode.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
-            this.ctmSceneList_DesignMode.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_DesignMode.Text = "设计视图(&Y)";
+            this.ctmSceneNode_DesignMode.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_DesignMode.Text = "设计视图(&Y)";
             // 
-            // ctmSceneList_CodeMode
+            // ctmSceneNode_CodeMode
             // 
-            this.ctmSceneList_CodeMode.Name = "ctmSceneList_CodeMode";
-            this.ctmSceneList_CodeMode.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.ctmSceneNode_CodeMode.Name = "ctmSceneNode_CodeMode";
+            this.ctmSceneNode_CodeMode.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
-            this.ctmSceneList_CodeMode.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_CodeMode.Text = "代码视图(&G)";
+            this.ctmSceneNode_CodeMode.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_CodeMode.Text = "代码视图(&G)";
             // 
-            // toolStripMenuItem2
+            // ctmTs2
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(217, 6);
+            this.ctmTs2.Name = "ctmTs2";
+            this.ctmTs2.Size = new System.Drawing.Size(209, 6);
             // 
-            // ctmSceneList_Cut
+            // ctmSceneNode_Cut
             // 
-            this.ctmSceneList_Cut.Name = "ctmSceneList_Cut";
-            this.ctmSceneList_Cut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.ctmSceneList_Cut.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Cut.Text = "剪切(&T)";
-            this.ctmSceneList_Cut.Click += new System.EventHandler(this.ctmSceneList_Cut_Click);
+            this.ctmSceneNode_Cut.Name = "ctmSceneNode_Cut";
+            this.ctmSceneNode_Cut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.ctmSceneNode_Cut.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_Cut.Text = "剪切(&T)";
+            this.ctmSceneNode_Cut.Click += new System.EventHandler(this.ctmSceneNode_Cut_Click);
             // 
-            // ctmSceneList_Copy
+            // ctmSceneNode_Copy
             // 
-            this.ctmSceneList_Copy.Name = "ctmSceneList_Copy";
-            this.ctmSceneList_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.ctmSceneList_Copy.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Copy.Text = "复制(&C)";
-            this.ctmSceneList_Copy.Click += new System.EventHandler(this.ctmSceneList_Copy_Click);
+            this.ctmSceneNode_Copy.Name = "ctmSceneNode_Copy";
+            this.ctmSceneNode_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.ctmSceneNode_Copy.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_Copy.Text = "复制(&C)";
+            this.ctmSceneNode_Copy.Click += new System.EventHandler(this.ctmSceneNode_Copy_Click);
             // 
-            // ctmSceneList_Paste
+            // ctmSceneNode_Paste
             // 
-            this.ctmSceneList_Paste.Name = "ctmSceneList_Paste";
-            this.ctmSceneList_Paste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.ctmSceneList_Paste.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Paste.Text = "粘贴(&V)";
-            this.ctmSceneList_Paste.Click += new System.EventHandler(this.ctmSceneList_Paste_Click);
+            this.ctmSceneNode_Paste.Name = "ctmSceneNode_Paste";
+            this.ctmSceneNode_Paste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.ctmSceneNode_Paste.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_Paste.Text = "粘贴(&V)";
+            this.ctmSceneNode_Paste.Click += new System.EventHandler(this.ctmSceneNode_Paste_Click);
             // 
-            // ctmSceneList_Delete
+            // ctmSceneNode_Delete
             // 
-            this.ctmSceneList_Delete.Name = "ctmSceneList_Delete";
-            this.ctmSceneList_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.ctmSceneList_Delete.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Delete.Text = "删除(&D)";
+            this.ctmSceneNode_Delete.Name = "ctmSceneNode_Delete";
+            this.ctmSceneNode_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.ctmSceneNode_Delete.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_Delete.Text = "删除(&D)";
             // 
-            // ctmSceneList_Rename
+            // ctmSceneNode_Rename
             // 
-            this.ctmSceneList_Rename.Name = "ctmSceneList_Rename";
-            this.ctmSceneList_Rename.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.ctmSceneList_Rename.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Rename.Text = "重命名(&M)";
+            this.ctmSceneNode_Rename.Name = "ctmSceneNode_Rename";
+            this.ctmSceneNode_Rename.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.ctmSceneNode_Rename.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_Rename.Text = "重命名(&M)";
             // 
-            // toolStripMenuItem4
+            // ctmTs3
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(217, 6);
+            this.ctmTs3.Name = "ctmTs3";
+            this.ctmTs3.Size = new System.Drawing.Size(209, 6);
             // 
-            // ctmSceneList_OpenDir
+            // ctmSceneNode_OpenDir
             // 
-            this.ctmSceneList_OpenDir.Name = "ctmSceneList_OpenDir";
-            this.ctmSceneList_OpenDir.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_OpenDir.Text = "打开目标文件夹(&X)";
+            this.ctmSceneNode_OpenDir.Name = "ctmSceneNode_OpenDir";
+            this.ctmSceneNode_OpenDir.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_OpenDir.Text = "打开目标文件夹(&X)";
             // 
-            // toolStripMenuItem3
+            // ctmTs4
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(217, 6);
+            this.ctmTs4.Name = "ctmTs4";
+            this.ctmTs4.Size = new System.Drawing.Size(209, 6);
             // 
-            // ctmSceneList_Reload
+            // ctmSceneNode_Reload
             // 
-            this.ctmSceneList_Reload.Name = "ctmSceneList_Reload";
-            this.ctmSceneList_Reload.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Reload.Text = "重新加载列表(&U)";
-            this.ctmSceneList_Reload.Click += new System.EventHandler(this.ctmSceneList_Reload_Click);
+            this.ctmSceneNode_Reload.Name = "ctmSceneNode_Reload";
+            this.ctmSceneNode_Reload.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_Reload.Text = "重新加载列表(&U)";
+            this.ctmSceneNode_Reload.Click += new System.EventHandler(this.ctmSceneNode_Reload_Click);
             // 
-            // ctmSceneList_Property
+            // ctmSceneNode_Property
             // 
-            this.ctmSceneList_Property.Name = "ctmSceneList_Property";
-            this.ctmSceneList_Property.ShortcutKeys = System.Windows.Forms.Keys.F12;
-            this.ctmSceneList_Property.Size = new System.Drawing.Size(220, 22);
-            this.ctmSceneList_Property.Text = "属性(&R)";
+            this.ctmSceneNode_Property.Name = "ctmSceneNode_Property";
+            this.ctmSceneNode_Property.ShortcutKeys = System.Windows.Forms.Keys.F12;
+            this.ctmSceneNode_Property.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_Property.Text = "属性(&R)";
             // 
             // imgTreeIcons
             // 
@@ -238,6 +242,27 @@
             this.imgTreeIcons.Images.SetKeyName(0, "project.png");
             this.imgTreeIcons.Images.SetKeyName(1, "dir.png");
             this.imgTreeIcons.Images.SetKeyName(2, "scene.png");
+            // 
+            // ctmSceneNode_Add
+            // 
+            this.ctmSceneNode_Add.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctmSceneNode_Add_Scene,
+            this.ctmSceneNode_Add_NewDir});
+            this.ctmSceneNode_Add.Name = "ctmSceneNode_Add";
+            this.ctmSceneNode_Add.Size = new System.Drawing.Size(212, 22);
+            this.ctmSceneNode_Add.Text = "添加(&N)";
+            // 
+            // ctmSceneNode_Add_Scene
+            // 
+            this.ctmSceneNode_Add_Scene.Name = "ctmSceneNode_Add_Scene";
+            this.ctmSceneNode_Add_Scene.Size = new System.Drawing.Size(152, 22);
+            this.ctmSceneNode_Add_Scene.Text = "游戏场景(&S)...";
+            // 
+            // ctmSceneNode_Add_NewDir
+            // 
+            this.ctmSceneNode_Add_NewDir.Name = "ctmSceneNode_Add_NewDir";
+            this.ctmSceneNode_Add_NewDir.Size = new System.Drawing.Size(152, 22);
+            this.ctmSceneNode_Add_NewDir.Text = "新建文件夹(&D)";
             // 
             // frmDockSceneManager
             // 
@@ -253,7 +278,7 @@
             this.Text = "场景管理器";
             this.Load += new System.EventHandler(this.frmDockSceneExplorer_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmDockSceneManager_MouseDown);
-            this.ctmSceneList.ResumeLayout(false);
+            this.ctmSceneNode.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -261,27 +286,30 @@
         #endregion
 
         private System.Windows.Forms.TreeView tvwSceneList;
-        private System.Windows.Forms.ContextMenuStrip ctmSceneList;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Open;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_DesignMode;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_CodeMode;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Cut;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Copy;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Delete;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Rename;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Property;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_OpenDir;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Layer;
+        private System.Windows.Forms.ContextMenuStrip ctmSceneNode;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Open;
+        private System.Windows.Forms.ToolStripSeparator ctmTs1;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_DesignMode;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_CodeMode;
+        private System.Windows.Forms.ToolStripSeparator ctmTs2;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Cut;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Copy;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Delete;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Rename;
+        private System.Windows.Forms.ToolStripSeparator ctmTs4;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Property;
+        private System.Windows.Forms.ToolStripSeparator ctmTs3;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_OpenDir;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Layer;
         private System.Windows.Forms.ToolStripMenuItem 可视层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 障碍层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 遮挡层ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Paste;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Paste;
         private System.Windows.Forms.ImageList imgTreeIcons;
-        private System.Windows.Forms.ToolStripMenuItem ctmSceneList_Reload;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Reload;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Add;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Add_Scene;
+        private System.Windows.Forms.ToolStripMenuItem ctmSceneNode_Add_NewDir;
 
 
     }

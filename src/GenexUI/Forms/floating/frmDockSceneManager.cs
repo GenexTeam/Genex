@@ -165,7 +165,7 @@ namespace GenexUI.forms.floating
             }
         }
 
-        private void ctmSceneList_Cut_Click(object sender, EventArgs e)
+        private void ctmSceneNode_Cut_Click(object sender, EventArgs e)
         {
             //设置剪切板内容
             GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
@@ -288,7 +288,7 @@ namespace GenexUI.forms.floating
 
         }
 
-        private void ctmSceneList_Copy_Click(object sender, EventArgs e)
+        private void ctmSceneNode_Copy_Click(object sender, EventArgs e)
         {
             GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
             if (selectedNode != null)
@@ -338,7 +338,7 @@ namespace GenexUI.forms.floating
             }
         }
 
-        private void ctmSceneList_Paste_Click(object sender, EventArgs e)
+        private void ctmSceneNode_Paste_Click(object sender, EventArgs e)
         {
             if (_clipboardTreeNode == null)
             {
@@ -351,7 +351,14 @@ namespace GenexUI.forms.floating
             GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
             if (selectedNode != null)
             {
-                moveNode(_clipboardTreeNode, selectedNode);
+                if (_lastOpType == OPERATION_TYPE.OP_CUT)
+                {
+                    moveNode(_clipboardTreeNode, selectedNode);
+                }
+                else if (_lastOpType == OPERATION_TYPE.OP_COPY)
+                { 
+                
+                }
             }
             tvwSceneList.EndUpdate();
             clearClipboard();
@@ -407,7 +414,7 @@ namespace GenexUI.forms.floating
 #endif
         }
 
-        private void ctmSceneList_Reload_Click(object sender, EventArgs e)
+        private void ctmSceneNode_Reload_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("重新载入将关闭当前处于打开状态的所有文件，是否确定？", "询问", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (result == System.Windows.Forms.DialogResult.Cancel)
@@ -426,12 +433,28 @@ namespace GenexUI.forms.floating
 
         private void frmDockSceneManager_MouseDown(object sender, MouseEventArgs e)
         {
-            tvwSceneList.BeginUpdate();
+            if (e.Button != System.Windows.Forms.MouseButtons.Right)
+            {
+                return;
+            }
+
+            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
+            if (selectedNode != null)
+            {
+                GXNodeType type = selectedNode.getGxNodeType();
+                if (type == GXNodeType.GX_NODE_TYPE_DIRECTORY)
+                {
+                    ctmSceneNode_Open.Visible = false;
+                    ctmSceneNode_Add.Visible = true;
+
+                }
+            }
+            
         }
 
         private void tvwSceneList_MouseUp(object sender, MouseEventArgs e)
         {
-            tvwSceneList.EndUpdate();
+
         }
 
         private void tvwSceneList_ItemDrag(object sender, ItemDragEventArgs e)
