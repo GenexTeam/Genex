@@ -31,19 +31,6 @@
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("GX空白游戏项目");
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("GX游戏项目(RPG范例)");
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("文件文件");
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("常规");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("场景");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("脚本");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("文档");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("图像");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("默认模板", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("模板", new System.Windows.Forms.TreeNode[] {
-            treeNode6});
             this.templateDescription = new System.Windows.Forms.RichTextBox();
             this.templateList = new System.Windows.Forms.ListView();
             this.templateFileList = new System.Windows.Forms.TreeView();
@@ -92,22 +79,6 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.templateFileList.Location = new System.Drawing.Point(7, 1);
             this.templateFileList.Name = "templateFileList";
-            treeNode1.Name = "节点2";
-            treeNode1.Text = "常规";
-            treeNode2.Name = "节点3";
-            treeNode2.Text = "场景";
-            treeNode3.Name = "节点4";
-            treeNode3.Text = "脚本";
-            treeNode4.Name = "节点5";
-            treeNode4.Text = "文档";
-            treeNode5.Name = "节点6";
-            treeNode5.Text = "图像";
-            treeNode6.Name = "节点1";
-            treeNode6.Text = "默认模板";
-            treeNode7.Name = "节点0";
-            treeNode7.Text = "模板";
-            this.templateFileList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode7});
             this.templateFileList.Size = new System.Drawing.Size(145, 299);
             this.templateFileList.TabIndex = 34;
             // 
