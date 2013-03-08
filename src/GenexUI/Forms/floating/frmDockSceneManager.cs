@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using GenexUI.Global;
 using WeifenLuo.WinFormsUI.Docking;
+using GenexUI.Forms.Floating;
 
 namespace GenexUI.forms.floating
 {
@@ -125,7 +126,7 @@ namespace GenexUI.forms.floating
         /// </summary>
         /// <param name="sceneDirPath"></param>
         /// <param name="parentNode"></param>
-        private void traversalSceneList(string sceneDirPath, GxTreeNode parentNode)
+        /*private void traversalSceneList(string sceneDirPath, GxTreeNode parentNode)
         {
             DirectoryInfo sceneDirInfo = new DirectoryInfo(sceneDirPath);
 
@@ -163,7 +164,7 @@ namespace GenexUI.forms.floating
             {
                 Logger.Error(e.Message);
             }
-        }
+        }*/
 
         private void ctmSceneNode_Cut_Click(object sender, EventArgs e)
         {
@@ -327,12 +328,33 @@ namespace GenexUI.forms.floating
 
         private void tvwSceneList_MouseDown(object sender, MouseEventArgs e)
         {
+
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
+                //自动选中当前鼠标指针下的节点
                 TreeNode node = tvwSceneList.GetNodeAt(e.X, e.Y);
                 if (node != null)
                 {
                     tvwSceneList.SelectedNode = node;
+
+                    //根据节点类型弹出不同的上下文菜单
+                    GxTreeNode selectedNode = (GxTreeNode)node;
+                    if (selectedNode != null)
+                    {
+                        GXNodeType type = selectedNode.getGxNodeType();
+                        if (type == GXNodeType.GX_NODE_TYPE_DIRECTORY)
+                        {
+                            tvwSceneList.ContextMenuStrip = ctmSceneDirectory;
+                        }
+                        else if (type == GXNodeType.GX_NODE_TYPE_SCENE)
+                        {
+                            tvwSceneList.ContextMenuStrip = ctmSceneNode;
+                        }
+                        else if (type == GXNodeType.GX_NODE_TYPE_PROJECT)
+                        {
+                            tvwSceneList.ContextMenuStrip = null;
+                        }
+                    }
                 }
 
             }
@@ -433,22 +455,7 @@ namespace GenexUI.forms.floating
 
         private void frmDockSceneManager_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button != System.Windows.Forms.MouseButtons.Right)
-            {
-                return;
-            }
 
-            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
-            if (selectedNode != null)
-            {
-                GXNodeType type = selectedNode.getGxNodeType();
-                if (type == GXNodeType.GX_NODE_TYPE_DIRECTORY)
-                {
-                    ctmSceneNode_Open.Visible = false;
-                    ctmSceneNode_Add.Visible = true;
-
-                }
-            }
             
         }
 
@@ -469,7 +476,7 @@ namespace GenexUI.forms.floating
         {
             if (e.Data.GetDataPresent(typeof(GxTreeNode)))
             {
-                e.Effect = DragDropEffects.Scroll;
+                e.Effect = DragDropEffects.Move;
             }
             else
             {
@@ -517,8 +524,15 @@ namespace GenexUI.forms.floating
             if (type == GXNodeType.GX_NODE_TYPE_DIRECTORY || type == GXNodeType.GX_NODE_TYPE_PROJECT ||
                 type == GXNodeType.GX_NODE_TYPE_SCENE)
             {
-                e.Effect = DragDropEffects.Scroll;
+                e.Effect = DragDropEffects.Move;
             }
+        }
+
+        private void ctmSceneDirectory_Add_Scene_Click(object sender, EventArgs e)
+        {
+            //取得路径
+
+            frmNewSceneFile newSceneFile = new frmNewSceneFile();
         }
     }
 }

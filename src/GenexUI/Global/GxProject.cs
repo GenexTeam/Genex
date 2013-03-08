@@ -26,6 +26,7 @@ namespace GenexUI.Global
         private string _sceneDirPath;
         private string _soundDirPath;
         private string _projectVersion;
+        private int _sceneAutoIndent;
 
         GxTreeNode _projectNode;
 
@@ -74,6 +75,15 @@ namespace GenexUI.Global
                 }
                 _soundDirPath = soundDirXmlNode.InnerText;
 
+                //读取场景自动编号
+                XmlNode sceneAutoIndentXmlNode = document.SelectSingleNode("/GameProject/SceneAutoIndent");
+                if (sceneAutoIndentXmlNode == null)
+                {
+                    Logger.Error("Xml node [/GameProject/SceneAutoIndent] not exists.");
+                    return false;
+                }
+                _sceneAutoIndent = Convert.ToInt32(sceneAutoIndentXmlNode.InnerText);
+
                 //加载场景树
                 XmlNode sceneTreeXmlNode = document.SelectSingleNode("/GameProject/SceneList");
                 if (sceneTreeXmlNode == null)
@@ -118,10 +128,6 @@ namespace GenexUI.Global
             //_sceneDirPath = _sceneDirPath.Replace("//", "/");
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_SCENE_DIR, getProjectSceneDir());
             Logger.Debug("Updated project env variables");
-
-
-            //加载场景
-            //loadSceneList();
 
             _isLoaded = true;
             return true;
@@ -170,7 +176,8 @@ namespace GenexUI.Global
                     }
                     else if (type == "SceneFileType")
                     {
-                        GxScene gxScene = new GxScene(fullPath);
+                        int sceneId = Convert.ToInt32(node.Attributes["Id"].Value);
+                        GxScene gxScene = new GxScene(sceneId, fullPath);
                         GxTreeNode gxTreeNode = new GxTreeNode(
                             name,
                             gxScene,
@@ -255,8 +262,7 @@ namespace GenexUI.Global
             }
 
             //取得场景目录完整路径
-            GxProject project = GlobalObj.getOpenningProject();
-            string sceneDirFullPath = Path.GetFullPath(project.getProjectSceneDir());
+            string sceneDirFullPath = Path.GetFullPath(this.getProjectSceneDir());
 
             //如果原节点是目录
             if (srcNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
@@ -392,6 +398,42 @@ namespace GenexUI.Global
             return false;
         }
 
+        public bool createNewScene(string sceneName, string filename, GxTreeNode parentNode = null)
+        {
+            if (sceneName.Length == 0 || filename.Length == 0)
+            {
+                Logger.Warn("sceneName.Length == 0 || filename.Length == 0");
+                return false;
+            }
+
+            //如果文件已经存在则返回
+            if (File.Exists(filename) == true)
+            {
+                Logger.Error("Create scene file failed, file is exists.");
+                return false;
+            }
+
+            string createPath = "";
+            if (parentNode == null)
+            {
+                createPath = this.getPath();
+            }
+
+            XmlDocument newSceneXmlDoc = new XmlDocument();
+            newSceneXmlDoc.Save(filename);
+
+            return true;
+        }
+
+        /// <summary>
+        /// 自动生成一个新场景的文件名，生成规则：Scene + ID
+        /// </summary>
+        /// <returns></returns>
+        public string getNewSceneFileName()
+        {
+            return "Scene" + getSceneAutoIndent().ToString();
+        }
+
         /// <summary>
         /// 获取工程节点
         /// </summary>
@@ -434,6 +476,11 @@ namespace GenexUI.Global
         public string getProjectVersion()
         {
             return _projectVersion;
+        }
+
+        public int getSceneAutoIndent()
+        {
+            return _sceneAutoIndent;
         }
 
         /// <summary>

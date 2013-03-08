@@ -14,12 +14,23 @@ namespace GenexUI.Global
 {
     public class GxScene : GxNodeDataBase
     {
+        private int _sceneId;
         private string _sceneName;
 
-        public GxScene(string filePath = "", XmlNode relatedXmlNode = null)
+        public GxScene(int sceneId, string filePath = "", XmlNode relatedXmlNode = null)
         {
             base.setPath(filePath);
             base.setRelatedXmlNode(relatedXmlNode);
+        }
+
+        public void setSceneId(int id)
+        {
+            _sceneId = id;
+        }
+
+        public int getSceneId()
+        {
+            return _sceneId;
         }
 
         public void setSceneName(string sceneName)
