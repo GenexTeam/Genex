@@ -11,7 +11,7 @@ namespace GenexUI.Forms.Floating
 {
     public partial class frmNewSceneFile : Form
     {
-        public frmNewSceneFile()
+        public frmNewSceneFile(int id, string dirPath)
         {
             InitializeComponent();
         }

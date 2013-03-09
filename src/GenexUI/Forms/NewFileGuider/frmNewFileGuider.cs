@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenexUI.Global;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -47,6 +48,7 @@ namespace GenexUI.Forms
             }
             catch (Exception ex)
             {
+                Logger.Error(ex.Message);
             }
         }
 
@@ -79,7 +81,7 @@ namespace GenexUI.Forms
                     }
                     catch (Exception ex)
                     {
-
+                        Logger.Error(ex.Message);
                     }
                 }
             }

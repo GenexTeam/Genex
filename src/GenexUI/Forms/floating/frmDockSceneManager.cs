@@ -352,7 +352,7 @@ namespace GenexUI.forms.floating
                         }
                         else if (type == GXNodeType.GX_NODE_TYPE_PROJECT)
                         {
-                            tvwSceneList.ContextMenuStrip = null;
+                            tvwSceneList.ContextMenuStrip = ctmProjectNode;
                         }
                     }
                 }
@@ -530,9 +530,29 @@ namespace GenexUI.forms.floating
 
         private void ctmSceneDirectory_Add_Scene_Click(object sender, EventArgs e)
         {
-            //取得路径
+            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
+            if (selectedNode == null)
+            {
+                Logger.Error("SelectedNode null.");
+                return;
+            }
 
-            frmNewSceneFile newSceneFile = new frmNewSceneFile();
+            if (selectedNode.getGxNodeType() != GXNodeType.GX_NODE_TYPE_DIRECTORY
+                && selectedNode.getGxNodeType() != GXNodeType.GX_NODE_TYPE_PROJECT)
+            {
+                Logger.Error("invalid node type.");
+                return;
+            }
+
+            //取得父节点路径
+            string parentPath = "";
+            GxNodeDataBase nodeData = (GxNodeDataBase)selectedNode.Tag;
+            parentPath = nodeData.getPath();
+
+            //取得路径
+            GxProject project = GlobalObj.getOpenningProject();
+            frmNewSceneFile newSceneFile = new frmNewSceneFile(project.getSceneAutoIndent(), parentPath);
+            newSceneFile.ShowDialog();
         }
     }
 }
