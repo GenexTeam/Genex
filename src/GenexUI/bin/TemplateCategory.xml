@@ -1,7 +1,7 @@
-<TemplateCategory CachedDir="Cached/">
+﻿<TemplateCategory CachedDir="Cached/">
         <Category Name="默认模板">
                 <Category Name="常规">
-                        <Template Path="gxproject_empty.gxtpl”"/>
+                        <Template Path="gxproject_empty.gxtpl"/>
                         <Template Path="gxproject_sample.gxtpl" />
                         <Template Path="text.gxtpl" />
                 </Category>

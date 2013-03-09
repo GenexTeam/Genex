@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("GX空白游戏项目");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("GX游戏项目(RPG范例)");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("文件文件");
             this.templateDescription = new System.Windows.Forms.RichTextBox();
             this.templateList = new System.Windows.Forms.ListView();
             this.templateFileList = new System.Windows.Forms.TreeView();
@@ -55,23 +52,21 @@
             this.templateDescription.Name = "templateDescription";
             this.templateDescription.Size = new System.Drawing.Size(175, 299);
             this.templateDescription.TabIndex = 36;
-            this.templateDescription.Text = "xxx";
+            this.templateDescription.Text = "";
             // 
             // templateList
             // 
             this.templateList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.templateList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3});
             this.templateList.Location = new System.Drawing.Point(158, 1);
+            this.templateList.MultiSelect = false;
             this.templateList.Name = "templateList";
             this.templateList.Size = new System.Drawing.Size(334, 299);
             this.templateList.TabIndex = 35;
             this.templateList.UseCompatibleStateImageBehavior = false;
             this.templateList.View = System.Windows.Forms.View.List;
+            this.templateList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.templateList_MouseClick);
             // 
             // templateFileList
             // 
@@ -81,6 +76,7 @@
             this.templateFileList.Name = "templateFileList";
             this.templateFileList.Size = new System.Drawing.Size(145, 299);
             this.templateFileList.TabIndex = 34;
+            this.templateFileList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.templateFileList_AfterSelect);
             // 
             // panel1
             // 
