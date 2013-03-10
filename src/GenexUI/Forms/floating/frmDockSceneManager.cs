@@ -93,7 +93,7 @@ namespace GenexUI.forms.floating
             }
 
             //取得传入文件的全路径
-            filename = Path.GetFullPath(filename);
+            //filename = Path.GetFullPath(filename);
 
             //加载工程文件
             if (project.load(filename) == false)

@@ -17,18 +17,8 @@ namespace GenexUI.Global
     {
         public static bool init()
         {
-            _gxEnvManager = new GxEnvManager();
-            Logger.Debug("EnvManager is loaded.");
-
             _openningProject = new GxProject();
             return true;
-        }
-
-        //环境变量管理器
-        private static GxEnvManager _gxEnvManager;
-        public static GxEnvManager getEnvManager()
-        {
-            return _gxEnvManager;
         }
 
         //当前打开的工程

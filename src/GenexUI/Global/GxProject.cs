@@ -44,21 +44,29 @@ namespace GenexUI.Global
         {
             try
             {
+                filename = Path.GetFullPath(filename);
                 Logger.Debug("Loading project XML file, filename = " + filename);
                 _document = new XmlDocument();
                 _document.Load(filename);
 
                 _projectFullPath = filename;
 
+                //============================================================================
                 //读取Project属性
+                //============================================================================
                 XmlNode projectXmlNode = _document.SelectSingleNode("/GameProject/Project");
-                if (projectXmlNode != null)
+                if (projectXmlNode == null)
                 {
-                    _projectName = projectXmlNode.Attributes["Name"].Value;
-                    _projectVersion = projectXmlNode.Attributes["GxVersion"].Value;
+                    Logger.Error("Xml node [/GameProject/Project] not exists.");
+                    return false;
                 }
 
+                _projectName = projectXmlNode.Attributes["Name"].Value;
+                _projectVersion = projectXmlNode.Attributes["GxVersion"].Value;
+
+                //============================================================================
                 //读取SceneDir
+                //============================================================================
                 XmlNode sceneDirXmlNode = _document.SelectSingleNode("/GameProject/ResourceDir/SceneDir");
                 if (sceneDirXmlNode == null)
                 {
@@ -67,7 +75,10 @@ namespace GenexUI.Global
                 }
                 _sceneDirPath = sceneDirXmlNode.InnerText;
 
+
+                //============================================================================
                 //读取SoundDir
+                //============================================================================
                 XmlNode soundDirXmlNode = _document.SelectSingleNode("/GameProject/ResourceDir/SoundDir");
                 if (soundDirXmlNode == null)
                 {
@@ -76,7 +87,9 @@ namespace GenexUI.Global
                 }
                 _soundDirPath = soundDirXmlNode.InnerText;
 
+                //============================================================================
                 //读取场景自动编号
+                //============================================================================
                 XmlNode sceneAutoIndentXmlNode = _document.SelectSingleNode("/GameProject/SceneAutoIndent");
                 if (sceneAutoIndentXmlNode == null)
                 {
@@ -85,13 +98,51 @@ namespace GenexUI.Global
                 }
                 _sceneAutoIndent = Convert.ToInt32(sceneAutoIndentXmlNode.InnerText);
 
+                //============================================================================
                 //加载场景树
+                //============================================================================
                 XmlNode sceneTreeXmlNode = _document.SelectSingleNode("/GameProject/SceneList");
                 if (sceneTreeXmlNode == null)
                 {
                     Logger.Error("Xml node [/GameProject/SceneList] not exists.");
                     return false;
                 }
+
+
+                //============================================================================
+                //更新环境变量
+                //============================================================================
+
+                //环境变量更新：工程名称
+                GxEnvManager.updateEnvVariable(GxEnvVarType.GXENV_PROJECT_NAME, _projectName);
+
+                //环境变量更新：工程文件路径
+                GxEnvManager.updateEnvVariable(GxEnvVarType.GXENV_PROJECT_PATH, filename);
+
+                //环境变量更新：工程文件名（带扩展名）
+                GxEnvManager.updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILENAME_EXT, Path.GetFileName(filename));
+
+                //环境变量更新：工程文件名（不带扩展名）
+                GxEnvManager.updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILENAME, Path.GetFileNameWithoutExtension(filename));
+
+                //环境变量更新：工程文件扩展名
+                string ext = Path.GetExtension(filename);
+                ext = ext.Substring(1, ext.Length - 1);
+                GxEnvManager.updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILE_EXT, ext);
+
+                //环境变量更新：工程目录路径
+                GxEnvManager.updateEnvVariable(GxEnvVarType.GXENV_PROJECT_DIR, Path.GetDirectoryName(filename));
+
+                //环境变量更新：游戏场景目录路径
+                string sceneDirPath = GxEnvManager.resolveEnv(_sceneDirPath);
+                GxEnvManager.updateEnvVariable(GxEnvVarType.GXENV_PROJECT_SCENE_DIR, sceneDirPath);
+
+                //环境变量更新：游戏场景目录名称
+                GxEnvManager.updateEnvVariable(GxEnvVarType.GXENV_PROJECT_SCENE_DIR_NAME, Path.GetFileName(sceneDirPath));
+
+                //环境变量更新：工程版本号
+                GxEnvManager.updateEnvVariable(GxEnvVarType.GXENV_PROJECT_VERSION, _projectVersion);
+
 
                 if (sceneTreeXmlNode.ChildNodes.Count > 0)
                 {
@@ -116,19 +167,6 @@ namespace GenexUI.Global
                 Logger.Error(exception.Message);
                 return false;
             }
-
-            //更新环境变量
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_NAME, _projectName);
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FULL_PATH, _projectFullPath);
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILE_NAME, getProjectFileName());
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILE_NAME_WITHOUT_EXT, getProjectFileNameWithoutExt());
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_DIR, getProjectDir());
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_VERSION, getProjectVersion());
-
-            _sceneDirPath = GlobalObj.getEnvManager().resolveEnv(_sceneDirPath);
-            //_sceneDirPath = _sceneDirPath.Replace("//", "/");
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_SCENE_DIR, getProjectSceneDir());
-            Logger.Debug("Updated project env variables");
 
             _isLoaded = true;
             return true;
@@ -210,13 +248,13 @@ namespace GenexUI.Global
             _projectNode = null;
 
             //更新环境变量
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_NAME, "");
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FULL_PATH, "");
+            /*GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_NAME, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_PATH, "");
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILE_NAME, "");
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILE_NAME_WITHOUT_EXT, "");
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_DIR, "");
             GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_VERSION, "");
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_SCENE_DIR, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_SCENE_DIR, "");*/
 
             _isLoaded = false;
         }
