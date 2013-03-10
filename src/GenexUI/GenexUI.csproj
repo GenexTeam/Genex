@@ -112,6 +112,7 @@
     <Compile Include="Global\Definition.cs" />
     <Compile Include="Global\FileSystemWatcher.cs" />
     <Compile Include="Global\GlobalObj.cs" />
+    <Compile Include="Global\GxEnvironmentVariablesDefinition.cs" />
     <Compile Include="Global\GxEnvVariablesManager.cs" />
     <Compile Include="Global\GxProject.cs" />
     <Compile Include="Global\GxNodeDataBase.cs" />

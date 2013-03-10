@@ -118,16 +118,16 @@ namespace GenexUI.Global
             }
 
             //更新环境变量
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_NAME, _projectName);
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_FULL_PATH, _projectFullPath);
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_FILE_NAME, getProjectFileName());
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_FILE_NAME_WITHOUT_EXT, getProjectFileNameWithoutExt());
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_DIR, getProjectDir());
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_VERSION, getProjectVersion());
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_NAME, _projectName);
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FULL_PATH, _projectFullPath);
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILE_NAME, getProjectFileName());
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILE_NAME_WITHOUT_EXT, getProjectFileNameWithoutExt());
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_DIR, getProjectDir());
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_VERSION, getProjectVersion());
 
             _sceneDirPath = GlobalObj.getEnvManager().resolveEnv(_sceneDirPath);
             //_sceneDirPath = _sceneDirPath.Replace("//", "/");
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_SCENE_DIR, getProjectSceneDir());
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_SCENE_DIR, getProjectSceneDir());
             Logger.Debug("Updated project env variables");
 
             _isLoaded = true;
@@ -210,13 +210,13 @@ namespace GenexUI.Global
             _projectNode = null;
 
             //更新环境变量
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_NAME, "");
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_FULL_PATH, "");
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_FILE_NAME, "");
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_FILE_NAME_WITHOUT_EXT, "");
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_DIR, "");
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_VERSION, "");
-            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVariableType.GXENV_PROJECT_SCENE_DIR, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_NAME, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FULL_PATH, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILE_NAME, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_FILE_NAME_WITHOUT_EXT, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_DIR, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_VERSION, "");
+            GlobalObj.getEnvManager().updateEnvVariable(GxEnvVarType.GXENV_PROJECT_SCENE_DIR, "");
 
             _isLoaded = false;
         }
