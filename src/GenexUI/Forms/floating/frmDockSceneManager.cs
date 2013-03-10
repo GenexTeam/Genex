@@ -106,13 +106,13 @@ namespace GenexUI.forms.floating
             //加载场景树
             GxTreeNode projectNode = new GxTreeNode();
             projectNode.setGxNodeType(GXNodeType.GX_NODE_TYPE_PROJECT);
-            projectNode.Text = string.Format("{0} [已加载]", project.getProjectName());
+            projectNode.Text = string.Format("{0} [已加载]", GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_NAME));
             projectNode.Tag = project;
             projectNode.ImageIndex = 0;
             projectNode.SelectedImageIndex = 0;
             _projectNode = projectNode;
 
-            string sceneDirPath = project.getProjectSceneDir();
+            string sceneDirPath = GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_SCENE_DIR);
             //traversalSceneList(sceneDirPath, projectNode);
 
             GxTreeNode projectTreeNode = project.getProjectNode();
@@ -429,11 +429,13 @@ namespace GenexUI.forms.floating
 
         private void tvwSceneList_AfterSelect(object sender, TreeViewEventArgs e)
         {
-#if DEBUG
             tvwSceneList.BeginUpdate();
-            Logger.Info(((GxTreeNode)e.Node).getGxNodeType().ToString());
-            tvwSceneList.EndUpdate();
+#if DEBUG
+            GxTreeNode node = (GxTreeNode)e.Node;
+            GxNodeData data = (GxNodeData)node.Tag;
+            Logger.Info("NodeInfo = [Path = " + data.getPath() + "]");
 #endif
+            tvwSceneList.EndUpdate();
         }
 
         private void ctmSceneNode_Reload_Click(object sender, EventArgs e)
@@ -444,13 +446,9 @@ namespace GenexUI.forms.floating
                 return;
             }
 
-            GxProject project = GlobalObj.getOpenningProject();
-            if (project.isLoaded() == true)
-            {
-                string filename = project.getProjectFileFullPath();
-                closeCurrentProject();
-                loadProject(filename);
-            }
+            string filename = GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_PATH);
+            closeCurrentProject();
+            loadProject(filename);
         }
 
         private void frmDockSceneManager_MouseDown(object sender, MouseEventArgs e)
@@ -561,7 +559,7 @@ namespace GenexUI.forms.floating
 
             //取得父节点路径
             string parentPath = "";
-            GxNodeDataBase nodeData = (GxNodeDataBase)selectedNode.Tag;
+            GxNodeData nodeData = (GxNodeData)selectedNode.Tag;
             if (nodeData != null)
             {
                 parentPath = nodeData.getPath();

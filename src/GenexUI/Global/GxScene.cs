@@ -12,7 +12,7 @@ using System.Xml;
 
 namespace GenexUI.Global
 {
-    public class GxScene : GxNodeDataBase
+    public class GxScene : GxNodeData
     {
         private int _sceneId;
         private string _sceneName;

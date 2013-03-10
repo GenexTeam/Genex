@@ -14,6 +14,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using log4net;
 using System.Reflection;
 using GenexUI.Forms;
+using GenexUI.Utils;
 
 namespace GenexUI
 {

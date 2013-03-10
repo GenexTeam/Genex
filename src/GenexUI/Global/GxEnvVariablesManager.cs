@@ -52,7 +52,7 @@ namespace GenexUI.Global
         }
 
         //根据环境变量ID获取环境变量的值
-        public static object getEnv(GxEnvVarType envVariableType)
+        public static string getEnv(GxEnvVarType envVariableType)
         {
             GxEnvVariableData envVariableData = _gxEvnVariableList[envVariableType];
             if (envVariableData != null)

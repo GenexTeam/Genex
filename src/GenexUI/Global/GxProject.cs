@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenexUI.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,7 +19,7 @@ namespace GenexUI.Global
         ICON_SCENE          //场景节点
     }
 
-    public class GxProject : GxNodeDataBase
+    public class GxProject : GxNodeData
     {
         private bool _isLoaded = false;
         private string _projectName;
@@ -155,7 +156,7 @@ namespace GenexUI.Global
                         ICON_TYPE.ICON_PROJECT);
 
                     this.setRelatedXmlNode(sceneTreeXmlNode);
-                    this.setPath(Path.GetFileName(getProjectSceneDir()));
+                    this.setPath(GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_SCENE_DIR));
 
                     //遍历场景节点
                     loadNodes(sceneTreeXmlNode, null);
@@ -191,13 +192,13 @@ namespace GenexUI.Global
                 if (node.Name == "IncludeNode")
                 {
                     string name = node.Attributes["Name"].Value;
-                    string fullPath = node.Attributes["Path"].Value;
+                    string path = GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_SCENE_DIR) + "\\" + node.Attributes["Path"].Value;
                     string type = node.Attributes["Type"].Value;
 
                     //如果节点是目录
                     if (type == "DirectoryType")
                     {
-                        GxSceneDirectory gxDirectory = new GxSceneDirectory(fullPath, node);
+                        GxSceneDirectory gxDirectory = new GxSceneDirectory(path, node);
                         GxTreeNode gxTreeNode = new GxTreeNode(
                             name,
                             gxDirectory,
@@ -216,7 +217,7 @@ namespace GenexUI.Global
                     else if (type == "SceneFileType")
                     {
                         int sceneId = Convert.ToInt32(node.Attributes["Id"].Value);
-                        GxScene gxScene = new GxScene(sceneId, fullPath);
+                        GxScene gxScene = new GxScene(sceneId,path);
                         GxTreeNode gxTreeNode = new GxTreeNode(
                             name,
                             gxScene,
@@ -301,14 +302,14 @@ namespace GenexUI.Global
             }
 
             //取得场景目录完整路径
-            string sceneDirFullPath = Path.GetFullPath(this.getProjectSceneDir());
+            string sceneDirFullPath = GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_SCENE_DIR);
 
             //如果原节点是目录
             if (srcNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
             { 
                 //取得源目录完整路径
                 GxSceneDirectory gxSrcSceneDir = (GxSceneDirectory)srcNode.Tag;
-                string srcDirFullPath = sceneDirFullPath + "\\" + gxSrcSceneDir.getPath();
+                string srcDirFullPath = gxSrcSceneDir.getPath();
                 if (Directory.Exists(srcDirFullPath) == false)
                 {
                     Logger.Error("srcNode dir path not exists.");
@@ -319,12 +320,8 @@ namespace GenexUI.Global
                 string srcDirName = srcDirInfo.Name;
 
                 //取得目标目录完整路径，默认为场景根目录
-                string dstDirFullPath = sceneDirFullPath;
-                if (dstNodeType == GXNodeType.GX_NODE_TYPE_DIRECTORY)
-                {
-                    GxSceneDirectory gxDstSceneDir = (GxSceneDirectory)dstNode.Tag;
-                    dstDirFullPath = sceneDirFullPath + "\\" + gxDstSceneDir.getPath();
-                }
+                GxNodeData nodeData = (GxNodeData)dstNode.Tag;
+                string dstDirFullPath = nodeData.getPath();
 
                 if (Directory.Exists(dstDirFullPath) == false)
                 {
@@ -353,19 +350,12 @@ namespace GenexUI.Global
                 Directory.Move(srcDirFullPath, newDirFullPath);
                 Logger.Debug(string.Format("Direcotry [{0}] moved to [{1}] finished!", srcDirFullPath, newDirFullPath));
 
-                //取得相关XML节点
+                //取得源节点相关XML元素
                 XmlNode srcRelatedXmlNode = gxSrcSceneDir.getRelatedXmlNode();
-                XmlNode dstRelatedXmlNode = null;
 
-                if (dstNodeType == GXNodeType.GX_NODE_TYPE_DIRECTORY)
-                {
-                    GxSceneDirectory gxDstSceneDir = (GxSceneDirectory)dstNode.Tag;
-                    dstRelatedXmlNode = gxDstSceneDir.getRelatedXmlNode();
-                }
-                else if (dstNodeType == GXNodeType.GX_NODE_TYPE_PROJECT)
-                {
-                    dstRelatedXmlNode = this.getRelatedXmlNode();
-                }
+                //取得目标节点的相关XML元素
+                GxNodeData data = (GxNodeData)dstNode.Tag;
+                XmlNode dstRelatedXmlNode = data.getRelatedXmlNode();
 
                 //复制源节点的副本
                 XmlNode appendNode = srcRelatedXmlNode.Clone();
@@ -379,15 +369,9 @@ namespace GenexUI.Global
                 //更新源节点的关联XMLNode
                 gxSrcSceneDir.setRelatedXmlNode(appendNode);
 
-                //更新路径
-                string newPath = "";
-                if (dstNodeType == GXNodeType.GX_NODE_TYPE_DIRECTORY)
-                {
-                    GxSceneDirectory gxDstSceneDir = (GxSceneDirectory)dstNode.Tag;
-                    newPath = gxDstSceneDir.getPath();
-                }
-
-                gxSrcSceneDir.saveRealPathToXml((newPath == "" ? newPath : newPath += "\\") + srcDirInfo.Name, true);
+                //取得父节点的基本数据
+                string newPath = IOUtil.getRelPath(newDirFullPath, sceneDirFullPath);
+                gxSrcSceneDir.saveRealPathToXml(newPath, true);
             }
 
             //移除原节点
@@ -479,19 +463,19 @@ namespace GenexUI.Global
                 return false;
             }
 
-            GxNodeDataBase nodeDataBase = (GxNodeDataBase)parentNode.Tag;
+            GxNodeData nodeDataBase = (GxNodeData)parentNode.Tag;
             if (nodeDataBase != null)
             {
                 string parentPath = "";
 
-                if (treeNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
-                {
-                    parentPath = this.getProjectSceneDir() + "\\" + nodeDataBase.getPath();
-                }
-                else if (treeNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_PROJECT)
-                {
-                    parentPath = this.getProjectSceneDir();
-                }
+                //if (treeNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
+                //{
+                    parentPath = nodeDataBase.getPath();
+                //}
+               // else if (treeNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_PROJECT)
+                //{
+                 //   parentPath = GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_SCENE_DIR);
+                //}
 
                 Logger.Debug("parent full path = " + Path.GetFullPath(parentPath));
                 if (Directory.Exists(parentPath) == true)
@@ -509,7 +493,7 @@ namespace GenexUI.Global
                         newDirectoryFullPath = parentPath + "\\" + newDirectoryName;
 
                         //目录如果存在，则计数+1
-                        if (Directory.Exists(Path.GetFullPath(newDirectoryFullPath)) == true)
+                        if (Directory.Exists(newDirectoryFullPath) == true)
                         {
                             Logger.Info("[" + newDirectoryFullPath + "] is exists.");
                             count++;
@@ -533,7 +517,7 @@ namespace GenexUI.Global
 
                         //插入到父节点
                         parentXmlNode.AppendChild(newDirectoryXmlElement);
-                        parentXmlNode.OwnerDocument.Save(this.getProjectFileFullPath());
+                        parentXmlNode.OwnerDocument.Save(GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_PATH));
                     }
                     else
                     {
@@ -577,7 +561,7 @@ namespace GenexUI.Global
         /// 取得游戏工程名称
         /// </summary>
         /// <returns></returns>
-        public string getProjectName()
+        /*public string getProjectName()
         {
             return _projectName;
         }
@@ -634,7 +618,7 @@ namespace GenexUI.Global
         public string getProjectVersion()
         {
             return _projectVersion;
-        }
+        }*/
 
         public int getSceneAutoIndent()
         {

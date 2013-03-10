@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace GenexUI.Global
 {
-    public class GxNodeDataBase
+    public class GxNodeData
     {
         private XmlNode _xmlNode;
         private string _path;
@@ -54,19 +54,18 @@ namespace GenexUI.Global
         /// <param name="dirpath"></param>
         public void saveRealPathToXml(string path, bool isSave = true)
         {
-            setPath(path);
+            setPath(GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_SCENE_DIR) + "\\" + path);
             _xmlNode.Attributes["Path"].Value = path;
 
             //更新子节点路径
             if (_xmlNode.HasChildNodes == true)
             {
-                updateChildNodePath(path);
+                updateChildNodePath(path, _xmlNode);
             }
 
             if (isSave == true)
             {
-                GxProject project = GlobalObj.getOpenningProject();
-                _xmlNode.OwnerDocument.Save(project.getProjectFileFullPath());
+                _xmlNode.OwnerDocument.Save(GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_PATH));
             }
         }
 
@@ -74,9 +73,9 @@ namespace GenexUI.Global
         /// 更新子节点路径
         /// </summary>
         /// <param name="path"></param>
-        private void updateChildNodePath(string path)
+        private void updateChildNodePath(string path, XmlNode parentNode)
         {
-            foreach (XmlNode node in _xmlNode.ChildNodes)
+            foreach (XmlNode node in parentNode.ChildNodes)
             {
                 //取得文件名
                 string filename = Path.GetFileName(node.Attributes["Path"].Value);
@@ -85,7 +84,7 @@ namespace GenexUI.Global
 
                 if (node.HasChildNodes == true)
                 {
-                    updateChildNodePath(fullPath);
+                    updateChildNodePath(fullPath, node);
                 }
             }
         }
