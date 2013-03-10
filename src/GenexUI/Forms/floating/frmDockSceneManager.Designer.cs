@@ -67,16 +67,16 @@
             this.ctmSceneDirectory_Property = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmProjectNode = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmProjectNode_Add_Scene = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmProjectNode_Add_Dir = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmSceneNode.SuspendLayout();
             this.ctmSceneDirectory.SuspendLayout();
             this.ctmProjectNode.SuspendLayout();
@@ -159,19 +159,19 @@
             // 可视层ToolStripMenuItem
             // 
             this.可视层ToolStripMenuItem.Name = "可视层ToolStripMenuItem";
-            this.可视层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.可视层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.可视层ToolStripMenuItem.Text = "可视层(&V)";
             // 
             // 障碍层ToolStripMenuItem
             // 
             this.障碍层ToolStripMenuItem.Name = "障碍层ToolStripMenuItem";
-            this.障碍层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.障碍层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.障碍层ToolStripMenuItem.Text = "障碍层(&B)";
             // 
             // 遮挡层ToolStripMenuItem
             // 
             this.遮挡层ToolStripMenuItem.Name = "遮挡层ToolStripMenuItem";
-            this.遮挡层ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.遮挡层ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.遮挡层ToolStripMenuItem.Text = "遮挡层(&D)";
             // 
             // ctmSceneNode_DesignMode
@@ -293,6 +293,7 @@
             this.ctmSceneDirectory_Add_Dir.Name = "ctmSceneDirectory_Add_Dir";
             this.ctmSceneDirectory_Add_Dir.Size = new System.Drawing.Size(153, 22);
             this.ctmSceneDirectory_Add_Dir.Text = "新建文件夹(&D)";
+            this.ctmSceneDirectory_Add_Dir.Click += new System.EventHandler(this.ctmSceneDirectory_Add_Dir_Click);
             // 
             // toolStripSeparator1
             // 
@@ -375,23 +376,25 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3});
+            this.ctmProjectNode_Add_Scene,
+            this.ctmProjectNode_Add_Dir});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(176, 22);
             this.toolStripMenuItem1.Text = "添加(&A)";
             // 
-            // toolStripMenuItem2
+            // ctmProjectNode_Add_Scene
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(153, 22);
-            this.toolStripMenuItem2.Text = "游戏场景(&S)...";
+            this.ctmProjectNode_Add_Scene.Name = "ctmProjectNode_Add_Scene";
+            this.ctmProjectNode_Add_Scene.Size = new System.Drawing.Size(153, 22);
+            this.ctmProjectNode_Add_Scene.Text = "游戏场景(&S)...";
+            this.ctmProjectNode_Add_Scene.Click += new System.EventHandler(this.ctmProjectNode_Add_Scene_Click);
             // 
-            // toolStripMenuItem3
+            // ctmProjectNode_Add_Dir
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(153, 22);
-            this.toolStripMenuItem3.Text = "新建文件夹(&D)";
+            this.ctmProjectNode_Add_Dir.Name = "ctmProjectNode_Add_Dir";
+            this.ctmProjectNode_Add_Dir.Size = new System.Drawing.Size(153, 22);
+            this.ctmProjectNode_Add_Dir.Text = "新建文件夹(&D)";
+            this.ctmProjectNode_Add_Dir.Click += new System.EventHandler(this.ctmProjectNode_Add_Dir_Click);
             // 
             // toolStripSeparator2
             // 
@@ -417,6 +420,12 @@
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(173, 6);
             // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(176, 22);
+            this.toolStripMenuItem7.Text = "重新加载项目(&L)";
+            // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
@@ -434,12 +443,6 @@
             this.toolStripMenuItem10.ShortcutKeys = System.Windows.Forms.Keys.F12;
             this.toolStripMenuItem10.Size = new System.Drawing.Size(176, 22);
             this.toolStripMenuItem10.Text = "属性(&R)";
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(176, 22);
-            this.toolStripMenuItem7.Text = "重新加载项目(&L)";
             // 
             // frmDockSceneManager
             // 
@@ -501,8 +504,8 @@
         private System.Windows.Forms.ToolStripMenuItem ctmSceneDirectory_Paste;
         private System.Windows.Forms.ContextMenuStrip ctmProjectNode;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem ctmProjectNode_Add_Scene;
+        private System.Windows.Forms.ToolStripMenuItem ctmProjectNode_Add_Dir;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;

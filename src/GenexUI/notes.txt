@@ -22,3 +22,5 @@
   <Project Name="战爆雷神队" GxVersion="101" />
   <SceneDirectory Path="$(ProjectDir)/Scene" />
 </GameProject>
+
+【相关目录路径规划】

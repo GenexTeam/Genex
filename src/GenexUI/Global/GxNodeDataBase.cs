@@ -66,7 +66,7 @@ namespace GenexUI.Global
             if (isSave == true)
             {
                 GxProject project = GlobalObj.getOpenningProject();
-                _xmlNode.OwnerDocument.Save(project.getFullPath());
+                _xmlNode.OwnerDocument.Save(project.getProjectFileFullPath());
             }
         }
 
