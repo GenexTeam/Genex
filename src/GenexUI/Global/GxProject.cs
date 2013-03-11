@@ -357,21 +357,26 @@ namespace GenexUI.Global
                 GxNodeData data = (GxNodeData)dstNode.Tag;
                 XmlNode dstRelatedXmlNode = data.getRelatedXmlNode();
 
-                //复制源节点的副本
-                XmlNode appendNode = srcRelatedXmlNode.Clone();
+                //复制源xml节点的副本
+                XmlNode appendNode = srcRelatedXmlNode.CloneNode(true);
 
-                //把源节点删除
-                srcRelatedXmlNode.ParentNode.RemoveChild(srcRelatedXmlNode);
+                //把源xml节点删除
+                XmlNode srcParentNode = srcRelatedXmlNode.ParentNode;
+                srcParentNode.RemoveChild(srcRelatedXmlNode);
+                srcRelatedXmlNode = null;
+                srcParentNode.OwnerDocument.Save(GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_PATH));
+                
+                gxSrcSceneDir.setRelatedXmlNode(null);
 
                 //把复制的副本插入到目标节点中
-                dstRelatedXmlNode.AppendChild(appendNode);
+                XmlNode appendReturned = dstRelatedXmlNode.AppendChild(appendNode);
 
                 //更新源节点的关联XMLNode
-                gxSrcSceneDir.setRelatedXmlNode(appendNode);
+                gxSrcSceneDir.setRelatedXmlNode(appendReturned);
 
                 //取得父节点的基本数据
                 string newPath = IOUtil.getRelPath(newDirFullPath, sceneDirFullPath);
-                gxSrcSceneDir.saveRealPathToXml(newPath, true);
+                gxSrcSceneDir.saveRealPathToXml(newPath, srcNode, true);
             }
 
             //移除原节点

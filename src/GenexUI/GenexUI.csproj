@@ -115,7 +115,7 @@
     <Compile Include="Global\GxEnvironmentVariablesDefinition.cs" />
     <Compile Include="Global\GxEnvVariablesManager.cs" />
     <Compile Include="Global\GxProject.cs" />
-    <Compile Include="Global\GxNodeDataBase.cs" />
+    <Compile Include="Global\GxNodeData.cs" />
     <Compile Include="Global\GxScene.cs" />
     <Compile Include="Global\GxSceneDirectory.cs" />
     <Compile Include="Global\Logger.cs" />

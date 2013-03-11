@@ -51,16 +51,31 @@ namespace GenexUI.Global
         /// <summary>
         /// 保存路径到xml
         /// </summary>
-        /// <param name="dirpath"></param>
-        public void saveRealPathToXml(string path, bool isSave = true)
+        /// <param name="path"></param>
+        /// <param name="treeNode">要递归更新路径的树节点</param>
+        /// <param name="isSave"></param>
+        public void saveRealPathToXml(string path, GxTreeNode treeNode, bool isSave = true)
         {
-            setPath(GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_SCENE_DIR) + "\\" + path);
+            string fullPath = GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_SCENE_DIR) + "\\" + path;
+            setPath(fullPath);
             _xmlNode.Attributes["Path"].Value = path;
 
             //更新子节点路径
             if (_xmlNode.HasChildNodes == true)
             {
                 updateChildNodePath(path, _xmlNode);
+            }
+
+            //更新树子节点
+            GxNodeData treeNodeData = (GxNodeData)treeNode.Tag;
+            if (treeNodeData != null)
+            {
+                treeNodeData.setPath(fullPath);
+
+                if (treeNode.Nodes.Count > 0)
+                {
+                    updateChildTreeNodePath(path, treeNode);
+                }
             }
 
             if (isSave == true)
@@ -70,9 +85,10 @@ namespace GenexUI.Global
         }
 
         /// <summary>
-        /// 更新子节点路径
+        /// 更新XML子节点路径
         /// </summary>
         /// <param name="path"></param>
+        /// <param name="parentNode"></param>
         private void updateChildNodePath(string path, XmlNode parentNode)
         {
             foreach (XmlNode node in parentNode.ChildNodes)
@@ -85,6 +101,33 @@ namespace GenexUI.Global
                 if (node.HasChildNodes == true)
                 {
                     updateChildNodePath(fullPath, node);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// 更新树的子节点路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="parentTreeNode"></param>
+        private void updateChildTreeNodePath(string path, GxTreeNode parentTreeNode)
+        {
+            foreach (GxTreeNode node in parentTreeNode.Nodes)
+            {
+                //更新树节点路径
+                GxNodeData treeNodeData = (GxNodeData)node.Tag;
+                if (treeNodeData != null)
+                {
+                    //取得文件名
+                    string filename = Path.GetFileName(treeNodeData.getPath());
+                    string fullPath = path + "\\" + filename;
+                    treeNodeData.setPath(GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_SCENE_DIR) + "\\" + fullPath);
+
+                    if (node.Nodes.Count > 0)
+                    {
+                        updateChildTreeNodePath(fullPath, node);
+                    }
                 }
             }
         }

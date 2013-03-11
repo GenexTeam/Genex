@@ -516,6 +516,10 @@ namespace GenexUI.forms.floating
             position.Y = e.Y;
             position = tvwSceneList.PointToClient(position);
             GxTreeNode dropNode = (GxTreeNode)tvwSceneList.GetNodeAt(position);
+            if (dropNode == null)
+            {
+                return;
+            }
             tvwSceneList.SelectedNode = dropNode;
             GXNodeType type = dropNode.getGxNodeType();
 
