@@ -44,7 +44,7 @@ namespace GenexUI.forms.floating
 
         private void frmDockSceneExplorer_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         //================================================================
@@ -65,8 +65,6 @@ namespace GenexUI.forms.floating
             _projectNode = null;
             tvwSceneList.Nodes.Clear();
             Logger.Debug("Cleared all project nodes.");
-
-
         }
 
         /// <summary>
@@ -117,6 +115,8 @@ namespace GenexUI.forms.floating
 
             GxTreeNode projectTreeNode = project.getProjectNode();
             tvwSceneList.Nodes.Add(projectTreeNode);
+
+            tvwSceneList.ExpandAll();
 
             return true;
         }

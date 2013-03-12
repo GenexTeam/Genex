@@ -308,20 +308,20 @@ namespace GenexUI.Global
             if (srcNode.getGxNodeType() == GXNodeType.GX_NODE_TYPE_DIRECTORY)
             { 
                 //取得源目录完整路径
-                GxSceneDirectory gxSrcSceneDir = (GxSceneDirectory)srcNode.Tag;
-                string srcDirFullPath = gxSrcSceneDir.getPath();
+                GxNodeData srcNodeData = (GxNodeData)srcNode.Tag;
+                string srcDirFullPath = srcNodeData.getPath();
                 if (Directory.Exists(srcDirFullPath) == false)
                 {
                     Logger.Error("srcNode dir path not exists.");
                     return null;
                 }
 
-                DirectoryInfo srcDirInfo = new DirectoryInfo(srcDirFullPath);
-                string srcDirName = srcDirInfo.Name;
+                //DirectoryInfo srcDirInfo = new DirectoryInfo(srcDirFullPath);
+                string srcDirName = Path.GetFileName(srcDirFullPath);
 
                 //取得目标目录完整路径，默认为场景根目录
-                GxNodeData nodeData = (GxNodeData)dstNode.Tag;
-                string dstDirFullPath = nodeData.getPath();
+                GxNodeData dstNodeData = (GxNodeData)dstNode.Tag;
+                string dstDirFullPath = dstNodeData.getPath();
 
                 if (Directory.Exists(dstDirFullPath) == false)
                 {
@@ -330,7 +330,7 @@ namespace GenexUI.Global
                 }
 
                 //取得移动后的目录路径
-                string newDirFullPath = dstDirFullPath + "\\" + srcDirInfo.Name;
+                string newDirFullPath = dstDirFullPath + "\\" + srcDirName;
 
                 //检查目标路径是否存在了
                 if (Directory.Exists(newDirFullPath) == true)
@@ -350,33 +350,25 @@ namespace GenexUI.Global
                 Directory.Move(srcDirFullPath, newDirFullPath);
                 Logger.Debug(string.Format("Direcotry [{0}] moved to [{1}] finished!", srcDirFullPath, newDirFullPath));
 
-                //取得源节点相关XML元素
-                XmlNode srcRelatedXmlNode = gxSrcSceneDir.getRelatedXmlNode();
-
-                //取得目标节点的相关XML元素
-                GxNodeData data = (GxNodeData)dstNode.Tag;
-                XmlNode dstRelatedXmlNode = data.getRelatedXmlNode();
+                //取得节点相关XML元素
+                XmlNode srcRelatedXmlNode = srcNodeData.getRelatedXmlNode();
+                XmlNode dstRelatedXmlNode = dstNodeData.getRelatedXmlNode();
 
                 //复制源xml节点的副本
                 XmlNode appendNode = srcRelatedXmlNode.CloneNode(true);
 
-                //把源xml节点删除
-                XmlNode srcParentNode = srcRelatedXmlNode.ParentNode;
-                srcParentNode.RemoveChild(srcRelatedXmlNode);
-                srcRelatedXmlNode = null;
-                srcParentNode.OwnerDocument.Save(GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_PATH));
-                
-                gxSrcSceneDir.setRelatedXmlNode(null);
-
                 //把复制的副本插入到目标节点中
-                XmlNode appendReturned = dstRelatedXmlNode.AppendChild(appendNode);
+                dstRelatedXmlNode.AppendChild(appendNode);
+
+                //把源xml节点删除
+                srcRelatedXmlNode.ParentNode.RemoveChild(srcRelatedXmlNode);
 
                 //更新源节点的关联XMLNode
-                gxSrcSceneDir.setRelatedXmlNode(appendReturned);
+                srcNodeData.setRelatedXmlNode(appendNode);
 
                 //取得父节点的基本数据
                 string newPath = IOUtil.getRelPath(newDirFullPath, sceneDirFullPath);
-                gxSrcSceneDir.saveRealPathToXml(newPath, srcNode, true);
+                srcNodeData.saveRealPathToXml(newPath, srcNode, true);
             }
 
             //移除原节点
