@@ -61,6 +61,10 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\log4net.dll</HintPath>
@@ -87,6 +91,12 @@
     <Compile Include="Forms\Floating\frmDockSceneManager.Designer.cs">
       <DependentUpon>frmDockSceneManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Floating\frmNewSceneFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Floating\frmNewSceneFile.Designer.cs">
+      <DependentUpon>frmNewSceneFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmGenexMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,18 +112,22 @@
     <Compile Include="Global\Definition.cs" />
     <Compile Include="Global\FileSystemWatcher.cs" />
     <Compile Include="Global\GlobalObj.cs" />
+    <Compile Include="Global\GxEnvironmentVariablesDefinition.cs" />
     <Compile Include="Global\GxEnvVariablesManager.cs" />
     <Compile Include="Global\GxProject.cs" />
-    <Compile Include="Global\GxRelatedXmlNode.cs" />
+    <Compile Include="Global\GxNodeData.cs" />
     <Compile Include="Global\GxScene.cs" />
     <Compile Include="Global\GxSceneDirectory.cs" />
     <Compile Include="Global\Logger.cs" />
     <Compile Include="Global\SceneFileSystemWatcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\KernelUtil.cs" />
+    <Compile Include="Utils\Util.cs" />
     <EmbeddedResource Include="Forms\Floating\frmDockSceneManager.resx">
       <DependentUpon>frmDockSceneManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Floating\frmNewSceneFile.resx">
+      <DependentUpon>frmNewSceneFile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmGenexMainForm.resx">
       <DependentUpon>frmGenexMainForm.cs</DependentUpon>

@@ -14,6 +14,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using log4net;
 using System.Reflection;
 using GenexUI.Forms;
+using GenexUI.Utils;
 
 namespace GenexUI
 {
@@ -42,7 +43,7 @@ namespace GenexUI
         {
             //初始化界面布局
             initLayout();
-            _frmDockSceneManager.loadProject("SampleProject\\SampleProject.gxprj");
+            _frmDockSceneManager.loadProject("test\\SampleProject\\SampleProject.gxprj");
         }
 
         private void initLayout()

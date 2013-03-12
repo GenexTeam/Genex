@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<GameProject>
+  <Project Name="战爆雷神队" GxVersion="101" />
+  <ResourceDir>
+    <SceneDir>$(ProjectDir)\Scene</SceneDir>
+    <SoundDir>$(ProjectDir)\Sound</SoundDir>
+  </ResourceDir>
+  <SceneAutoIndent>1006</SceneAutoIndent>
+  <SceneList>
+    <IncludeNode Id="1001" Name="艾尔之光" Type="SceneFileType" Path="艾尔之光.gxs" />
+    <IncludeNode Name="city" Type="DirectoryType" Path="city">
+      <IncludeNode Id="1004" Name="圣地" Type="SceneFileType" Path="city\圣地.gxs" />
+      <IncludeNode Id="1005" Name="石头城" Type="SceneFileType" Path="city\石头城.gxs" />
+    </IncludeNode>
+    <IncludeNode Name="skyrim" Type="DirectoryType" Path="skyrim">
+      <IncludeNode Id="1002" Name="天际省" Type="SceneFileType" Path="skyrim\天际省.gxs" />
+    </IncludeNode>
+    <IncludeNode Name="罪恶都市" Type="DirectoryType" Path="罪恶都市">
+      <IncludeNode Id="1003" Name="女仆城" Type="SceneFileType" Path="罪恶都市\女仆城.gxs" />
+    </IncludeNode>
+  </SceneList>
+</GameProject>

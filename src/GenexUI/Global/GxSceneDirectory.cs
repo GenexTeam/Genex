@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace GenexUI.Global
 {
-    public class GxSceneDirectory : GxNodeDataBase
+    public class GxSceneDirectory : GxNodeData
     {
         public GxSceneDirectory(string dirPath = "", XmlNode relatedXmlNode = null)
         {

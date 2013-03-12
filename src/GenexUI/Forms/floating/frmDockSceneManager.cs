@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using GenexUI.Global;
 using WeifenLuo.WinFormsUI.Docking;
+using GenexUI.Forms.Floating;
 
 namespace GenexUI.forms.floating
 {
@@ -92,7 +93,7 @@ namespace GenexUI.forms.floating
             }
 
             //取得传入文件的全路径
-            filename = Path.GetFullPath(filename);
+            //filename = Path.GetFullPath(filename);
 
             //加载工程文件
             if (project.load(filename) == false)
@@ -105,13 +106,13 @@ namespace GenexUI.forms.floating
             //加载场景树
             GxTreeNode projectNode = new GxTreeNode();
             projectNode.setGxNodeType(GXNodeType.GX_NODE_TYPE_PROJECT);
-            projectNode.Text = string.Format("{0} [已加载]", project.getProjectName());
+            projectNode.Text = string.Format("{0} [已加载]", GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_NAME));
             projectNode.Tag = project;
             projectNode.ImageIndex = 0;
             projectNode.SelectedImageIndex = 0;
             _projectNode = projectNode;
 
-            string sceneDirPath = project.getProjectSceneDir();
+            string sceneDirPath = GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_SCENE_DIR);
             //traversalSceneList(sceneDirPath, projectNode);
 
             GxTreeNode projectTreeNode = project.getProjectNode();
@@ -125,7 +126,7 @@ namespace GenexUI.forms.floating
         /// </summary>
         /// <param name="sceneDirPath"></param>
         /// <param name="parentNode"></param>
-        private void traversalSceneList(string sceneDirPath, GxTreeNode parentNode)
+        /*private void traversalSceneList(string sceneDirPath, GxTreeNode parentNode)
         {
             DirectoryInfo sceneDirInfo = new DirectoryInfo(sceneDirPath);
 
@@ -163,7 +164,7 @@ namespace GenexUI.forms.floating
             {
                 Logger.Error(e.Message);
             }
-        }
+        }*/
 
         private void ctmSceneNode_Cut_Click(object sender, EventArgs e)
         {
@@ -327,12 +328,33 @@ namespace GenexUI.forms.floating
 
         private void tvwSceneList_MouseDown(object sender, MouseEventArgs e)
         {
+
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
+                //自动选中当前鼠标指针下的节点
                 TreeNode node = tvwSceneList.GetNodeAt(e.X, e.Y);
                 if (node != null)
                 {
                     tvwSceneList.SelectedNode = node;
+
+                    //根据节点类型弹出不同的上下文菜单
+                    GxTreeNode selectedNode = (GxTreeNode)node;
+                    if (selectedNode != null)
+                    {
+                        GXNodeType type = selectedNode.getGxNodeType();
+                        if (type == GXNodeType.GX_NODE_TYPE_DIRECTORY)
+                        {
+                            tvwSceneList.ContextMenuStrip = ctmSceneDirectory;
+                        }
+                        else if (type == GXNodeType.GX_NODE_TYPE_SCENE)
+                        {
+                            tvwSceneList.ContextMenuStrip = ctmSceneNode;
+                        }
+                        else if (type == GXNodeType.GX_NODE_TYPE_PROJECT)
+                        {
+                            tvwSceneList.ContextMenuStrip = ctmProjectNode;
+                        }
+                    }
                 }
 
             }
@@ -407,11 +429,13 @@ namespace GenexUI.forms.floating
 
         private void tvwSceneList_AfterSelect(object sender, TreeViewEventArgs e)
         {
-#if DEBUG
             tvwSceneList.BeginUpdate();
-            Logger.Info(((GxTreeNode)e.Node).getGxNodeType().ToString());
-            tvwSceneList.EndUpdate();
+#if DEBUG
+            GxTreeNode node = (GxTreeNode)e.Node;
+            GxNodeData data = (GxNodeData)node.Tag;
+            Logger.Info("NodeInfo = [Path = " + data.getPath() + "]");
 #endif
+            tvwSceneList.EndUpdate();
         }
 
         private void ctmSceneNode_Reload_Click(object sender, EventArgs e)
@@ -422,33 +446,14 @@ namespace GenexUI.forms.floating
                 return;
             }
 
-            GxProject project = GlobalObj.getOpenningProject();
-            if (project.isLoaded() == true)
-            {
-                string filename = project.getFullPath();
-                closeCurrentProject();
-                loadProject(filename);
-            }
+            string filename = GxEnvManager.getEnv(GxEnvVarType.GXENV_PROJECT_PATH);
+            closeCurrentProject();
+            loadProject(filename);
         }
 
         private void frmDockSceneManager_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button != System.Windows.Forms.MouseButtons.Right)
-            {
-                return;
-            }
 
-            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
-            if (selectedNode != null)
-            {
-                GXNodeType type = selectedNode.getGxNodeType();
-                if (type == GXNodeType.GX_NODE_TYPE_DIRECTORY)
-                {
-                    ctmSceneNode_Open.Visible = false;
-                    ctmSceneNode_Add.Visible = true;
-
-                }
-            }
             
         }
 
@@ -469,7 +474,7 @@ namespace GenexUI.forms.floating
         {
             if (e.Data.GetDataPresent(typeof(GxTreeNode)))
             {
-                e.Effect = DragDropEffects.Scroll;
+                e.Effect = DragDropEffects.Move;
             }
             else
             {
@@ -511,14 +516,106 @@ namespace GenexUI.forms.floating
             position.Y = e.Y;
             position = tvwSceneList.PointToClient(position);
             GxTreeNode dropNode = (GxTreeNode)tvwSceneList.GetNodeAt(position);
+            if (dropNode == null)
+            {
+                return;
+            }
             tvwSceneList.SelectedNode = dropNode;
             GXNodeType type = dropNode.getGxNodeType();
 
             if (type == GXNodeType.GX_NODE_TYPE_DIRECTORY || type == GXNodeType.GX_NODE_TYPE_PROJECT ||
                 type == GXNodeType.GX_NODE_TYPE_SCENE)
             {
-                e.Effect = DragDropEffects.Scroll;
+                e.Effect = DragDropEffects.Move;
             }
+        }
+
+        private void ctmSceneDirectory_Add_Scene_Click(object sender, EventArgs e)
+        {
+            addScene();
+        }
+
+        /// <summary>
+        /// 新建场景
+        /// </summary>
+        /// <param name="parentNode"></param>
+        /// <returns></returns>
+        private bool addScene()
+        {
+            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
+            if (selectedNode == null)
+            {
+                return false;
+            }
+
+            if (selectedNode == null)
+            {
+                Logger.Error("parentNode null.");
+                return false;
+            }
+
+            if (selectedNode.getGxNodeType() != GXNodeType.GX_NODE_TYPE_DIRECTORY
+                && selectedNode.getGxNodeType() != GXNodeType.GX_NODE_TYPE_PROJECT)
+            {
+                Logger.Error("invalid node type.");
+                return false;
+            }
+
+            //取得父节点路径
+            string parentPath = "";
+            GxNodeData nodeData = (GxNodeData)selectedNode.Tag;
+            if (nodeData != null)
+            {
+                parentPath = nodeData.getPath();
+            }
+
+            //取得路径
+            //frmNewSceneFile newSceneFile = new frmNewSceneFile(project.getSceneAutoIndent(), parentPath);
+            //newSceneFile.ShowDialog();
+
+            return true;
+        }
+
+        private bool addSceneDirectory()
+        {
+            GxTreeNode selectedNode = (GxTreeNode)tvwSceneList.SelectedNode;
+            if (selectedNode == null)
+            {
+                return false;
+            }
+
+            if (selectedNode == null)
+            {
+                Logger.Error("parentNode null.");
+                return false;
+            }
+
+            if (selectedNode.getGxNodeType() != GXNodeType.GX_NODE_TYPE_DIRECTORY
+                && selectedNode.getGxNodeType() != GXNodeType.GX_NODE_TYPE_PROJECT)
+            {
+                Logger.Error("invalid node type.");
+                return false;
+            }
+
+            GxProject project = GlobalObj.getOpenningProject();
+            project.createNewDirectory(selectedNode);
+
+            return true;
+        }
+
+        private void ctmProjectNode_Add_Scene_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ctmSceneDirectory_Add_Dir_Click(object sender, EventArgs e)
+        {
+            addSceneDirectory();
+        }
+
+        private void ctmProjectNode_Add_Dir_Click(object sender, EventArgs e)
+        {
+            addSceneDirectory();
         }
     }
 }

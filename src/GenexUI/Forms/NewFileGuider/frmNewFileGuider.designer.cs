@@ -28,22 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("GX空白游戏项目");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("GX游戏项目(RPG范例)");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("文件文件");
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("常规");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("场景");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("脚本");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("文档");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("图像");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("默认模板", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("模板", new System.Windows.Forms.TreeNode[] {
-            treeNode6});
             this.templateDescription = new System.Windows.Forms.RichTextBox();
             this.templateList = new System.Windows.Forms.ListView();
             this.templateFileList = new System.Windows.Forms.TreeView();
@@ -68,23 +52,21 @@
             this.templateDescription.Name = "templateDescription";
             this.templateDescription.Size = new System.Drawing.Size(175, 299);
             this.templateDescription.TabIndex = 36;
-            this.templateDescription.Text = "xxx";
+            this.templateDescription.Text = "";
             // 
             // templateList
             // 
             this.templateList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.templateList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3});
             this.templateList.Location = new System.Drawing.Point(158, 1);
+            this.templateList.MultiSelect = false;
             this.templateList.Name = "templateList";
             this.templateList.Size = new System.Drawing.Size(334, 299);
             this.templateList.TabIndex = 35;
             this.templateList.UseCompatibleStateImageBehavior = false;
             this.templateList.View = System.Windows.Forms.View.List;
+            this.templateList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.templateList_MouseClick);
             // 
             // templateFileList
             // 
@@ -92,24 +74,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.templateFileList.Location = new System.Drawing.Point(7, 1);
             this.templateFileList.Name = "templateFileList";
-            treeNode1.Name = "节点2";
-            treeNode1.Text = "常规";
-            treeNode2.Name = "节点3";
-            treeNode2.Text = "场景";
-            treeNode3.Name = "节点4";
-            treeNode3.Text = "脚本";
-            treeNode4.Name = "节点5";
-            treeNode4.Text = "文档";
-            treeNode5.Name = "节点6";
-            treeNode5.Text = "图像";
-            treeNode6.Name = "节点1";
-            treeNode6.Text = "默认模板";
-            treeNode7.Name = "节点0";
-            treeNode7.Text = "模板";
-            this.templateFileList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode7});
             this.templateFileList.Size = new System.Drawing.Size(145, 299);
             this.templateFileList.TabIndex = 34;
+            this.templateFileList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.templateFileList_AfterSelect);
             // 
             // panel1
             // 
