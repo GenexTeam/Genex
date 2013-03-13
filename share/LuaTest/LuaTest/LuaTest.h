@@ -22,8 +22,12 @@ static int HelloWorld(lua_State* L);
 // 乘法
 static int Multiply(lua_State* L);
 
+// 输出所有参数
+static int MyPrint(lua_State* L);
+
 const luaL_Reg regFuncs[] = {
 	DefFunc(HelloWorld),
 	DefFunc(Multiply),
+	DefFunc(MyPrint),
 	{ NULL, NULL }
 };
