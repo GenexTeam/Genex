@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DLL For Lua", "DLL For Lua\DLL For Lua.vcproj", "{816536A0-804B-4BB3-BD24-72FFB4153103}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{816536A0-804B-4BB3-BD24-72FFB4153103}.Debug|Win32.ActiveCfg = Debug|Win32
+		{816536A0-804B-4BB3-BD24-72FFB4153103}.Debug|Win32.Build.0 = Debug|Win32
+		{816536A0-804B-4BB3-BD24-72FFB4153103}.Release|Win32.ActiveCfg = Release|Win32
+		{816536A0-804B-4BB3-BD24-72FFB4153103}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

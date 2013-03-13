@@ -1,0 +1,3 @@
+LIBRARY	"DLLForLua"
+EXPORTS
+luaopen_DLLForLua @1
