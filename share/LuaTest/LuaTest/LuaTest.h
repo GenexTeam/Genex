@@ -25,6 +25,9 @@ static int Multiply(lua_State* L);
 // 输出所有参数
 static int MyPrint(lua_State* L);
 
+// 堆栈演示 Demo
+void StackDemo();
+
 const luaL_Reg regFuncs[] = {
 	DefFunc(HelloWorld),
 	DefFunc(Multiply),

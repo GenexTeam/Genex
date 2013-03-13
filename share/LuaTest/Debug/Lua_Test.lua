@@ -17,7 +17,7 @@ function InvHW()
     print(nMP1 .. " * " .. nMP2 .. " = " .. nRet)
 
 	-- 注：变量 a 没有初始化，默认为 nil
-    funcTest("haha", true, nil, a, 123, { 123, "aad2331" }, InvHW, funcTest)
+    funcTest(1.2, "haha", true, nil, a, 123, { 123, "aad2331" }, InvHW, funcTest)
 end
 
 print(123, "abc")
