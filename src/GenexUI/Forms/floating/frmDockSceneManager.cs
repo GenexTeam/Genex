@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using GenexUI.Global;
 using WeifenLuo.WinFormsUI.Docking;
 using GenexUI.Forms.Floating;
+using GenexUI.Forms;
 
 namespace GenexUI.forms.floating
 {
@@ -25,6 +26,8 @@ namespace GenexUI.forms.floating
 
         //工程节点
         private GxTreeNode _projectNode;
+
+        private frmNewFileGuider _newFileGuider;
 
         //剪切板的节点
         GxTreeNode _clipboardTreeNode;
@@ -615,7 +618,9 @@ namespace GenexUI.forms.floating
 
         private void ctmProjectNode_Add_Dir_Click(object sender, EventArgs e)
         {
-            addSceneDirectory();
+            _newFileGuider = new frmNewFileGuider();
+            _newFileGuider.templateType = 0;
+            _newFileGuider.ShowDialog();
         }
     }
 }
