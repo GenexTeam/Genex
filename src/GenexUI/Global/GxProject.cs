@@ -554,69 +554,6 @@ namespace GenexUI.Global
             return _projectNode;
         }
 
-        /// <summary>
-        /// 取得游戏工程名称
-        /// </summary>
-        /// <returns></returns>
-        /*public string getProjectName()
-        {
-            return _projectName;
-        }
-
-        /// <summary>
-        /// 获取工程文件全路径
-        /// </summary>
-        /// <returns></returns>
-        public string getProjectFileFullPath()
-        {
-            return _projectFullPath;
-        }
-        
-        /// <summary>
-        /// 获取工程文件名（带扩展名）
-        /// </summary>
-        /// <returns></returns>
-        public string getProjectFileName()
-        {
-            return Path.GetFileName(_projectFullPath);
-        }
-
-        /// <summary>
-        /// 获取工程文件名（不带扩展名）
-        /// </summary>
-        /// <returns></returns>
-        public string getProjectFileNameWithoutExt()
-        {
-            return Path.GetFileNameWithoutExtension(_projectFullPath);
-        }
-
-        /// <summary>
-        /// 取得工程目录
-        /// </summary>
-        /// <returns></returns>
-        public string getProjectDir()
-        {
-            return Path.GetFileName(Path.GetDirectoryName(_projectFullPath));
-        }
-
-        /// <summary>
-        /// 取得工程场景目录
-        /// </summary>
-        /// <returns></returns>
-        public string getProjectSceneDir()
-        {
-            return _sceneDirPath;
-        }
-
-        /// <summary>
-        /// 获取工程版本号
-        /// </summary>
-        /// <returns></returns>
-        public string getProjectVersion()
-        {
-            return _projectVersion;
-        }*/
-
         public int getSceneAutoIndent()
         {
             return _sceneAutoIndent;
