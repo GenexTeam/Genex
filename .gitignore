@@ -5,3 +5,4 @@ obj
 *.exe
 /src/GenexUI/bin/logs/*.log
 /material/Thumbs.db
+/src/GenexUI/*.suo
