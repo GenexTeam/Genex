@@ -66,12 +66,13 @@
             this.templateList.TabIndex = 35;
             this.templateList.UseCompatibleStateImageBehavior = false;
             this.templateList.View = System.Windows.Forms.View.List;
-            this.templateList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.templateList_MouseClick);
+            this.templateList.Click += new System.EventHandler(this.templateList_Click);
             // 
             // templateFileList
             // 
             this.templateFileList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.templateFileList.HideSelection = false;
             this.templateFileList.Location = new System.Drawing.Point(7, 1);
             this.templateFileList.Name = "templateFileList";
             this.templateFileList.Size = new System.Drawing.Size(145, 299);

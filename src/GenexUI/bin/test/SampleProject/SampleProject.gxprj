@@ -10,6 +10,7 @@
     <IncludeNode Id="1001" Name="艾尔之光" Type="SceneFileType" Path="艾尔之光.gxs" />
     <IncludeNode Name="skyrim" Type="DirectoryType" Path="skyrim">
       <IncludeNode Id="1002" Name="天际省" Type="SceneFileType" Path="skyrim\天际省.gxs" />
+      <IncludeNode Name="新建场景目录1" Type="DirectoryType" Path="E:\genex\src\GenexUI\bin\test\SampleProject\Scene\skyrim\新建场景目录1" />
     </IncludeNode>
     <IncludeNode Name="罪恶都市" Type="DirectoryType" Path="罪恶都市">
       <IncludeNode Id="1003" Name="女仆城" Type="SceneFileType" Path="罪恶都市\女仆城.gxs" />
@@ -18,5 +19,6 @@
         <IncludeNode Id="1005" Name="石头城" Type="SceneFileType" Path="罪恶都市\city\石头城.gxs" />
       </IncludeNode>
     </IncludeNode>
+    <IncludeNode Name="新建场景目录1" Type="DirectoryType" Path="E:\genex\src\GenexUI\bin\test\SampleProject\Scene\新建场景目录1" />
   </SceneList>
 </GameProject>

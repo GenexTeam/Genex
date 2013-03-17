@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using GenexUI.Global;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace GenexUI.Forms
@@ -17,10 +18,23 @@ namespace GenexUI.Forms
         public static Dictionary<string, List<string>> dicTemplate;
         public static Dictionary<string, string> dicDescription;
 
+        public templateTypeList templateType;
+
+        public enum templateTypeList:int
+        {
+            general,
+            scene,
+            script,
+            document,
+            image
+        }
+
         public frmNewFileGuider()
         {
             InitializeComponent();
         }
+
+
 
         private void frmNewFileGuider_Load(object sender, EventArgs e)
         {
@@ -29,6 +43,22 @@ namespace GenexUI.Forms
             templateFileList.Nodes.Clear();
             string path = "TemplateCategory.xml";
             initalTreeView(templateFileList.Nodes, path);
+            templateShow(templateType);
+        }
+
+        private void templateShow(templateTypeList templateType)
+        {
+            try
+            {
+                templateFileList.Nodes[0].Nodes[0].Expand();
+                templateFileList.Nodes[0].Nodes[0].Nodes[(int)templateType].Expand();
+                templateFileList.SelectedNode=templateFileList.Nodes[0].Nodes[0].Nodes[(int)templateType];
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
         }
 
     
@@ -50,11 +80,13 @@ namespace GenexUI.Forms
                     }
                     SearchXmlDoc(node, newNode);
                     parentNode.Nodes.Add(newNode);
+                    parentNode.Expand();
                 }
                 nodes.Add(parentNode);
             }
             catch (Exception ex)
             {
+                Logger.Error(ex.Message);
             }
         }
 
@@ -107,6 +139,7 @@ namespace GenexUI.Forms
                     }
                     catch (Exception ex)
                     {
+                        Logger.Error(ex.Message);
                     }
                 }
             }
@@ -129,6 +162,10 @@ namespace GenexUI.Forms
                     UnZipFile(Directory.GetCurrentDirectory()+@"\"+templateName + ".zip");
                 }
             }
+            templateList.Items[0].Selected = true;
+            templateList.Select();
+            if (dicDescription.ContainsKey(templateList.SelectedItems[0].Text))
+                templateDescription.Text = dicDescription[templateList.SelectedItems[0].Text];
         }
         /// <summary>  
         /// 功能：解压zip格式的文件。  
@@ -185,12 +222,13 @@ namespace GenexUI.Forms
             }
             catch (Exception ex)
             {
+                Logger.Error(ex.Message);
             }
         }
 
-        private void templateList_MouseClick(object sender, MouseEventArgs e)
+        private void templateList_Click(object sender, EventArgs e)
         {
-            if(dicDescription.ContainsKey(templateList.SelectedItems[0].Text))
+            if (dicDescription.ContainsKey(templateList.SelectedItems[0].Text))
                 templateDescription.Text = dicDescription[templateList.SelectedItems[0].Text];
         }
 
