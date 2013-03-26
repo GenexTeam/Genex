@@ -17,4 +17,4 @@ struct LuaArgument
 // nRst：返回值个数
 // nArgs：参数列表中参数个数
 // 参数列表中参数类型为 LuaArgument
-int InvFunc(lua_State* L, const char* szFunc, int nRst = 0, int nArgs = 0, ...);
+extern int InvFunc(lua_State* L, const char* szFunc, int nRst = 0, int nArgs = 0, ...);

@@ -21,9 +21,3 @@ extern int HelloWorld(lua_State* L);
 
 // 乘法
 extern int Multiply(lua_State* L);
-
-// 输出不定长参数列表
-extern int MyCPrint(lua_State* L);
-
-// 堆栈演示 Demo
-void StackDemo();

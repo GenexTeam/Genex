@@ -1,3 +1,10 @@
+
+-- 文件内局部变量
+local hello_file = "hello in file! 文件内局部变量"
+
+-- 全局变量
+hello_global = "Hello World!!!这是一个C++群！！！"
+
 -- 注意：不能用 local 修饰 function
 function funcTest(...)
 	print("\n\n")

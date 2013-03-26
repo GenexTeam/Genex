@@ -172,11 +172,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Dump.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\InvokeFunction.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\LuaTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Stack.cpp"
 				>
 			</File>
 			<File
@@ -206,11 +214,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\Dump.h"
+				>
+			</File>
+			<File
 				RelativePath=".\InvokeFunction.h"
 				>
 			</File>
 			<File
 				RelativePath=".\LuaTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Stack.h"
 				>
 			</File>
 			<File

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "LuaTest.h"
+#include "Dump.h"
 #include "InvokeFunction.h"
 
 int InvFunc( lua_State* L, const char* szFunc, int nRst /*= 0*/, int nArgs /*= 0*/, ... )
