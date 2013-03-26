@@ -4,8 +4,8 @@
 // 注意：一定要加上 extern "C"
 extern "C"
 {
-#include "inc/lualib.h"
-#include "inc/lauxlib.h"
+	#include "inc/lualib.h"
+	#include "inc/lauxlib.h"
 }
 
 #ifdef _DEBUG
@@ -17,20 +17,13 @@ extern "C"
 #define DefFunc(x) { #x, x }
 
 // 输出 HelloWorld
-static int HelloWorld(lua_State* L);
+extern int HelloWorld(lua_State* L);
 
 // 乘法
-static int Multiply(lua_State* L);
+extern int Multiply(lua_State* L);
 
-// 输出所有参数
-static int MyPrint(lua_State* L);
+// 输出不定长参数列表
+extern int MyCPrint(lua_State* L);
 
 // 堆栈演示 Demo
 void StackDemo();
-
-const luaL_Reg regFuncs[] = {
-	DefFunc(HelloWorld),
-	DefFunc(Multiply),
-	DefFunc(MyPrint),
-	{ NULL, NULL }
-};

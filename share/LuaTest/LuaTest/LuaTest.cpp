@@ -4,6 +4,14 @@
 #include "stdafx.h"
 #include <string.h>
 #include "LuaTest.h"
+#include "InvokeFunction.h"
+
+const luaL_Reg regFuncs[] = {
+	DefFunc(HelloWorld),
+	DefFunc(Multiply),
+	DefFunc(MyCPrint),
+	{ NULL, NULL }
+};
 
 int HelloWorld( lua_State* L )
 {
@@ -57,7 +65,7 @@ int Multiply( lua_State* L )
 	return 1;
 }
 
-int MyPrint(lua_State* L)
+int MyCPrint( lua_State* L )
 {
 	// 获取参数数量
 	int nArgs = lua_gettop(L);
@@ -96,7 +104,7 @@ int MyPrint(lua_State* L)
 				dblRet = lua_tonumber(L, i);
 				if (nRet < dblRet) // 浮点数
 				{
-					printf("参数 %d 类型为：NUMBER value = %lf\n", i, dblRet);
+					printf("参数 %d 类型为：NUMBER value = %g\n", i, dblRet);
 				}
 				else
 				{
@@ -113,23 +121,23 @@ int MyPrint(lua_State* L)
 			case LUA_TTABLE:
 				nLen = lua_objlen(L, i);
 				pAddr = lua_topointer(L, i);
-				printf("参数 %d 类型为：TABLE len = %u pointer = 0x%08X\n", i, nLen, (int)pAddr);
+				printf("参数 %d 类型为：TABLE len = %u pointer = 0x%p\n", i, nLen, (int)pAddr);
 				break;
 
 			case LUA_TFUNCTION:
 				nLen = lua_objlen(L, i);
 				pFunc = lua_tocfunction(L, i);
-				printf("参数 %d 类型为：FUNCTION len = %u pointer = 0x%08X\n", i, nLen, (int)pFunc);
+				printf("参数 %d 类型为：FUNCTION len = %u pointer = 0x%p\n", i, nLen, (int)pFunc);
 				break;
 
 			case LUA_TUSERDATA:
 				pAddr = lua_touserdata(L, i);
-				printf("参数 %d 类型为：USERDATA pointer = 0x%08X\n", i, (int)pAddr);
+				printf("参数 %d 类型为：USERDATA pointer = 0x%p\n", i, (int)pAddr);
 				break;
 
 			case LUA_TTHREAD:
 				pL = lua_tothread(L, i);
-				printf("参数 %d 类型为：THREAD pointer = 0x%08X\n", i, (int)pL);
+				printf("参数 %d 类型为：THREAD pointer = 0x%p\n", i, (int)pL);
 				break;
 
 			default:
@@ -155,50 +163,49 @@ void StackDemo()
 	lua_pushstring(L, "hello");
 	// 结果：true 10 nil "hello"
 	// 解释：第 2 个元素即为 10，第 -2 个元素(即第 3 个元素)为 nil
-	MyPrint(L); 
-	printf("\n");
+	MyCPrint(L); printf("\n");
 
 	// 和栈顶(最右边)元素互换
 	lua_insert(L, 3);
 	// 结果：true 10 "hello" nil
 	// 解释：nil 和 "hello" 互换位置
-	MyPrint(L); printf("\n");
+	MyCPrint(L); printf("\n");
 
 	// 将栈顶元素移至指定位置，并将该位置的元素弹出栈
 	lua_replace(L, 2);
 	// 结果：true nil "hello"
 	// 解释：nil 和 10 互换位置，10 出栈
-	MyPrint(L); printf("\n");
+	MyCPrint(L); printf("\n");
 
 	// 复制指定位置的元素并压入栈
 	lua_pushvalue(L, -3);
 	// 结果：true nil "hello" true
 	// 解释：复制 true 并压栈
-	MyPrint(L); printf("\n");
+	MyCPrint(L); printf("\n");
 
 	// 设置堆栈大小，若堆栈比原来大，则用 nil 填充
 	lua_settop(L, 6);
 	// 结果：true nil "hello" true nil nil
 	// 解释：原堆栈大小为 4，现设置为 6，则新分配部分用 nil 填充
-	MyPrint(L);	printf("\n");
+	MyCPrint(L); printf("\n");
 
 	// 移除一个元素
 	lua_remove(L, -3);
 	// 结果：true nil "hello" nil nil
 	// 解释：移除从右数起第 3 个元素
-	MyPrint(L);	printf("\n");
+	MyCPrint(L); printf("\n");
 
 	// 若设置新的堆栈 N 比原来小，或 N < 0，则原堆栈只保留从左开始至第 N 个元素
 	lua_settop(L, -4);
 	// 结果：true nil
 	// 解释：只保留从第 1 个元素 ~ 第 N 个元素
-	MyPrint(L);	printf("\n");
+	MyCPrint(L); printf("\n");
 
 	// 若设置 N == 0，则堆栈被清空
 	lua_settop(L, 0);
 	// 结果：(无输出)
 	// 解释：堆栈被清空
-	MyPrint(L);	printf("\n");
+	MyCPrint(L); printf("\n");
 
 	lua_close(L);
 }
@@ -247,6 +254,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	// C++ 调用 Lua 脚本(载入脚本完成时已执行了print部分)
 	luaL_dofile(L, "Lua_Test.lua");
 
+	// 执行带不定长参数的函数
+	lua_Number nTmp = 1.254;
+	const char* szTmp = "undefinded 测试！";
+	LuaArgument arg1(LUA_TNUMBER, &nTmp), arg2(LUA_TSTRING, (void *)szTmp);
+	InvFunc(L, "funcWithRst", 4, 2, arg1, arg2);
+
 	// 获取 Lua 函数指针，并压入堆栈
 	lua_getglobal(L, "InvHW");
 
@@ -274,4 +287,3 @@ int _tmain(int argc, _TCHAR* argv[])
 	system("pause");
 	return 0;
 }
-
