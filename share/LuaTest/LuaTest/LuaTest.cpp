@@ -6,45 +6,15 @@
 #include "LuaTest.h"
 #include "Dump.h"
 #include "Stack.h"
+#include "Variable.h"
 #include "InvokeFunction.h"
 
 const luaL_Reg regFuncs[] = {
-	DefFunc(HelloWorld),
+	DefFunc(GlobalAndField),
 	DefFunc(Multiply),
 	DefFunc(MyCPrint),
 	{ NULL, NULL }
 };
-
-int HelloWorld( lua_State* L )
-{
-	const int nExpectParams = 0;
-
-	// 检查参数数量
-	int nParams = lua_gettop(L);
-	if (nParams != nExpectParams)
-	{
-		printf("参数数量不正确！期望 = %d，当前 = %d\n", nExpectParams, nParams);
-		return 0;
-	}
-
-	// 获取全局变量
-	//const char* szVarName = "hello_file";
-	const char* szVarName = "hello_global";
-	lua_getglobal(L, szVarName);
-
-	if (lua_isstring(L, -1))
-	{
-		const char* szHello = NULL;
-		szHello = lua_tostring(L, -1);
-		printf("%s\n", szHello);
-	}
-	else
-	{
-		printf("变量 %s 不是字符串！\n", szVarName);
-	}
-
-	return 0;
-}
 
 int Multiply( lua_State* L )
 {
@@ -103,10 +73,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	//////////////////////////////////////////////////////////////////////////
 	printf("执行一行 Lua 代码\n");
 
-	const char* szLua = "print(\"Good Job! 干得漂亮！\") for i = 1, 10 do print(i) end";
+	const char* szLua = "print(\"Good Job! 干得漂亮！\") for i = 1, 5 do print(i) end";
 
-	// 载入代码
-	luaL_loadbuffer(L, szLua, strlen(szLua), NULL);
+	// 载入代码，相当于载入一个匿名函数 function() ... end
+	//luaL_loadbuffer(L, szLua, strlen(szLua), NULL);
+	luaL_loadstring(L, szLua);
 
 	// 执行代码
 	lua_pcall(L, 0, 0, 0);
